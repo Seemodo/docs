@@ -1,0 +1,497 @@
+---
+title: "API Reference"
+description: "Complete reference for all Seemodo API endpoints"
+icon: "code"
+---
+
+Seemodo exposes a comprehensive set of API endpoints for code generation, sandbox management, and various utilities.
+
+## Code Generation
+
+### Generate AI Code Stream
+
+<ParamField path="/api/generate-ai-code-stream" method="POST">
+  Stream full application generation with AI.
+</ParamField>
+
+```typescript
+POST /api/generate-ai-code-stream
+
+{
+  "prompt": "Build a todo app with dark theme",
+  "sandboxId": "sandbox_123",
+  "model": "google/gemini-3-pro-preview",
+  "images": ["data:image/png;base64,..."]
+}
+```
+
+**Response:** Server-Sent Events (SSE) stream with code chunks.
+
+### Generate Screen
+
+<ParamField path="/api/generate-screen" method="POST">
+  Generate a single React screen component.
+</ParamField>
+
+```typescript
+POST /api/generate-screen
+
+{
+  "prompt": "User profile settings page",
+  "width": 375,
+  "height": 840,
+  "isWireframe": false,
+  "sandboxId": "sandbox_123",
+  "deepDesign": true,
+  "maxMode": false,
+  "pageType": "normal",
+  "images": []
+}
+```
+
+### Generate Flow
+
+<ParamField path="/api/generate-flow" method="POST">
+  AI generates a list of screens for a complete app flow.
+</ParamField>
+
+```typescript
+POST /api/generate-flow
+
+{
+  "context": "E-commerce app for fashion brand",
+  "screenCount": 5,
+  "images": []
+}
+```
+
+**Response:**
+```json
+{
+  "screens": [
+    { "name": "Home", "prompt": "Product discovery..." },
+    { "name": "Product Detail", "prompt": "..." },
+    { "name": "Cart", "prompt": "..." }
+  ]
+}
+```
+
+### Generate Wireframe
+
+<ParamField path="/api/generate-wireframe" method="POST">
+  Generate tldraw wireframe shapes.
+</ParamField>
+
+```typescript
+POST /api/generate-wireframe
+
+{
+  "prompt": "Dashboard layout with sidebar",
+  "width": 1440,
+  "height": 900
+}
+```
+
+## Code Editing
+
+### Apply AI Code Stream
+
+<ParamField path="/api/apply-ai-code-stream" method="POST">
+  Apply AI-generated code changes via streaming.
+</ParamField>
+
+```typescript
+POST /api/apply-ai-code-stream
+
+{
+  "sandboxId": "sandbox_123",
+  "prompt": "Add dark mode toggle",
+  "context": { "files": [...] }
+}
+```
+
+### Edit Screen
+
+<ParamField path="/api/edit-screen" method="POST">
+  Edit existing screen with Morph integration.
+</ParamField>
+
+```typescript
+POST /api/edit-screen
+
+{
+  "sandboxId": "sandbox_123",
+  "screenId": "screen_456",
+  "editPrompt": "Change button color to purple"
+}
+```
+
+### Analyze Edit Intent
+
+<ParamField path="/api/analyze-edit-intent" method="POST">
+  Analyze which files need modification for an edit request.
+</ParamField>
+
+```typescript
+POST /api/analyze-edit-intent
+
+{
+  "prompt": "Add user authentication",
+  "files": [...]
+}
+```
+
+## Sandbox Management
+
+### Create Sandbox
+
+<ParamField path="/api/create-ai-sandbox-v2" method="POST">
+  Create a new sandbox instance.
+</ParamField>
+
+```typescript
+POST /api/create-ai-sandbox-v2
+
+{}
+```
+
+**Response:**
+```json
+{
+  "sandboxId": "sandbox_123",
+  "url": "https://preview-url.modal.run",
+  "apiUrl": "https://api-url.modal.run",
+  "opencodeUrl": "https://opencode-url.modal.run"
+}
+```
+
+### Add Sandbox Page
+
+<ParamField path="/api/add-sandbox-page" method="POST">
+  Add a new page/route to an existing sandbox.
+</ParamField>
+
+```typescript
+POST /api/add-sandbox-page
+
+{
+  "sandboxId": "sandbox_123",
+  "pageSlug": "page-2",
+  "html": "<div>...</div>",
+  "prompt": "Contact form"
+}
+```
+
+### Kill Sandbox
+
+<ParamField path="/api/kill-sandbox" method="POST">
+  Terminate a sandbox instance.
+</ParamField>
+
+```typescript
+POST /api/kill-sandbox
+
+{
+  "sandboxId": "sandbox_123"
+}
+```
+
+### Sandbox Status
+
+<ParamField path="/api/sandbox-status" method="GET">
+  Check sandbox health and status.
+</ParamField>
+
+```typescript
+GET /api/sandbox-status?sandboxId=sandbox_123
+```
+
+### Get Sandbox Files
+
+<ParamField path="/api/get-sandbox-files" method="GET">
+  Retrieve file listing from sandbox.
+</ParamField>
+
+```typescript
+GET /api/get-sandbox-files?sandboxId=sandbox_123
+```
+
+### Sandbox Routes
+
+<ParamField path="/api/sandbox-routes" method="GET">
+  Get available routes in the sandbox application.
+</ParamField>
+
+```typescript
+GET /api/sandbox-routes?sandboxId=sandbox_123
+```
+
+### Restart Vite
+
+<ParamField path="/api/restart-vite" method="POST">
+  Restart the Vite development server.
+</ParamField>
+
+```typescript
+POST /api/restart-vite
+
+{
+  "sandboxId": "sandbox_123"
+}
+```
+
+### Create ZIP
+
+<ParamField path="/api/create-zip" method="POST">
+  Create a downloadable ZIP of the project.
+</ParamField>
+
+```typescript
+POST /api/create-zip
+
+{
+  "sandboxId": "sandbox_123"
+}
+```
+
+**Response:** ZIP file download.
+
+## Error Handling
+
+### Check Vite Errors
+
+<ParamField path="/api/check-vite-errors" method="GET">
+  Get current Vite/build errors.
+</ParamField>
+
+```typescript
+GET /api/check-vite-errors?sandboxId=sandbox_123
+```
+
+### Check Sandbox Imports
+
+<ParamField path="/api/check-sandbox-imports" method="POST">
+  Check for missing package imports.
+</ParamField>
+
+```typescript
+POST /api/check-sandbox-imports
+
+{
+  "sandboxId": "sandbox_123",
+  "fileContent": "import lodash from 'lodash';"
+}
+```
+
+### Report Vite Error
+
+<ParamField path="/api/report-vite-error" method="POST">
+  Report a Vite error for AI to fix.
+</ParamField>
+
+```typescript
+POST /api/report-vite-error
+
+{
+  "sandboxId": "sandbox_123",
+  "error": "Module not found: react-icons"
+}
+```
+
+## Package Management
+
+### Install Packages
+
+<ParamField path="/api/install-packages" method="POST">
+  Install npm packages in the sandbox.
+</ParamField>
+
+```typescript
+POST /api/install-packages
+
+{
+  "sandboxId": "sandbox_123",
+  "packages": ["lodash", "date-fns"]
+}
+```
+
+### Detect and Install Packages
+
+<ParamField path="/api/detect-and-install-packages" method="POST">
+  Auto-detect missing packages and install them.
+</ParamField>
+
+```typescript
+POST /api/detect-and-install-packages
+
+{
+  "sandboxId": "sandbox_123"
+}
+```
+
+## Brainstorm
+
+### Bootstrap Brainstorm
+
+<ParamField path="/api/brainstorm/bootstrap" method="POST">
+  Initialize a brainstorming session.
+</ParamField>
+
+```typescript
+POST /api/brainstorm/bootstrap
+
+{
+  "prompt": "Build an AI-powered note taking app",
+  "context": {}
+}
+```
+
+### Probe Brainstorm
+
+<ParamField path="/api/brainstorm/probe" method="POST">
+  Continue brainstorming with follow-up questions.
+</ParamField>
+
+```typescript
+POST /api/brainstorm/probe
+
+{
+  "sessionId": "session_123",
+  "answers": { "q1": "option_a", "q2": ["opt1", "opt2"] }
+}
+```
+
+## Seemodo Cloud
+
+### Activate Cloud
+
+<ParamField path="/api/seemodo-cloud" method="POST">
+  Activate Supabase integration for a sandbox.
+</ParamField>
+
+```typescript
+POST /api/seemodo-cloud
+
+{
+  "sandboxId": "sandbox_123",
+  "projectRef": "abcdefghijklmnop",
+  "apiToken": "sbp_..."
+}
+```
+
+### Supabase Proxy
+
+<ParamField path="/api/supabase-proxy/[...path]" method="ALL">
+  Proxy requests to Supabase Management API.
+</ParamField>
+
+```typescript
+GET /api/supabase-proxy/projects/abcdef/database/tables
+```
+
+## Utilities
+
+### Scrape Website
+
+<ParamField path="/api/scrape-website" method="POST">
+  Scrape a URL with Firecrawl.
+</ParamField>
+
+```typescript
+POST /api/scrape-website
+
+{
+  "url": "https://stripe.com/payments"
+}
+```
+
+### Extract Brand Styles
+
+<ParamField path="/api/extract-brand-styles" method="POST">
+  Extract colors and fonts from a URL.
+</ParamField>
+
+```typescript
+POST /api/extract-brand-styles
+
+{
+  "url": "https://example.com"
+}
+```
+
+### Enhance Prompt
+
+<ParamField path="/api/enhance-prompt" method="POST">
+  AI-enhance a user prompt.
+</ParamField>
+
+```typescript
+POST /api/enhance-prompt
+
+{
+  "prompt": "login page",
+  "type": "single"
+}
+```
+
+### Run Command
+
+<ParamField path="/api/run-command" method="POST">
+  Execute a shell command in the sandbox.
+</ParamField>
+
+```typescript
+POST /api/run-command
+
+{
+  "sandboxId": "sandbox_123",
+  "command": "ls -la src/"
+}
+```
+
+### Sandbox Logs Stream
+
+<ParamField path="/api/sandbox-logs-stream" method="GET">
+  Stream sandbox logs via Server-Sent Events.
+</ParamField>
+
+```typescript
+GET /api/sandbox-logs-stream?sandboxId=sandbox_123
+```
+
+### Git Operations
+
+<ParamField path="/api/sandbox-git" method="POST">
+  Perform git operations in the sandbox.
+</ParamField>
+
+```typescript
+POST /api/sandbox-git
+
+{
+  "sandboxId": "sandbox_123",
+  "action": "commit",
+  "message": "Add user authentication"
+}
+```
+
+## Error Responses
+
+All endpoints return consistent error responses:
+
+```json
+{
+  "success": false,
+  "error": "Error message describing what went wrong"
+}
+```
+
+Common HTTP status codes:
+
+| Code | Meaning |
+|------|---------|
+| 200 | Success |
+| 400 | Bad request (invalid parameters) |
+| 401 | Unauthorized (missing API key) |
+| 404 | Resource not found |
+| 500 | Server error |

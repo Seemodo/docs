@@ -1,0 +1,269 @@
+---
+title: "Visual Designer"
+description: "Use the canvas-based visual designer to create and iterate on screen designs"
+icon: "palette"
+---
+
+The Visual Designer at `/start` provides a canvas-based interface for creating application screens. Design visually with tldraw, then generate production React code.
+
+## Interface Overview
+
+```
+┌────────────────────────────────────────────────────────────┐
+│                      Top Header                             │
+├──────────────┬──────────────────────────────────────────────┤
+│              │                                              │
+│    Left      │              tldraw Canvas                   │
+│   Sidebar    │                                              │
+│              │                                              │
+│   - Prompt   │         [Generated Screens]                  │
+│   - Settings │                                              │
+│   - Generate │                                              │
+│              │                                              │
+└──────────────┴──────────────────────────────────────────────┘
+                    └── Sandbox Panel (expandable) ──┘
+```
+
+## Design Specs
+
+Configure your design before generating:
+
+### Mode
+
+<Tabs>
+  <Tab title="Wireframe">
+    **Black and white structural mockups**
+    
+    Creates tldraw shapes representing your UI layout. Perfect for:
+    - Quick concept exploration
+    - Layout planning
+    - Stakeholder reviews
+    
+    Wireframes don't require a sandbox - they're pure tldraw shapes.
+  </Tab>
+  <Tab title="HiFi">
+    **Full React/Tailwind code with styling**
+    
+    Generates complete, runnable React components. Includes:
+    - Real UI components (buttons, inputs, cards)
+    - Tailwind CSS styling with colors
+    - Interactive elements
+    - Responsive design
+    
+    Requires a sandbox for live preview.
+  </Tab>
+</Tabs>
+
+### Page Type
+
+| Type | Description | Use Case |
+|------|-------------|----------|
+| **Normal** | Standard single-viewport screen | App screens, dashboards |
+| **Landingpage** | Multi-section scrolling page | Marketing pages, homepages |
+| **Funnel** | Multi-step conversion flow | Signup flows, checkout |
+
+For Landingpage and Funnel types, configure the **Sections** slider (3-20 sections). Each section adds one viewport height to the generated page.
+
+### Screen Size
+
+Choose from preset screen sizes:
+
+| Size | Dimensions | Best For |
+|------|------------|----------|
+| Desktop | 1440 × 1024 | Standard desktop apps |
+| Desktop HD | 1920 × 1080 | Full HD displays |
+| Tablet | 1024 × 1366 | iPad and tablets |
+| Mobile | 375 × 840 | Smartphones |
+
+## Single Screen Generation
+
+The default mode for generating one screen at a time.
+
+<Steps>
+  <Step title="Configure design specs">
+    Set mode (Wireframe/HiFi), page type, and screen size.
+  </Step>
+  <Step title="Write your prompt">
+    Describe the screen you want to create:
+    ```
+    A user profile settings page with:
+    - Profile photo upload
+    - Name and email fields
+    - Password change section
+    - Notification preferences toggles
+    - Delete account button (danger zone)
+    Modern design with a clean white background
+    ```
+  </Step>
+  <Step title="Add reference images (optional)">
+    Drag and drop images or click the paperclip icon to upload design references.
+  </Step>
+  <Step title="Click Generate">
+    The AI generates your screen and displays it on the canvas.
+  </Step>
+</Steps>
+
+### Prompt Enhancement
+
+Click the **Enhance** button (wand icon) to have AI expand your prompt with more specific design details. This often produces better results for simple prompts.
+
+## Flow Generation
+
+Create multiple related screens in one operation.
+
+### Autoflow
+
+Let AI plan the screens for your app:
+
+1. Switch to **Create Flow** tab
+2. Enter your app context:
+   ```
+   E-commerce mobile app for a fashion brand.
+   Users can browse products, add to cart, 
+   checkout, and track orders.
+   Modern minimal design with smooth animations.
+   ```
+3. Optionally set the number of screens (leave empty for AI to decide)
+4. Click **Autoflow**
+
+The AI generates a list of screens with names and prompts:
+
+```
+1. Home - Product discovery with featured items and categories
+2. Product Detail - Full product view with images, sizes, add to cart
+3. Cart - Shopping cart with item list, quantities, totals
+4. Checkout - Shipping, payment, order confirmation
+5. Orders - Order history and tracking
+```
+
+### Manual Screen List
+
+You can also manually create and edit the screen list:
+
+- **Drag to reorder** screens using the grip handle
+- **Edit names** by clicking on the screen title
+- **Modify prompts** in the text area
+- **Remove screens** with the minus button
+- **Clear all** to start over
+
+### Generate Flow
+
+Click **Generate Flow** to create all screens simultaneously. They appear side-by-side on the canvas.
+
+## Advanced Options
+
+### Deep Design
+
+Toggle **Deep Design** for enhanced AI reasoning:
+
+- More thorough prompt analysis
+- Better component structure
+- Improved accessibility considerations
+- Higher quality code output
+
+Uses more tokens but produces better results for complex screens.
+
+### Max Mode
+
+Toggle **Max Mode** to use the most capable AI model available:
+
+- Best code quality
+- Slower generation
+- Higher cost
+
+Recommended for production-quality output.
+
+## Reference Images
+
+Upload images to guide the AI's design:
+
+<CardGroup cols={2}>
+  <Card title="Drag & Drop" icon="upload">
+    Drag images directly onto the prompt area.
+  </Card>
+  <Card title="Click to Upload" icon="paperclip">
+    Click the paperclip icon to select files.
+  </Card>
+</CardGroup>
+
+Supported formats: PNG, JPG, WEBP, GIF
+
+### Best Practices for Reference Images
+
+<AccordionGroup>
+  <Accordion title="Screenshots of existing apps">
+    Show the AI exactly the style you're going for.
+  </Accordion>
+  <Accordion title="Figma/Sketch exports">
+    Use high-quality mockups for pixel-perfect results.
+  </Accordion>
+  <Accordion title="Color palettes">
+    Include color swatches to match brand colors.
+  </Accordion>
+  <Accordion title="Component examples">
+    Show specific UI patterns you want to use.
+  </Accordion>
+</AccordionGroup>
+
+## Working with Generated Screens
+
+### On the Canvas
+
+Generated screens appear as frames on the tldraw canvas:
+
+- **Pan**: Hold space and drag, or use two-finger scroll
+- **Zoom**: Scroll or pinch to zoom
+- **Select**: Click on a screen to select it
+- **Move**: Drag selected screens to reposition
+
+### View Code
+
+Click on any generated HiFi screen to see its React code. Use the **Copy** button to grab the code.
+
+### Edit with AI
+
+Open the Sandbox Panel and use the [AI Coder](/seemodo/ai-coder) to:
+
+- Modify specific components
+- Add new features
+- Fix issues
+- Change styling
+
+### Download Project
+
+Click the download button in the Sandbox Panel to get a ZIP file with:
+
+- All source files
+- `package.json` with dependencies
+- Vite configuration
+- Ready to run locally
+
+## Generation History
+
+Click the **History** button (clock icon) to see previous generations:
+
+- View all past prompts
+- See screen dimensions and mode
+- Click **Use Prompt** to reuse a previous prompt
+
+History persists during your session.
+
+## Tips for Best Results
+
+<Steps>
+  <Step title="Start simple">
+    Generate basic layouts first, then iterate with AI to add complexity.
+  </Step>
+  <Step title="Be descriptive">
+    Include colors, spacing, typography preferences in your prompts.
+  </Step>
+  <Step title="Use reference images">
+    One good reference image is worth a thousand words.
+  </Step>
+  <Step title="Iterate with flows">
+    Use Create Flow for consistent design across multiple screens.
+  </Step>
+  <Step title="Enable Deep Design">
+    For production screens, the extra processing time is worth it.
+  </Step>
+</Steps>

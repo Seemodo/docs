@@ -1,0 +1,224 @@
+---
+title: "Troubleshooting"
+description: "Solutions for common issues when using Seemodo"
+icon: "wrench"
+---
+
+This guide covers common issues and their solutions when working with Seemodo.
+
+## Sandbox Issues
+
+### Sandbox not starting
+
+<Steps>
+  <Step title="Check provider configuration">
+    Verify your `.env` file has the correct settings:
+    ```env
+    SANDBOX_PROVIDER=modal
+    MODAL_BACKEND_URL=https://your-backend.modal.run
+    ```
+  </Step>
+  <Step title="Verify Modal deployment">
+    Ensure your Modal backend is deployed and running:
+    ```bash
+    cd modal-backend
+    modal deploy main.py
+    ```
+  </Step>
+  <Step title="Check network connectivity">
+    Your browser must be able to reach the Modal backend URL. Test in a new tab.
+  </Step>
+  <Step title="Review browser console">
+    Open DevTools (F12) and check the Console tab for error messages.
+  </Step>
+</Steps>
+
+### Preview not loading
+
+| Symptom | Cause | Solution |
+|---------|-------|----------|
+| Blank iframe | Vite not ready | Wait 5-10 seconds, then refresh |
+| Build error | Code error | Check AI chat for error messages |
+| Timeout | Sandbox expired | Generate a new screen to restart |
+| CORS error | Tunnel issue | Try refreshing the page |
+
+### Sandbox keeps timing out
+
+The default timeout is 60 minutes. To extend:
+
+1. Modify `config/app.config.ts`:
+   ```typescript
+   modal: {
+     timeoutMinutes: 120, // 2 hours
+   }
+   ```
+2. Redeploy the Modal backend
+
+## AI Generation Issues
+
+### Generation fails
+
+<AccordionGroup>
+  <Accordion title="Invalid API key">
+    Verify your AI provider keys in `.env`:
+    ```env
+    GEMINI_API_KEY=your_valid_key_here
+    ```
+    
+    Test the key by making a direct API call.
+  </Accordion>
+  <Accordion title="Rate limiting">
+    If you're making many requests, you may hit rate limits. Wait a few minutes and try again.
+  </Accordion>
+  <Accordion title="Prompt too complex">
+    Very long or complex prompts may fail. Try:
+    - Breaking into smaller pieces
+    - Using Plan mode for complex features
+    - Being more specific about what you want
+  </Accordion>
+  <Accordion title="Model unavailable">
+    If a specific model fails, try a different one:
+    - Add `?model=true` to the URL
+    - Select an alternative model
+  </Accordion>
+</AccordionGroup>
+
+### Poor quality output
+
+<Steps>
+  <Step title="Use Deep Design mode">
+    Enable Deep Design in the sidebar for better results.
+  </Step>
+  <Step title="Add reference images">
+    Upload screenshots or mockups to guide the AI.
+  </Step>
+  <Step title="Be more specific">
+    Instead of "make it pretty", specify colors, layout, and components.
+  </Step>
+  <Step title="Try a different model">
+    Some models are better for certain types of designs.
+  </Step>
+</Steps>
+
+### AI not responding
+
+If the OpenCode panel shows "Thinking" indefinitely:
+
+1. Check the connection indicator (should be green)
+2. Click the Reconnect button
+3. Refresh the page if needed
+4. Check if the sandbox is still running
+
+## Code Issues
+
+### Build errors after generation
+
+The AI automatically detects and fixes most build errors. If an error persists:
+
+1. Check the error message in the AI chat
+2. Ask the AI specifically to fix it:
+   ```
+   Fix the TypeScript error in Button.tsx
+   ```
+3. Review the generated code for obvious issues
+
+### Missing packages
+
+Packages are auto-installed, but sometimes fail:
+
+```bash
+# In the sandbox terminal
+pnpm add package-name
+```
+
+Or ask the AI:
+```
+Install lodash and use it in the utils file
+```
+
+### HMR not working
+
+If changes aren't reflecting in the preview:
+
+1. Click "Restart Vite" in the terminal
+2. Wait for the dev server to restart
+3. Refresh the preview iframe
+
+## Seemodo Cloud Issues
+
+### Connection failed
+
+<AccordionGroup>
+  <Accordion title="Invalid project reference">
+    The project reference is just the ID, not the full URL:
+    - ✅ Correct: `abcdefghijklmnop`
+    - ❌ Wrong: `https://abcdefghijklmnop.supabase.co`
+  </Accordion>
+  <Accordion title="Invalid API token">
+    Get a new token from Supabase Dashboard → Account → Access Tokens.
+    
+    Ensure it has the required permissions.
+  </Accordion>
+  <Accordion title="Project paused">
+    Free Supabase projects pause after inactivity. Visit the dashboard to resume.
+  </Accordion>
+</AccordionGroup>
+
+### Database operations failing
+
+1. Check RLS policies aren't blocking the operation
+2. Verify the table exists in the correct schema
+3. Ask the AI to debug:
+   ```
+   Why is the insert into users table failing?
+   ```
+
+## Browser Issues
+
+### Slow performance
+
+<CardGroup cols={2}>
+  <Card title="Too many open tabs" icon="browser">
+    Close other tabs, especially those with active sandboxes.
+  </Card>
+  <Card title="Browser cache" icon="database">
+    Clear cache and reload the page.
+  </Card>
+  <Card title="Extensions" icon="puzzle-piece">
+    Disable browser extensions that might interfere.
+  </Card>
+  <Card title="Hardware acceleration" icon="microchip">
+    Ensure hardware acceleration is enabled in browser settings.
+  </Card>
+</CardGroup>
+
+### Canvas not loading
+
+tldraw requires WebGL support:
+
+1. Check that WebGL is enabled in your browser
+2. Update your graphics drivers
+3. Try a different browser (Chrome recommended)
+
+## Common Error Messages
+
+| Error | Meaning | Solution |
+|-------|---------|----------|
+| `SANDBOX_NOT_FOUND` | Sandbox expired or doesn't exist | Generate a new screen |
+| `OPENCODE_CONNECTION_FAILED` | Can't reach OpenCode server | Wait for sandbox to fully initialize |
+| `MODEL_UNAVAILABLE` | AI model is down | Try a different model |
+| `RATE_LIMIT_EXCEEDED` | Too many requests | Wait a few minutes |
+| `INSUFFICIENT_CREDITS` | Out of credits | Purchase more or wait for refresh |
+
+## Getting Help
+
+If these solutions don't resolve your issue:
+
+1. **Check the console** - Press F12 and look for error messages
+2. **Export logs** - Click "Export" in the OpenCode panel
+3. **Create a minimal reproduction** - Note the exact steps to reproduce
+4. **Contact support** - Email support@seemodo.ai with:
+   - Browser and OS version
+   - Steps to reproduce
+   - Error messages and screenshots
+   - Exported logs if available

@@ -1,0 +1,209 @@
+---
+title: "Getting Started"
+description: "Set up Seemodo and generate your first AI-powered application"
+icon: "play"
+---
+
+This guide walks you through setting up Seemodo locally and generating your first application.
+
+## Prerequisites
+
+Before you begin, ensure you have:
+
+- **Node.js** version 20 or higher
+- **pnpm** package manager (recommended)
+- At least one AI API key (Gemini recommended for getting started)
+
+## Installation
+
+<Steps>
+  <Step title="Clone the repository">
+    ```bash
+    git clone https://github.com/your-org/seemodo-app.git
+    cd seemodo-app
+    ```
+  </Step>
+
+  <Step title="Install dependencies">
+    ```bash
+    pnpm install
+    ```
+  </Step>
+
+  <Step title="Configure environment variables">
+    Create a `.env` file in the project root:
+
+    ```env
+    # AI PROVIDERS (at least one required)
+    GEMINI_API_KEY=your_gemini_api_key           # Recommended default
+    ANTHROPIC_API_KEY=your_anthropic_api_key     # Optional
+    OPENAI_API_KEY=your_openai_api_key           # Optional
+    GROQ_API_KEY=your_groq_api_key               # Optional (for Kimi K2)
+
+    # SANDBOX PROVIDER
+    SANDBOX_PROVIDER=modal                        # modal, e2b, or vercel
+    MODAL_BACKEND_URL=https://your-modal.modal.run
+
+    # OPTIONAL SERVICES
+    MORPH_API_KEY=your_morph_api_key             # Fast code application
+    PEXELS_API_KEY=your_pexels_api_key           # Stock images
+    FIRECRAWL_API_KEY=your_firecrawl_api_key     # Website cloning
+    ```
+
+    <Warning>
+      Never commit your `.env` file to version control. Add it to `.gitignore`.
+    </Warning>
+  </Step>
+
+  <Step title="Deploy the Modal backend">
+    If using Modal as your sandbox provider (recommended):
+
+    ```bash
+    cd modal-backend
+    pip install modal
+    modal setup
+    modal deploy main.py
+    ```
+
+    Copy the deployed URL and add it to your `.env` as `MODAL_BACKEND_URL`.
+  </Step>
+
+  <Step title="Start the development server">
+    ```bash
+    pnpm dev
+    ```
+
+    The app will be available at `http://localhost:3000`.
+  </Step>
+</Steps>
+
+## Your First Generation
+
+### Option 1: Simple Prompt
+
+1. Open `http://localhost:3000`
+2. Enter a prompt like:
+   ```
+   A modern task management app with a dark theme, 
+   showing a list of tasks with checkboxes, 
+   due dates, and priority labels
+   ```
+3. Press Enter or click the arrow button
+4. Watch your app generate in real-time
+
+### Option 2: Visual Canvas
+
+1. Navigate to `http://localhost:3000/start`
+2. Use the **Studio** tab to configure:
+   - **Mode**: Wireframe or HiFi (full color)
+   - **Screen size**: Desktop, Tablet, or Mobile
+3. Enter your prompt in the text area
+4. Click **Generate**
+5. Your design appears on the tldraw canvas
+
+### Option 3: Clone a Website
+
+1. Open `http://localhost:3000`
+2. Paste a URL instead of a text prompt:
+   ```
+   https://stripe.com/payments
+   ```
+3. Seemodo will scrape the design and recreate it as React code
+
+## Understanding the Interface
+
+### Home Page (`/`)
+
+The minimal home page for quick prompts:
+
+- Enter any text prompt or URL
+- Auto-detects if input is a URL for cloning
+- Redirects to `/generation` for full IDE experience
+
+### Visual Canvas (`/start`)
+
+The full-featured visual designer:
+
+| Component | Description |
+|-----------|-------------|
+| **Left Sidebar** | Prompt input, design settings, generation controls |
+| **Canvas** | tldraw canvas for wireframes and generated screens |
+| **Sandbox Panel** | Live preview, terminal, AI chat |
+
+### Code IDE (`/generation`)
+
+Full development environment with:
+
+- File explorer
+- Code editor
+- Live preview
+- AI chat
+- Console logs
+
+## Working with the AI
+
+### The OpenCode Panel
+
+Once a sandbox is active, the OpenCode panel provides direct AI interaction:
+
+<Tabs>
+  <Tab title="Agent Mode">
+    Direct coding assistance. The AI can:
+    - Read and write files
+    - Run terminal commands
+    - Install packages
+    - Fix errors automatically
+    - Commit changes to git
+  </Tab>
+  <Tab title="Plan Mode">
+    Interactive brainstorming for complex projects:
+    - AI asks clarifying questions
+    - Builds a structured plan
+    - Executes the plan step by step
+  </Tab>
+</Tabs>
+
+### Effective Prompts
+
+<Accordion title="Good prompt examples">
+  ```
+  Create a user profile page with:
+  - Avatar upload
+  - Editable name and email fields
+  - Dark mode toggle
+  - Save button with loading state
+  Use a modern card-based layout with Tailwind CSS
+  ```
+
+  ```
+  Build a kanban board with three columns: 
+  To Do, In Progress, Done.
+  Cards should be draggable between columns.
+  Include a form to add new tasks.
+  ```
+</Accordion>
+
+<Accordion title="Tips for better results">
+  - Be specific about layout and styling
+  - Mention specific UI patterns (cards, modals, tabs)
+  - Include color preferences or themes
+  - Reference design systems if applicable
+  - Break complex apps into multiple prompts
+</Accordion>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="AI Coder Guide" icon="robot" href="/seemodo/ai-coder">
+    Master the AI chat interface for iterative development.
+  </Card>
+  <Card title="Visual Designer" icon="palette" href="/seemodo/visual-designer">
+    Learn the canvas tools and design workflows.
+  </Card>
+  <Card title="Configuration" icon="gear" href="/seemodo/configuration">
+    Customize AI models, sandbox settings, and more.
+  </Card>
+  <Card title="API Reference" icon="code" href="/seemodo/api-reference">
+    Explore the available API endpoints.
+  </Card>
+</CardGroup>

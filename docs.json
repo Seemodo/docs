@@ -1,17 +1,53 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mint Starter Kit",
+  "name": "Seemodo Docs",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#3B82F6",
+    "light": "#60A5FA",
+    "dark": "#1E40AF"
   },
   "favicon": "/favicon.svg",
   "navigation": {
     "tabs": [
       {
-        "tab": "Guides",
+        "tab": "Seemodo App",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": [
+              "seemodo/introduction",
+              "seemodo/getting-started"
+            ]
+          },
+          {
+            "group": "Core Features",
+            "pages": [
+              "seemodo/visual-designer",
+              "seemodo/ai-coder",
+              "seemodo/cloud"
+            ]
+          },
+          {
+            "group": "Technical Reference",
+            "pages": [
+              "seemodo/architecture",
+              "seemodo/sandbox",
+              "seemodo/api-reference",
+              "seemodo/configuration"
+            ]
+          },
+          {
+            "group": "Resources",
+            "pages": [
+              "seemodo/credits",
+              "seemodo/troubleshooting"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Docs Guide",
         "groups": [
           {
             "group": "Getting started",
@@ -48,7 +84,7 @@
         ]
       },
       {
-        "tab": "API reference",
+        "tab": "API Examples",
         "groups": [
           {
             "group": "API documentation",
@@ -71,14 +107,14 @@
     "global": {
       "anchors": [
         {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
+          "anchor": "Seemodo App",
+          "href": "https://seemodo.ai",
+          "icon": "rocket"
         },
         {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
+          "anchor": "GitHub",
+          "href": "https://github.com/seemodo",
+          "icon": "github"
         }
       ]
     }
@@ -91,32 +127,31 @@
     "links": [
       {
         "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "href": "mailto:support@seemodo.ai"
       }
     ],
     "primary": {
       "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "label": "Launch App",
+      "href": "https://seemodo.ai/start"
     }
   },
   "contextual": {
     "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      "perplexity",
+      "mcp",
+      "cursor",
+      "vscode"
+    ]
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+      "x": "https://x.com/seemodo",
+      "github": "https://github.com/seemodo"
     }
   }
 }
