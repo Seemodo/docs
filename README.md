@@ -1,16 +1,53 @@
-# Mintlify Starter Kit
+# Seemodo Documentation
 
-Use the starter kit to get your docs deployed and ready to customize.
+Documentation for the Seemodo app, built with [Mintlify](https://mintlify.com).
 
-Click the green **Use this template** button at the top of this repo to copy the Mintlify starter kit. The starter kit contains examples with
+## Project structure
 
-- Guide pages
-- Navigation
-- Customizations
-- API reference pages
-- Use of popular components
+```
+docs/
+├── apps/
+│   └── seemodo-app -> /Users/chris/Documents/apps/seemodo/seemodo-app (symlink)
+├── ai-tools/
+├── api-reference/
+├── essentials/
+├── images/
+├── snippets/
+└── docs.json
+```
 
-**[Follow the full quickstart guide](https://starter.mintlify.com/quickstart)**
+## Symlinked folders
+
+The `apps/` folder contains symbolic links to the actual app source code. This allows the documentation to reference and read the real codebase without duplicating files.
+
+### seemodo-app symlink
+
+**Location:** `apps/seemodo-app`  
+**Target:** `/Users/chris/Documents/apps/seemodo/seemodo-app`
+
+This symlink provides direct access to the seemodo-app source code from within the docs project. Any changes in the original folder are immediately reflected here.
+
+#### Creating the symlink
+
+```bash
+# Navigate to the docs directory
+cd /Users/chris/Documents/apps/seemodo/docs
+
+# Create the apps folder
+mkdir -p apps
+
+# Create the symbolic link
+ln -s /Users/chris/Documents/apps/seemodo/seemodo-app apps/seemodo-app
+```
+
+#### Verifying the symlink
+
+```bash
+ls -la apps/
+# Output: seemodo-app -> /Users/chris/Documents/apps/seemodo/seemodo-app
+```
+
+> **Note:** Symlinks are not copies - they reference the original files. Deleting the symlink does not delete the source files.
 
 ## Development
 
