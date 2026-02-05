@@ -1,48 +1,88 @@
-> **First-time setup**: This is a default AGENTS.md file. Customize it for your project's specific needs, including your preferred code languages, terminology, style guidelines, and content requirements.
+# Seemodo Documentation Agent Instructions
 
-# Documentation agent instructions
+This is the documentation repository for Seemodo - an AI-powered development platform.
 
-IMPORTANT! When you start a session, remind the user that they have the default AGENTS.md file and they might want to customize it for their project.
+## Project Structure
 
-## Mintlify basics
+```
+docs/
+├── seemodo/              # Main app documentation
+│   ├── introduction.mdx  # Overview and getting started
+│   ├── getting-started.mdx
+│   ├── visual-designer.mdx
+│   ├── ai-coder.mdx
+│   ├── cloud.mdx
+│   ├── sandbox.mdx
+│   ├── architecture.mdx
+│   ├── configuration.mdx
+│   ├── api-reference.mdx
+│   ├── credits.mdx
+│   └── troubleshooting.mdx
+├── api-reference/        # API endpoint documentation
+│   ├── introduction.mdx
+│   └── endpoint/         # Individual endpoint docs
+├── apps/                 # Symlink to source code (READ ONLY)
+│   └── seemodo-app/      # -> /Users/chris/Documents/apps/seemodo/seemodo-app
+└── docs.json             # Navigation configuration
+```
 
-- Configuration lives in `docs.json` - check it before making structural changes
-- Use MDX format for documentation pages
-- Run `mint dev` locally to preview changes before committing
-- Run `mint broken-links` to check for broken links
+## Critical Rules
 
-## Mintlify components
+1. **NEVER write to `/apps`** - This folder contains symlinks to live source code for reference only
+2. Configuration lives in `docs.json` - check it before making structural changes
+3. Use MDX format for all documentation pages
+4. Run `mint dev` locally to preview changes
 
-Use Mintlify's built-in components for consistent formatting. See https://www.mintlify.com/docs/components for all available components.
+## Mintlify Components
 
-## Style and formatting
+Use Mintlify's built-in components. Key ones for this project:
+
+- `<Steps>` - For procedures and tutorials
+- `<Tabs>` - For platform-specific or alternative approaches
+- `<CodeGroup>` - For showing code in multiple languages
+- `<AccordionGroup>` - For FAQ sections and expandable content
+- `<CardGroup>` - For feature grids and navigation
+- `<ParamField>` - For API parameters
+- `<ResponseField>` - For API responses
+- `<Warning>`, `<Note>`, `<Tip>` - For callouts
+
+See https://mintlify.com/docs/components for all components.
+
+## Style Guidelines
 
 - Use active voice and second person ("you")
 - Keep sentences concise - one idea per sentence
 - Use sentence case for headings
-- When referencing UI elements, use bold: Click **Settings**
-- Use code formatting for: file names, commands, paths, and code references
+- Bold for UI elements: Click **Settings**
+- Code formatting for: file names, commands, paths, code references
+- Include mermaid diagrams for architecture and flows
 
-## Code examples
+## Content Structure
 
-- Include language identifiers in fenced code blocks
-- Add titles to code blocks when relevant: ```javascript filename.js
-- Show realistic parameter values, not placeholders like `foo` or `bar`
-- Include error handling for API examples
-
-## Content structure
-
-- Add frontmatter (title, description) to every page
-- Use `sidebarTitle` in frontmatter if the nav title should differ from the page title
-- Include introductory context before diving into steps or details
+- Add frontmatter (title, description, icon) to every page
+- Include introductory context before diving into steps
 - Add "Next steps" or related links where helpful
+- Use realistic examples, not placeholders
 
-## What to avoid
+## Seemodo-Specific Terminology
 
-- Don't edit `docs.json` without understanding the navigation structure
-- Don't remove existing pages without checking for inbound links
-- Don't use HTML when an MDX component exists for the same purpose
-- Don't add pages to navigation that don't exist yet
+- **Visual Designer** - The canvas-based UI at `/start`
+- **AI Coder** - The OpenCode-powered chat panel
+- **Sandbox** - Cloud development environment (Modal/E2B/Vercel)
+- **Seemodo Cloud** - Supabase integration feature
+- **Flow Generation** - Multi-screen generation (Autoflow)
+- **Deep Design** - Enhanced generation mode
+- **Max Mode** - Maximum quality generation
 
-## REALLY REALLY REALLY IMPORTANT
-never write files or anything into the folder /apps this is just the folder where the apps are living which you have to write the documentations okey.
+## Commands
+
+```bash
+# Preview documentation locally
+mint dev
+
+# Check for broken links
+mint broken-links
+
+# Build for production
+mint build
+```

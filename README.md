@@ -1,80 +1,109 @@
 # Seemodo Documentation
 
-Documentation for the Seemodo app, built with [Mintlify](https://mintlify.com).
+Official documentation for [Seemodo](https://seemodo.ai) - the AI-powered development platform.
 
-## Project structure
+Built with [Mintlify](https://mintlify.com).
+
+## Documentation Structure
 
 ```
 docs/
-├── apps/
-│   └── seemodo-app -> /Users/chris/Documents/apps/seemodo/seemodo-app (symlink)
-├── ai-tools/
-├── api-reference/
-├── essentials/
-├── images/
-├── snippets/
-└── docs.json
+├── seemodo/                    # Seemodo App Documentation
+│   ├── introduction.mdx        # Platform overview
+│   ├── getting-started.mdx     # Installation & setup
+│   ├── visual-designer.mdx     # Canvas-based UI designer
+│   ├── ai-coder.mdx            # OpenCode AI assistant
+│   ├── cloud.mdx               # Supabase integration
+│   ├── sandbox.mdx             # Sandbox providers
+│   ├── architecture.mdx        # System architecture
+│   ├── configuration.mdx       # Config reference
+│   ├── api-reference.mdx       # API overview
+│   ├── credits.mdx             # Credit system
+│   └── troubleshooting.mdx     # Common issues
+│
+├── api-reference/              # API Reference
+│   ├── introduction.mdx        # API overview
+│   └── endpoint/               # Endpoint documentation
+│       ├── generate-screen.mdx
+│       ├── generate-flow.mdx
+│       ├── edit-screen.mdx
+│       ├── create-sandbox.mdx
+│       ├── sandbox-status.mdx
+│       ├── sandbox-files.mdx
+│       ├── enhance-prompt.mdx
+│       ├── scrape-website.mdx
+│       └── seemodo-cloud.mdx
+│
+├── apps/                       # Source code reference (symlink)
+│   └── seemodo-app/            # -> actual app source
+│
+├── images/                     # Documentation images
+├── logo/                       # Brand assets
+└── docs.json                   # Navigation config
 ```
 
-## Symlinked folders
+## Symlinked Folders
 
-The `apps/` folder contains symbolic links to the actual app source code. This allows the documentation to reference and read the real codebase without duplicating files.
+The `apps/` folder contains symbolic links to the actual app source code for reference:
 
-### seemodo-app symlink
+| Symlink | Target |
+|---------|--------|
+| `apps/seemodo-app` | `/Users/chris/Documents/apps/seemodo/seemodo-app` |
 
-**Location:** `apps/seemodo-app`  
-**Target:** `/Users/chris/Documents/apps/seemodo/seemodo-app`
-
-This symlink provides direct access to the seemodo-app source code from within the docs project. Any changes in the original folder are immediately reflected here.
-
-#### Creating the symlink
+### Creating the Symlink
 
 ```bash
-# Navigate to the docs directory
 cd /Users/chris/Documents/apps/seemodo/docs
-
-# Create the apps folder
 mkdir -p apps
-
-# Create the symbolic link
 ln -s /Users/chris/Documents/apps/seemodo/seemodo-app apps/seemodo-app
 ```
 
-#### Verifying the symlink
-
-```bash
-ls -la apps/
-# Output: seemodo-app -> /Users/chris/Documents/apps/seemodo/seemodo-app
-```
-
-> **Note:** Symlinks are not copies - they reference the original files. Deleting the symlink does not delete the source files.
+> **Important:** Never write to the `apps/` folder - it contains live source code.
 
 ## Development
 
-Install the [Mintlify CLI](https://www.npmjs.com/package/mint) to preview your documentation changes locally. To install, use the following command:
+### Prerequisites
 
-```
+Install the Mintlify CLI:
+
+```bash
 npm i -g mint
 ```
 
-Run the following command at the root of your documentation, where your `docs.json` is located:
+### Local Preview
 
-```
+```bash
+# Start local server
 mint dev
+
+# View at http://localhost:3000
 ```
 
-View your local preview at `http://localhost:3000`.
+### Validation
 
-## Publishing changes
+```bash
+# Check for broken links
+mint broken-links
 
-Install our GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app) to propagate changes from your repo to your deployment. Changes are deployed to production automatically after pushing to the default branch.
+# Update CLI
+mint update
+```
 
-## Need help?
+## Publishing
 
-### Troubleshooting
+Changes pushed to the main branch are automatically deployed via the Mintlify GitHub app.
 
-- If your dev environment isn't running: Run `mint update` to ensure you have the most recent version of the CLI.
-- If a page loads as a 404: Make sure you are running in a folder with a valid `docs.json`.
+Configure deployment at: [Mintlify Dashboard](https://dashboard.mintlify.com)
 
-### Resources
-- [Mintlify documentation](https://mintlify.com/docs)
+## Documentation Guidelines
+
+- Use MDX format for all pages
+- Include frontmatter (title, description, icon)
+- Use Mintlify components for consistent formatting
+- Follow the style guide in `AGENTS.md`
+
+## Resources
+
+- [Mintlify Documentation](https://mintlify.com/docs)
+- [Mintlify Components](https://mintlify.com/docs/components)
+- [Seemodo App](https://seemodo.ai)
