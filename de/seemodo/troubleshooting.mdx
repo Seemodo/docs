@@ -1,0 +1,224 @@
+---
+title: "Problemlösung"
+description: "Lösungen für häufige Probleme bei der Verwendung von Seemodo"
+icon: "wrench"
+---
+
+Diese Anleitung behandelt häufige Probleme und deren Lösungen bei der Arbeit mit Seemodo.
+
+## Sandbox-Probleme
+
+### Sandbox startet nicht
+
+<Steps>
+  <Step title="Anbieter-Konfiguration prüfen">
+    Überprüfe ob deine `.env` Datei die richtigen Einstellungen hat:
+    ```env
+    SANDBOX_PROVIDER=modal
+    MODAL_BACKEND_URL=https://dein-backend.modal.run
+    ```
+  </Step>
+  <Step title="Modal-Deployment verifizieren">
+    Stelle sicher dass dein Modal-Backend deployed und aktiv ist:
+    ```bash
+    cd modal-backend
+    modal deploy main.py
+    ```
+  </Step>
+  <Step title="Netzwerk-Konnektivität prüfen">
+    Dein Browser muss die Modal-Backend-URL erreichen können. Teste in einem neuen Tab.
+  </Step>
+  <Step title="Browser-Konsole überprüfen">
+    Öffne DevTools (F12) und prüfe den Console-Tab auf Fehlermeldungen.
+  </Step>
+</Steps>
+
+### Vorschau lädt nicht
+
+| Symptom | Ursache | Lösung |
+|---------|---------|--------|
+| Leerer iframe | Vite noch nicht bereit | 5-10 Sekunden warten, dann aktualisieren |
+| Build-Fehler | Code-Fehler | KI-Chat auf Fehlermeldungen prüfen |
+| Timeout | Sandbox abgelaufen | Neuen Screen generieren zum Neustart |
+| CORS-Fehler | Tunnel-Problem | Seite aktualisieren versuchen |
+
+### Sandbox läuft ständig ab
+
+Das Standard-Timeout ist 60 Minuten. Zum Verlängern:
+
+1. Modifiziere `config/app.config.ts`:
+   ```typescript
+   modal: {
+     timeoutMinutes: 120, // 2 Stunden
+   }
+   ```
+2. Modal-Backend neu deployen
+
+## KI-Generierungsprobleme
+
+### Generierung schlägt fehl
+
+<AccordionGroup>
+  <Accordion title="Ungültiger API-Schlüssel">
+    Überprüfe deine KI-Anbieter-Schlüssel in `.env`:
+    ```env
+    GEMINI_API_KEY=dein_gültiger_key_hier
+    ```
+    
+    Teste den Schlüssel durch einen direkten API-Aufruf.
+  </Accordion>
+  <Accordion title="Rate Limiting">
+    Bei vielen Anfragen kannst du Rate-Limits erreichen. Warte ein paar Minuten und versuche es erneut.
+  </Accordion>
+  <Accordion title="Prompt zu komplex">
+    Sehr lange oder komplexe Prompts können fehlschlagen. Versuche:
+    - In kleinere Teile aufzuteilen
+    - Plan-Modus für komplexe Features zu nutzen
+    - Spezifischer zu sein was du möchtest
+  </Accordion>
+  <Accordion title="Modell nicht verfügbar">
+    Wenn ein bestimmtes Modell fehlschlägt, probiere ein anderes:
+    - Füge `?model=true` zur URL hinzu
+    - Wähle ein alternatives Modell
+  </Accordion>
+</AccordionGroup>
+
+### Schlechte Ausgabequalität
+
+<Steps>
+  <Step title="Deep Design Modus nutzen">
+    Aktiviere Deep Design in der Seitenleiste für bessere Ergebnisse.
+  </Step>
+  <Step title="Referenzbilder hinzufügen">
+    Lade Screenshots oder Mockups hoch um die KI zu leiten.
+  </Step>
+  <Step title="Spezifischer sein">
+    Statt "mach es schön", spezifiziere Farben, Layout und Komponenten.
+  </Step>
+  <Step title="Anderes Modell probieren">
+    Manche Modelle sind besser für bestimmte Design-Arten.
+  </Step>
+</Steps>
+
+### KI antwortet nicht
+
+Wenn das OpenCode-Panel "Denkt" unbegrenzt anzeigt:
+
+1. Verbindungsanzeige prüfen (sollte grün sein)
+2. Reconnect-Button klicken
+3. Seite bei Bedarf aktualisieren
+4. Prüfen ob Sandbox noch läuft
+
+## Code-Probleme
+
+### Build-Fehler nach Generierung
+
+Die KI erkennt und behebt die meisten Build-Fehler automatisch. Wenn ein Fehler bestehen bleibt:
+
+1. Fehlermeldung im KI-Chat prüfen
+2. KI spezifisch bitten es zu beheben:
+   ```
+   Behebe den TypeScript-Fehler in Button.tsx
+   ```
+3. Generierten Code auf offensichtliche Probleme prüfen
+
+### Fehlende Pakete
+
+Pakete werden automatisch installiert, aber manchmal schlägt es fehl:
+
+```bash
+# Im Sandbox-Terminal
+pnpm add paket-name
+```
+
+Oder frag die KI:
+```
+Installiere lodash und nutze es in der utils-Datei
+```
+
+### HMR funktioniert nicht
+
+Wenn Änderungen nicht in der Vorschau reflektiert werden:
+
+1. Klicke "Restart Vite" im Terminal
+2. Warte bis der Dev-Server neustartet
+3. Vorschau-iframe aktualisieren
+
+## Seemodo Cloud Probleme
+
+### Verbindung fehlgeschlagen
+
+<AccordionGroup>
+  <Accordion title="Ungültige Projekt-Referenz">
+    Die Projekt-Referenz ist nur die ID, nicht die vollständige URL:
+    - ✅ Korrekt: `abcdefghijklmnop`
+    - ❌ Falsch: `https://abcdefghijklmnop.supabase.co`
+  </Accordion>
+  <Accordion title="Ungültiger API-Token">
+    Hole einen neuen Token von Supabase Dashboard → Account → Access Tokens.
+    
+    Stelle sicher dass er die erforderlichen Berechtigungen hat.
+  </Accordion>
+  <Accordion title="Projekt pausiert">
+    Kostenlose Supabase-Projekte pausieren nach Inaktivität. Besuche das Dashboard zum Reaktivieren.
+  </Accordion>
+</AccordionGroup>
+
+### Datenbank-Operationen schlagen fehl
+
+1. Prüfe ob RLS-Policies die Operation nicht blockieren
+2. Verifiziere dass die Tabelle im richtigen Schema existiert
+3. Bitte die KI zu debuggen:
+   ```
+   Warum schlägt das Insert in die users-Tabelle fehl?
+   ```
+
+## Browser-Probleme
+
+### Langsame Performance
+
+<CardGroup cols={2}>
+  <Card title="Zu viele offene Tabs" icon="browser">
+    Schließe andere Tabs, besonders solche mit aktiven Sandboxes.
+  </Card>
+  <Card title="Browser-Cache" icon="database">
+    Cache leeren und Seite neu laden.
+  </Card>
+  <Card title="Extensions" icon="puzzle-piece">
+    Browser-Extensions deaktivieren die stören könnten.
+  </Card>
+  <Card title="Hardware-Beschleunigung" icon="microchip">
+    Stelle sicher dass Hardware-Beschleunigung in den Browser-Einstellungen aktiviert ist.
+  </Card>
+</CardGroup>
+
+### Canvas lädt nicht
+
+tldraw erfordert WebGL-Unterstützung:
+
+1. Prüfe ob WebGL in deinem Browser aktiviert ist
+2. Aktualisiere deine Grafiktreiber
+3. Probiere einen anderen Browser (Chrome empfohlen)
+
+## Häufige Fehlermeldungen
+
+| Fehler | Bedeutung | Lösung |
+|--------|-----------|--------|
+| `SANDBOX_NOT_FOUND` | Sandbox abgelaufen oder existiert nicht | Neuen Screen generieren |
+| `OPENCODE_CONNECTION_FAILED` | OpenCode-Server nicht erreichbar | Warten bis Sandbox vollständig initialisiert |
+| `MODEL_UNAVAILABLE` | KI-Modell nicht verfügbar | Anderes Modell probieren |
+| `RATE_LIMIT_EXCEEDED` | Zu viele Anfragen | Ein paar Minuten warten |
+| `INSUFFICIENT_CREDITS` | Keine Credits mehr | Mehr kaufen oder auf Refresh warten |
+
+## Hilfe bekommen
+
+Wenn diese Lösungen dein Problem nicht beheben:
+
+1. **Konsole prüfen** - F12 drücken und nach Fehlermeldungen suchen
+2. **Logs exportieren** - Klicke "Export" im OpenCode-Panel
+3. **Minimale Reproduktion erstellen** - Notiere die genauen Schritte zur Reproduktion
+4. **Support kontaktieren** - E-Mail an support@seemodo.ai mit:
+   - Browser- und Betriebssystem-Version
+   - Schritte zur Reproduktion
+   - Fehlermeldungen und Screenshots
+   - Exportierte Logs wenn verfügbar

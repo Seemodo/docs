@@ -1,0 +1,269 @@
+---
+title: "Visueller Designer"
+description: "Nutze den Canvas-basierten visuellen Designer um Screen-Designs zu erstellen und zu iterieren"
+icon: "palette"
+---
+
+Der Visuelle Designer unter `/start` bietet eine Canvas-basierte Oberfläche zur Erstellung von Anwendungs-Screens. Designe visuell mit tldraw und generiere dann produktionsreifen React-Code.
+
+## Oberflächen-Übersicht
+
+```
+┌────────────────────────────────────────────────────────────┐
+│                      Top Header                             │
+├──────────────┬──────────────────────────────────────────────┤
+│              │                                              │
+│    Linke     │              tldraw Canvas                   │
+│ Seitenleiste │                                              │
+│              │                                              │
+│   - Prompt   │         [Generierte Screens]                 │
+│   - Settings │                                              │
+│   - Generate │                                              │
+│              │                                              │
+└──────────────┴──────────────────────────────────────────────┘
+                    └── Sandbox Panel (erweiterbar) ──┘
+```
+
+## Design-Spezifikationen
+
+Konfiguriere dein Design vor der Generierung:
+
+### Modus
+
+<Tabs>
+  <Tab title="Wireframe">
+    **Schwarz-weiße strukturelle Mockups**
+    
+    Erstellt tldraw-Formen die dein UI-Layout repräsentieren. Perfekt für:
+    - Schnelle Konzept-Exploration
+    - Layout-Planung
+    - Stakeholder-Reviews
+    
+    Wireframes benötigen keine Sandbox - sie sind reine tldraw-Formen.
+  </Tab>
+  <Tab title="HiFi">
+    **Vollständiger React/Tailwind Code mit Styling**
+    
+    Generiert komplette, lauffähige React-Komponenten. Beinhaltet:
+    - Echte UI-Komponenten (Buttons, Inputs, Cards)
+    - Tailwind CSS Styling mit Farben
+    - Interaktive Elemente
+    - Responsives Design
+    
+    Benötigt eine Sandbox für Live-Vorschau.
+  </Tab>
+</Tabs>
+
+### Seitentyp
+
+| Typ | Beschreibung | Anwendungsfall |
+|-----|--------------|----------------|
+| **Normal** | Standard Single-Viewport Screen | App-Screens, Dashboards |
+| **Landingpage** | Multi-Section Scrolling-Seite | Marketing-Seiten, Homepages |
+| **Funnel** | Multi-Step Conversion-Flow | Signup-Flows, Checkout |
+
+Für Landingpage und Funnel-Typen konfiguriere den **Sections** Slider (3-20 Sections). Jede Section fügt eine Viewport-Höhe zur generierten Seite hinzu.
+
+### Bildschirmgröße
+
+Wähle aus voreingestellten Bildschirmgrößen:
+
+| Größe | Dimensionen | Beste Verwendung |
+|-------|-------------|------------------|
+| Desktop | 1440 × 1024 | Standard Desktop-Apps |
+| Desktop HD | 1920 × 1080 | Full HD Displays |
+| Tablet | 1024 × 1366 | iPad und Tablets |
+| Mobile | 375 × 840 | Smartphones |
+
+## Single Screen Generierung
+
+Der Standard-Modus zur Generierung eines Screens auf einmal.
+
+<Steps>
+  <Step title="Design-Specs konfigurieren">
+    Setze Modus (Wireframe/HiFi), Seitentyp und Bildschirmgröße.
+  </Step>
+  <Step title="Prompt schreiben">
+    Beschreibe den Screen den du erstellen möchtest:
+    ```
+    Eine Benutzer-Profil-Einstellungsseite mit:
+    - Profilfoto-Upload
+    - Name- und Email-Feldern
+    - Passwort-Änderungs-Bereich
+    - Benachrichtigungs-Präferenzen Toggles
+    - Account-Löschen-Button (Gefahrenzone)
+    Modernes Design mit sauberem weißen Hintergrund
+    ```
+  </Step>
+  <Step title="Referenzbilder hinzufügen (optional)">
+    Ziehe Bilder per Drag & Drop auf den Prompt-Bereich oder klicke das Büroklammer-Icon zum Hochladen.
+  </Step>
+  <Step title="Generieren klicken">
+    Die KI generiert deinen Screen und zeigt ihn auf dem Canvas an.
+  </Step>
+</Steps>
+
+### Prompt-Verbesserung
+
+Klicke den **Verbessern** Button (Zauberstab-Icon) um die KI deinen Prompt mit spezifischeren Design-Details erweitern zu lassen. Dies produziert oft bessere Ergebnisse für einfache Prompts.
+
+## Flow-Generierung
+
+Erstelle mehrere zusammenhängende Screens in einer Operation.
+
+### Autoflow
+
+Lass die KI die Screens für deine App planen:
+
+1. Wechsle zum **Create Flow** Tab
+2. Gib deinen App-Kontext ein:
+   ```
+   E-Commerce Mobile-App für eine Modemarke.
+   Benutzer können Produkte durchstöbern, zum Warenkorb hinzufügen,
+   auschecken und Bestellungen verfolgen.
+   Modernes minimales Design mit sanften Animationen.
+   ```
+3. Optional die Anzahl der Screens festlegen (leer lassen damit KI entscheidet)
+4. Klicke **Autoflow**
+
+Die KI generiert eine Liste von Screens mit Namen und Prompts:
+
+```
+1. Home - Produkt-Entdeckung mit Featured Items und Kategorien
+2. Produkt Detail - Vollständige Produktansicht mit Bildern, Größen, Warenkorb-Button
+3. Warenkorb - Shopping-Warenkorb mit Artikelliste, Mengen, Summen
+4. Checkout - Versand, Zahlung, Bestellbestätigung
+5. Bestellungen - Bestellhistorie und Tracking
+```
+
+### Manuelle Screen-Liste
+
+Du kannst die Screen-Liste auch manuell erstellen und bearbeiten:
+
+- **Drag zum Umsortieren** der Screens mit dem Griff
+- **Namen bearbeiten** durch Klick auf den Screen-Titel
+- **Prompts modifizieren** im Textbereich
+- **Screens entfernen** mit dem Minus-Button
+- **Alle löschen** um neu zu beginnen
+
+### Flow generieren
+
+Klicke **Generate Flow** um alle Screens gleichzeitig zu erstellen. Sie erscheinen nebeneinander auf dem Canvas.
+
+## Erweiterte Optionen
+
+### Deep Design
+
+Aktiviere **Deep Design** für verbessertes KI-Reasoning:
+
+- Gründlichere Prompt-Analyse
+- Bessere Komponenten-Struktur
+- Verbesserte Accessibility-Überlegungen
+- Höhere Code-Qualität
+
+Verbraucht mehr Tokens, produziert aber bessere Ergebnisse für komplexe Screens.
+
+### Max Mode
+
+Aktiviere **Max Mode** um das fähigste verfügbare KI-Modell zu nutzen:
+
+- Beste Code-Qualität
+- Langsamere Generierung
+- Höhere Kosten
+
+Empfohlen für produktionsreife Ausgabe.
+
+## Referenzbilder
+
+Lade Bilder hoch um das KI-Design zu leiten:
+
+<CardGroup cols={2}>
+  <Card title="Drag & Drop" icon="upload">
+    Ziehe Bilder direkt auf den Prompt-Bereich.
+  </Card>
+  <Card title="Klick zum Hochladen" icon="paperclip">
+    Klicke das Büroklammer-Icon um Dateien auszuwählen.
+  </Card>
+</CardGroup>
+
+Unterstützte Formate: PNG, JPG, WEBP, GIF
+
+### Best Practices für Referenzbilder
+
+<AccordionGroup>
+  <Accordion title="Screenshots bestehender Apps">
+    Zeige der KI genau den Stil den du anstrebst.
+  </Accordion>
+  <Accordion title="Figma/Sketch Exports">
+    Nutze hochwertige Mockups für pixelgenaue Ergebnisse.
+  </Accordion>
+  <Accordion title="Farbpaletten">
+    Inkludiere Farbfelder um Markenfarben zu matchen.
+  </Accordion>
+  <Accordion title="Komponenten-Beispiele">
+    Zeige spezifische UI-Patterns die du verwenden möchtest.
+  </Accordion>
+</AccordionGroup>
+
+## Mit generierten Screens arbeiten
+
+### Auf dem Canvas
+
+Generierte Screens erscheinen als Frames auf dem tldraw Canvas:
+
+- **Pan**: Space gedrückt halten und ziehen, oder Zwei-Finger-Scroll
+- **Zoom**: Scrollen oder Pinch zum Zoomen
+- **Auswählen**: Auf einen Screen klicken um ihn auszuwählen
+- **Verschieben**: Ausgewählte Screens ziehen zum Repositionieren
+
+### Code ansehen
+
+Klicke auf einen generierten HiFi-Screen um seinen React-Code zu sehen. Nutze den **Copy** Button um den Code zu kopieren.
+
+### Mit KI bearbeiten
+
+Öffne das Sandbox-Panel und nutze den [KI-Coder](/de/seemodo/ai-coder) um:
+
+- Spezifische Komponenten zu modifizieren
+- Neue Features hinzuzufügen
+- Probleme zu beheben
+- Styling zu ändern
+
+### Projekt herunterladen
+
+Klicke den Download-Button im Sandbox-Panel um eine ZIP-Datei zu erhalten mit:
+
+- Allen Quelldateien
+- `package.json` mit Abhängigkeiten
+- Vite-Konfiguration
+- Bereit zum lokalen Ausführen
+
+## Generierungs-Historie
+
+Klicke den **History** Button (Uhr-Icon) um vorherige Generierungen zu sehen:
+
+- Alle vergangenen Prompts anzeigen
+- Screen-Dimensionen und Modus sehen
+- **Use Prompt** klicken um einen früheren Prompt wiederzuverwenden
+
+Historie bleibt während deiner Session erhalten.
+
+## Tipps für beste Ergebnisse
+
+<Steps>
+  <Step title="Einfach starten">
+    Generiere erst grundlegende Layouts, dann iteriere mit KI um Komplexität hinzuzufügen.
+  </Step>
+  <Step title="Beschreibend sein">
+    Inkludiere Farben, Abstände, Typografie-Präferenzen in deinen Prompts.
+  </Step>
+  <Step title="Referenzbilder nutzen">
+    Ein gutes Referenzbild sagt mehr als tausend Worte.
+  </Step>
+  <Step title="Mit Flows iterieren">
+    Nutze Create Flow für konsistentes Design über mehrere Screens.
+  </Step>
+  <Step title="Deep Design aktivieren">
+    Für Produktions-Screens ist die extra Verarbeitungszeit es wert.
+  </Step>
+</Steps>

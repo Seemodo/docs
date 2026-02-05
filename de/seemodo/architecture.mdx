@@ -1,0 +1,418 @@
+---
+title: "Architektur"
+description: "Technische Übersicht über Seemodos System-Architektur und Datenfluss"
+icon: "sitemap"
+---
+
+Dieses Dokument bietet eine umfassende technische Übersicht über Seemodos Architektur für Entwickler, die das System verstehen oder erweitern möchten.
+
+## System-Übersicht
+
+```mermaid
+flowchart TB
+    subgraph Frontend["Next.js Frontend"]
+        Home["/ Startseite"]
+        Generation["/generation Code IDE"]
+        Start["/start Visueller Canvas"]
+        Account["/account Benutzer-Account"]
+    end
+
+    subgraph APIRoutes["Next.js API-Routen"]
+        GenAPI["Code-Generierungs-APIs"]
+        SandboxAPI["Sandbox-Verwaltungs-APIs"]
+        EditAPI["Code-Bearbeitungs-APIs"]
+        UtilAPI["Utility APIs"]
+    end
+
+    subgraph AIProviders["KI-Anbieter"]
+        Gemini["Google Gemini 3 Pro"]
+        Claude["Anthropic Claude Sonnet 4"]
+        GPT["OpenAI GPT-5"]
+        Kimi["Groq Kimi K2"]
+    end
+
+    subgraph Services["Externe Dienste"]
+        Pexels["Pexels API"]
+        Firecrawl["Firecrawl"]
+        Morph["Morph API"]
+        Supabase["Supabase Cloud"]
+    end
+
+    subgraph SandboxProviders["Sandbox-Anbieter"]
+        Modal["Modal Labs"]
+        E2B["E2B"]
+        Vercel["Vercel Sandbox"]
+    end
+
+    subgraph SandboxRuntime["Sandbox-Runtime"]
+        Vite["Vite Dev-Server :5173"]
+        FastAPI["FastAPI Server :8000"]
+        OpenCode["OpenCode KI :4097"]
+        FileSystem["Dateisystem /root/vite-app"]
+    end
+
+    Frontend --> APIRoutes
+    APIRoutes --> AIProviders
+    APIRoutes --> Services
+    APIRoutes --> SandboxProviders
+    SandboxProviders --> SandboxRuntime
+    SandboxRuntime --> |Live-Vorschau| Frontend
+```
+
+## Frontend-Architektur
+
+### Seiten
+
+| Route | Komponente | Zweck |
+|-------|------------|-------|
+| `/` | `app/page.tsx` | Minimale Startseite mit Prompt-Eingabe |
+| `/start` | `app/start/page.tsx` | Visueller Canvas-Designer |
+| `/generation` | `app/generation/page.tsx` | Vollständige Code-IDE |
+| `/account` | `app/account/page.tsx` | Benutzer-Account-Verwaltung |
+
+### Context-Provider
+
+Die App verwendet verschachtelte React Context für State-Management:
+
+```mermaid
+flowchart TB
+    UserProvider["UserProvider"] --> SandboxProvider["SandboxProvider"]
+    SandboxProvider --> EditorProvider["EditorProvider"]
+    EditorProvider --> GenerationProvider["GenerationProvider"]
+    GenerationProvider --> Components["Seiten-Komponenten"]
+```
+
+| Context | Zweck | Wichtiger State |
+|---------|-------|-----------------|
+| `UserProvider` | Benutzer-Authentifizierung und Profil | Benutzer-Daten, Auth-State |
+| `SandboxProvider` | Sandbox-Lebenszyklus-Verwaltung | Sandbox-ID, URLs, Seiten |
+| `EditorProvider` | Code-Bearbeitungs-State | Aktuelle Datei, Editor-Inhalt |
+| `GenerationProvider` | Generierungs-State | Generierte Screens, Prompts |
+
+### Wichtige Komponenten
+
+```
+app/start/
+├── page.tsx              # Hauptseite mit Providern
+├── components/
+│   ├── TopHeader.tsx     # Navigations-Header
+│   ├── LeftSidebar.tsx   # Prompt und Einstellungen
+│   ├── TldrawCanvas.tsx  # tldraw-Integration
+│   ├── SandboxPanel.tsx  # Vorschau und Terminal
+│   ├── OpenCodePanel.tsx # KI-Chat-Interface
+│   ├── ModelSelector.tsx # KI-Modell-Auswahl
+│   └── brainstorm/       # Plan-Modus Komponenten
+└── lib/
+    ├── sandbox-context.tsx
+    ├── generation-context.tsx
+    └── editor-context.tsx
+```
+
+## Sandbox-Architektur
+
+### Provider Factory Pattern
+
+```typescript
+// lib/sandbox/factory.ts
+export function createSandboxProvider(): SandboxProvider {
+  const provider = process.env.SANDBOX_PROVIDER || 'modal';
+  
+  switch (provider) {
+    case 'modal':
+      return new ModalProvider();
+    case 'e2b':
+      return new E2BProvider();
+    case 'vercel':
+      return new VercelProvider();
+    default:
+      throw new Error(`Unbekannter Anbieter: ${provider}`);
+  }
+}
+```
+
+### Modal Sandbox Instanz
+
+```mermaid
+flowchart LR
+    subgraph Client["Browser-Client"]
+        UI["React UI"]
+        Preview["Vorschau iframe"]
+    end
+
+    subgraph NextJS["Next.js Server"]
+        API["API-Routen"]
+        Factory["SandboxFactory"]
+    end
+
+    subgraph ModalSandbox["Modal Sandbox Instanz"]
+        direction TB
+        ViteServer["Vite :5173"]
+        FastAPIServer["FastAPI :8000"]
+        OpenCodeServer["OpenCode :4097"]
+        Git["Git Repository"]
+        Files["Projekt-Dateien"]
+    end
+
+    UI -->|API-Anfragen| API
+    API --> Factory
+    Factory -->|Erstellt| ModalSandbox
+    ViteServer -->|HMR| Preview
+    OpenCodeServer -->|Code-Änderungen| Files
+    Files -->|Triggert| ViteServer
+    OpenCodeServer -->|Auto-Commit| Git
+```
+
+### Sandbox-Lebenszyklus
+
+```mermaid
+stateDiagram-v2
+    [*] --> Erstellung: API-Anfrage
+    Erstellung --> Start: Container bereit
+    Start --> ViteStart: Vite initialisiert
+    ViteStart --> OpenCodeStart: Vite bereit
+    OpenCodeStart --> Bereit: Alle Dienste aktiv
+    Bereit --> Aktiv: Client verbunden
+    Aktiv --> Bereit: Inaktiv-Timeout
+    Bereit --> Beendet: Timeout
+    Aktiv --> Beendet: Kill-Anfrage
+    Beendet --> [*]
+```
+
+## KI-Generierungs-Ablauf
+
+### Code-Generierungs-Pipeline
+
+```mermaid
+sequenceDiagram
+    participant Benutzer
+    participant Frontend
+    participant API as API-Route
+    participant OpenCode as OpenCode KI
+    participant Sandbox
+    participant Vite
+
+    Benutzer->>Frontend: Prompt eingeben
+    Frontend->>API: POST /api/generate-screen
+    API->>OpenCode: Prompt mit Kontext senden
+    
+    loop Streaming-Antwort
+        OpenCode->>API: Code-Änderungen SSE
+        API->>Frontend: Updates streamen
+    end
+    
+    OpenCode->>Sandbox: Dateien schreiben
+    Sandbox->>Vite: Datei-Änderung erkannt
+    Vite->>Frontend: HMR-Update
+    Frontend->>Benutzer: Vorschau aktualisiert
+    
+    OpenCode->>Sandbox: git commit
+```
+
+### Prompt-Verarbeitung
+
+```mermaid
+flowchart TB
+    Input["Benutzer-Prompt"] --> Enhancement["Prompt-Verbesserung"]
+    Enhancement --> Context["Kontext-Aufbau"]
+    Context --> Model["KI-Modell-Auswahl"]
+    Model --> Generation["Code-Generierung"]
+    Generation --> Validation["Code-Validierung"]
+    Validation --> Application["In Sandbox anwenden"]
+    Application --> Preview["Live-Vorschau"]
+```
+
+## OpenCode-Integration
+
+### Client-Architektur
+
+```typescript
+// Mit @opencode-ai/sdk
+const client = createOpencodeClient({ baseUrl: opencodeUrl });
+
+// Session-Verwaltung
+const session = await client.session.create({
+  body: { title: 'Seemodo Session' }
+});
+
+// Prompt senden
+await client.session.prompt({
+  path: { id: session.id },
+  body: { 
+    parts: [{ type: 'text', text: message }],
+    model: { providerID: 'vercel', modelID: 'claude-sonnet-4' }
+  }
+});
+
+// Event-Stream
+const eventSource = new EventSource(`${opencodeUrl}/event`);
+eventSource.onmessage = (event) => {
+  const data = JSON.parse(event.data);
+  // Tool-Aufrufe, Text, Fehler verarbeiten
+};
+```
+
+### Tool-Typen
+
+| Tool | Beschreibung | Events |
+|------|--------------|--------|
+| Read | Datei-Inhalte lesen | `tool.read.start`, `tool.read.result` |
+| Write | Datei erstellen/überschreiben | `tool.write.result` |
+| Edit | Datei-Abschnitte modifizieren | `tool.str_replace.result` |
+| Bash | Befehle ausführen | `tool.bash.start`, `tool.bash.result` |
+| Search | Codebase durchsuchen | `tool.search.result` |
+
+## Datenfluss
+
+### Generierungs-Anfrage
+
+```mermaid
+flowchart TB
+    subgraph UserInput["Benutzer-Eingabe"]
+        Prompt["Text-Prompt"]
+        URL["Website-URL"]
+        Image["Referenz-Bild"]
+        Canvas["Canvas-Zeichnung"]
+    end
+
+    subgraph Processing["Verarbeitung"]
+        API["API-Route"]
+        Context["Kontext-Builder"]
+        AIProvider["KI-Anbieter"]
+    end
+
+    subgraph Generation["Code-Generierung"]
+        OpenCode["OpenCode KI"]
+        Morph["Morph Fast Apply"]
+        Stream["SSE-Stream"]
+    end
+
+    subgraph Output["Ausgabe"]
+        Files["Dateisystem"]
+        Vite["Vite HMR"]
+        Preview["Live-Vorschau"]
+        Git["Git-Commit"]
+    end
+
+    Prompt --> API
+    URL --> API
+    Image --> API
+    Canvas --> API
+    API --> Context
+    Context --> AIProvider
+    AIProvider --> OpenCode
+    AIProvider --> Morph
+    OpenCode --> Stream
+    Morph --> Stream
+    Stream --> Files
+    Files --> Vite
+    Vite --> Preview
+    Files --> Git
+```
+
+## Tech Stack
+
+### Frontend
+
+| Technologie | Zweck |
+|-------------|-------|
+| Next.js 16 | React-Framework mit App Router |
+| TypeScript | Typ-Sicherheit |
+| Tailwind CSS | Styling |
+| Radix UI | Zugängliche Primitiven |
+| Shadcn/ui | Komponenten-Bibliothek |
+| tldraw | Canvas/Wireframe-Editor |
+| Framer Motion | Animationen |
+| Jotai | Atomares State-Management |
+| xterm.js | Terminal-Emulator |
+
+### Backend
+
+| Technologie | Zweck |
+|-------------|-------|
+| Next.js API-Routen | Backend-Endpunkte |
+| Vercel AI SDK | KI-Modell-Integration |
+| Modal Labs | Sandbox-Infrastruktur |
+| Python/FastAPI | Modal Sandbox Server |
+| OpenCode SDK | KI-Coding-Assistent |
+
+### Externe Dienste
+
+| Dienst | Zweck |
+|--------|-------|
+| Google Gemini | Standard-KI-Modell |
+| Anthropic Claude | Alternatives KI-Modell |
+| OpenAI GPT | Alternatives KI-Modell |
+| Groq | Schnelle Inferenz (Kimi K2) |
+| Firecrawl | Website-Scraping |
+| Pexels | Stock-Bilder |
+| Morph | Schnelle Code-Anwendung |
+| Supabase | Backend-as-a-Service |
+
+## Projekt-Struktur
+
+```
+seemodo-app/
+├── app/                        # Next.js App Router
+│   ├── page.tsx               # Startseite
+│   ├── layout.tsx             # Root-Layout
+│   ├── start/                 # Visueller Canvas
+│   │   ├── page.tsx
+│   │   ├── components/
+│   │   └── lib/
+│   ├── generation/            # Code-IDE
+│   ├── account/               # Benutzer-Account
+│   └── api/                   # API-Routen
+├── components/                 # Gemeinsame Komponenten
+│   ├── ui/                    # Basis-UI-Komponenten
+│   └── shared/                # Gemeinsame Features
+├── lib/                       # Utilities und Logik
+│   ├── sandbox/               # Sandbox-Anbieter
+│   ├── ai/                    # KI-Konfiguration
+│   ├── subscription/          # Credits-System
+│   └── contexts/              # React-Contexts
+├── config/                    # Konfiguration
+│   └── app.config.ts
+├── modal-backend/             # Modal Sandbox-Code
+│   ├── main.py               # Modal-App
+│   ├── server.py             # FastAPI-Server
+│   ├── agent.py              # KI-Agent
+│   └── vite-app/             # Template-Projekt
+├── styles/                    # CSS und Design-System
+└── types/                     # TypeScript-Typen
+```
+
+## Sicherheitsüberlegungen
+
+### API-Schlüssel
+
+- Alle API-Schlüssel in Umgebungsvariablen gespeichert
+- Niemals an Client-Side-Code offengelegt
+- Separate Schlüssel für Entwicklung/Produktion
+
+### Sandbox-Isolation
+
+- Jede Sandbox läuft in isoliertem Container
+- Kein Netzwerk-Zugriff zwischen Sandboxes
+- Dateisystem-Isolation
+- Verschlüsselte Tunnel-URLs
+
+### Authentifizierung
+
+- Benutzer-Sessions via Supabase Auth (wenn konfiguriert)
+- API-Routen validieren Authentifizierung
+- Sandbox-Credentials pro Session
+
+## Skalierbarkeit
+
+### Horizontale Skalierung
+
+- Next.js deployt auf Vercel/ähnlich
+- Sandboxes skalieren unabhängig auf Modal
+- Kein geteilter State zwischen Anfragen
+
+### Performance-Optimierungen
+
+- SSE-Streaming für Echtzeit-Updates
+- HMR für sofortige Vorschau-Updates
+- Parallele Tool-Ausführung in OpenCode
+- Client-seitiges Caching für UI-State

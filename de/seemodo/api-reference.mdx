@@ -1,0 +1,398 @@
+---
+title: "API-Referenz"
+description: "Vollständige Referenz für alle Seemodo API-Endpunkte"
+icon: "code"
+---
+
+Seemodo bietet einen umfassenden Satz von API-Endpunkten für Code-Generierung, Sandbox-Verwaltung und verschiedene Utilities.
+
+## Code-Generierung
+
+### Generate AI Code Stream
+
+<ParamField path="/api/generate-ai-code-stream" method="POST">
+  Vollständige Anwendungs-Generierung mit KI streamen.
+</ParamField>
+
+```typescript
+POST /api/generate-ai-code-stream
+
+{
+  "prompt": "Erstelle eine Todo-App mit dunklem Theme",
+  "sandboxId": "sandbox_123",
+  "model": "google/gemini-3-pro-preview",
+  "images": ["data:image/png;base64,..."]
+}
+```
+
+**Antwort:** Server-Sent Events (SSE) Stream mit Code-Chunks.
+
+### Generate Screen
+
+<ParamField path="/api/generate-screen" method="POST">
+  Eine einzelne React-Screen-Komponente generieren.
+</ParamField>
+
+```typescript
+POST /api/generate-screen
+
+{
+  "prompt": "Benutzer-Profil Einstellungsseite",
+  "width": 375,
+  "height": 840,
+  "isWireframe": false,
+  "sandboxId": "sandbox_123",
+  "deepDesign": true,
+  "maxMode": false,
+  "pageType": "normal",
+  "images": []
+}
+```
+
+### Generate Flow
+
+<ParamField path="/api/generate-flow" method="POST">
+  KI generiert eine Liste von Screens für einen kompletten App-Flow.
+</ParamField>
+
+```typescript
+POST /api/generate-flow
+
+{
+  "context": "E-Commerce App für Modemarke",
+  "screenCount": 5,
+  "images": []
+}
+```
+
+**Antwort:**
+```json
+{
+  "screens": [
+    { "name": "Home", "prompt": "Produkt-Entdeckung..." },
+    { "name": "Produkt Detail", "prompt": "..." },
+    { "name": "Warenkorb", "prompt": "..." }
+  ]
+}
+```
+
+### Generate Wireframe
+
+<ParamField path="/api/generate-wireframe" method="POST">
+  tldraw Wireframe-Formen generieren.
+</ParamField>
+
+```typescript
+POST /api/generate-wireframe
+
+{
+  "prompt": "Dashboard-Layout mit Seitenleiste",
+  "width": 1440,
+  "height": 900
+}
+```
+
+## Code-Bearbeitung
+
+### Apply AI Code Stream
+
+<ParamField path="/api/apply-ai-code-stream" method="POST">
+  KI-generierte Code-Änderungen via Streaming anwenden.
+</ParamField>
+
+```typescript
+POST /api/apply-ai-code-stream
+
+{
+  "sandboxId": "sandbox_123",
+  "prompt": "Dark-Mode Toggle hinzufügen",
+  "context": { "files": [...] }
+}
+```
+
+### Edit Screen
+
+<ParamField path="/api/edit-screen" method="POST">
+  Bestehenden Screen mit Morph-Integration bearbeiten.
+</ParamField>
+
+```typescript
+POST /api/edit-screen
+
+{
+  "sandboxId": "sandbox_123",
+  "screenId": "screen_456",
+  "editPrompt": "Button-Farbe zu Lila ändern"
+}
+```
+
+### Analyze Edit Intent
+
+<ParamField path="/api/analyze-edit-intent" method="POST">
+  Analysieren welche Dateien für eine Bearbeitungs-Anfrage modifiziert werden müssen.
+</ParamField>
+
+```typescript
+POST /api/analyze-edit-intent
+
+{
+  "prompt": "Benutzer-Authentifizierung hinzufügen",
+  "files": [...]
+}
+```
+
+## Sandbox-Verwaltung
+
+### Create Sandbox
+
+<ParamField path="/api/create-ai-sandbox-v2" method="POST">
+  Neue Sandbox-Instanz erstellen.
+</ParamField>
+
+```typescript
+POST /api/create-ai-sandbox-v2
+
+{}
+```
+
+**Antwort:**
+```json
+{
+  "sandboxId": "sandbox_123",
+  "url": "https://vorschau-url.modal.run",
+  "apiUrl": "https://api-url.modal.run",
+  "opencodeUrl": "https://opencode-url.modal.run"
+}
+```
+
+### Kill Sandbox
+
+<ParamField path="/api/kill-sandbox" method="POST">
+  Sandbox-Instanz beenden.
+</ParamField>
+
+```typescript
+POST /api/kill-sandbox
+
+{
+  "sandboxId": "sandbox_123"
+}
+```
+
+### Sandbox Status
+
+<ParamField path="/api/sandbox-status" method="GET">
+  Aktuellen Status einer Sandbox prüfen.
+</ParamField>
+
+```typescript
+GET /api/sandbox-status
+```
+
+**Antwort:**
+```json
+{
+  "success": true,
+  "active": true,
+  "healthy": true,
+  "sandboxData": {
+    "sandboxId": "sandbox_123",
+    "url": "https://..."
+  }
+}
+```
+
+### Get Sandbox Files
+
+<ParamField path="/api/get-sandbox-files" method="GET">
+  Alle Dateien in einer Sandbox auflisten.
+</ParamField>
+
+**Antwort:**
+```json
+{
+  "success": true,
+  "files": {
+    "src/App.tsx": "...",
+    "src/index.css": "..."
+  },
+  "structure": "."
+}
+```
+
+## Fehler-Behandlung
+
+### Report Vite Error
+
+<ParamField path="/api/report-vite-error" method="POST">
+  Vite Build-Fehler zur automatischen Behebung melden.
+</ParamField>
+
+```typescript
+POST /api/report-vite-error
+
+{
+  "sandboxId": "sandbox_123",
+  "error": "Cannot find module '@/components/Button'"
+}
+```
+
+### Check Vite Errors
+
+<ParamField path="/api/check-vite-errors" method="POST">
+  Auf Build-Fehler in der Sandbox prüfen.
+</ParamField>
+
+## Paket-Verwaltung
+
+### Install Packages
+
+<ParamField path="/api/install-packages" method="POST">
+  npm-Pakete in der Sandbox installieren.
+</ParamField>
+
+```typescript
+POST /api/install-packages
+
+{
+  "sandboxId": "sandbox_123",
+  "packages": ["lodash", "framer-motion"]
+}
+```
+
+### Detect and Install
+
+<ParamField path="/api/detect-and-install-packages" method="POST">
+  Automatisch fehlende Pakete aus Code erkennen und installieren.
+</ParamField>
+
+## Brainstorm
+
+### Bootstrap Brainstorm
+
+<ParamField path="/api/brainstorm/bootstrap" method="POST">
+  Plan-Modus Session starten.
+</ParamField>
+
+```typescript
+POST /api/brainstorm/bootstrap
+
+{
+  "prompt": "Komplexes Dashboard mit Authentifizierung erstellen"
+}
+```
+
+### Probe Brainstorm
+
+<ParamField path="/api/brainstorm/probe" method="POST">
+  Brainstorm-Frage beantworten.
+</ParamField>
+
+```typescript
+POST /api/brainstorm/probe
+
+{
+  "sessionId": "session_123",
+  "answer": "E-Mail und Google OAuth"
+}
+```
+
+## Seemodo Cloud
+
+### Cloud Management
+
+<ParamField path="/api/seemodo-cloud" method="POST">
+  Supabase Cloud-Integration verwalten.
+</ParamField>
+
+```typescript
+POST /api/seemodo-cloud
+Headers: { "X-Supabase-Token": "..." }
+
+{
+  "action": "activate",
+  "projectRef": "abcdefghijklmnop",
+  "sandboxId": "sandbox_123",
+  "sandboxApiUrl": "https://..."
+}
+```
+
+**Aktionen:**
+- `activate` - Supabase-Projekt mit Sandbox verbinden
+- `create-project` - Neues Supabase-Projekt erstellen
+- `status` - Verbindungsstatus prüfen
+
+## Utilities
+
+### Enhance Prompt
+
+<ParamField path="/api/enhance-prompt" method="POST">
+  Benutzer-Prompt mit KI verbessern.
+</ParamField>
+
+```typescript
+POST /api/enhance-prompt
+
+{
+  "prompt": "Login-Seite",
+  "type": "single"
+}
+```
+
+### Scrape Website
+
+<ParamField path="/api/scrape-website" method="POST">
+  Website-Inhalt und Struktur extrahieren.
+</ParamField>
+
+```typescript
+POST /api/scrape-website
+
+{
+  "url": "https://example.com"
+}
+```
+
+### Proxy Image
+
+<ParamField path="/api/proxy-image" method="GET">
+  Bild durch Proxy laden um CORS zu umgehen.
+</ParamField>
+
+```
+GET /api/proxy-image?url=https://example.com/image.png
+```
+
+### Create ZIP
+
+<ParamField path="/api/create-zip" method="POST">
+  Projekt-Dateien als ZIP herunterladen.
+</ParamField>
+
+```typescript
+POST /api/create-zip
+
+{
+  "sandboxId": "sandbox_123"
+}
+```
+
+## Fehler-Antworten
+
+Alle Endpunkte geben konsistente Fehler-Antworten zurück:
+
+```json
+{
+  "error": "Fehlermeldung",
+  "details": "Zusätzlicher Kontext",
+  "code": "ERROR_CODE"
+}
+```
+
+| Status-Code | Bedeutung |
+|-------------|-----------|
+| 400 | Ungültige Anfrage - fehlende Parameter |
+| 401 | Nicht autorisiert - fehlende Authentifizierung |
+| 404 | Nicht gefunden - Ressource existiert nicht |
+| 429 | Rate Limit überschritten |
+| 500 | Server-Fehler - Check Details |

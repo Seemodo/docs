@@ -1,0 +1,326 @@
+---
+title: "Konfiguration"
+description: "KI-Modelle, Sandbox-Einstellungen und Anwendungsverhalten anpassen"
+icon: "gear"
+---
+
+Alle Seemodo-Konfiguration ist zentralisiert in `config/app.config.ts`. Diese Seite dokumentiert alle verfügbaren Optionen.
+
+## Konfigurations-Datei
+
+```typescript config/app.config.ts
+export const appConfig = {
+  ai: { /* KI-Einstellungen */ },
+  modal: { /* Modal Sandbox-Einstellungen */ },
+  e2b: { /* E2B Sandbox-Einstellungen */ },
+  vercelSandbox: { /* Vercel Sandbox-Einstellungen */ },
+  codeApplication: { /* Code-Verarbeitung */ },
+  packages: { /* Paket-Installation */ },
+  ui: { /* UI-Verhalten */ },
+  files: { /* Datei-Handhabung */ },
+  api: { /* API-Einstellungen */ },
+  dev: { /* Entwicklungs-Optionen */ },
+};
+```
+
+## KI-Konfiguration
+
+KI-Modell-Auswahl und Verhalten steuern:
+
+```typescript
+ai: {
+  // Standard-Modell für Generierung
+  defaultModel: 'google/gemini-3-pro-preview',
+  
+  // Verfügbare Modelle zur Auswahl
+  availableModels: [
+    'openai/gpt-5',
+    'moonshotai/kimi-k2-instruct-0905',
+    'anthropic/claude-sonnet-4-20250514',
+    'google/gemini-3-pro-preview'
+  ],
+  
+  // Anzeigenamen in UI
+  modelDisplayNames: {
+    'openai/gpt-5': 'GPT-5',
+    'moonshotai/kimi-k2-instruct-0905': 'Kimi K2 (Groq)',
+    'anthropic/claude-sonnet-4-20250514': 'Sonnet 4',
+    'google/gemini-3-pro-preview': 'Gemini 3 Pro (Preview)'
+  },
+  
+  // Temperatur für kreative Vielfalt
+  defaultTemperature: 0.7,
+  
+  // Maximum Tokens für Generierung
+  maxTokens: 8000,
+  
+  // Tokens für Truncation-Recovery
+  truncationRecoveryMaxTokens: 4000,
+}
+```
+
+### Modell-Auswahl
+
+Aktiviere den Modell-Selektor in der UI durch Hinzufügen von `?model=true` zur URL:
+
+```
+http://localhost:3000/start?model=true
+```
+
+Dies zeigt ein Dropdown zur Auswahl zwischen verfügbaren Modellen.
+
+### Neue Modelle hinzufügen
+
+Um ein neues KI-Modell hinzuzufügen:
+
+1. Füge die Modell-ID zu `availableModels` hinzu
+2. Füge einen Anzeigenamen in `modelDisplayNames` hinzu
+3. Stelle sicher dass der Anbieter in deiner `.env` konfiguriert ist
+
+## Sandbox-Konfiguration
+
+### Modal-Einstellungen
+
+```typescript
+modal: {
+  // Session-Dauer (1-1440 Minuten)
+  timeoutMinutes: 60,
+  
+  // Backend-URL (aus Umgebung)
+  backendUrl: process.env.MODAL_BACKEND_URL,
+  
+  // Vite Dev-Server Port
+  vitePort: 5173,
+  
+  // Zeit zum Warten auf Vite-Start
+  viteStartupDelay: 5000,
+  
+  // Arbeitsverzeichnis im Container
+  workingDirectory: '/root/vite-app',
+}
+```
+
+### E2B-Einstellungen
+
+```typescript
+e2b: {
+  timeoutMinutes: 60,
+  vitePort: 5173,
+  viteStartupDelay: 10000,
+  workingDirectory: '/home/user/app',
+}
+```
+
+### Vercel Sandbox-Einstellungen
+
+```typescript
+vercelSandbox: {
+  timeoutMinutes: 15,
+  devPort: 3000,
+  devServerStartupDelay: 7000,
+  cssRebuildDelay: 2000,
+  workingDirectory: '/app',
+  runtime: 'node22',
+}
+```
+
+## Code-Anwendung
+
+Konfiguriere wie KI-generierter Code angewendet wird:
+
+```typescript
+codeApplication: {
+  // Verzögerung vor Vorschau-Aktualisierung (ms)
+  defaultRefreshDelay: 2000,
+  
+  // Extra Verzögerung bei Paket-Installation
+  packageInstallRefreshDelay: 5000,
+  
+  // Abgeschnittenen Code automatisch wiederherstellen
+  enableTruncationRecovery: false,
+  
+  // Max Wiederherstellungsversuche pro Datei
+  maxTruncationRecoveryAttempts: 1,
+}
+```
+
+## Paket-Management
+
+```typescript
+packages: {
+  // --legacy-peer-deps für npm nutzen
+  useLegacyPeerDeps: true,
+  
+  // Installations-Timeout (ms)
+  installTimeout: 60000,
+  
+  // Vite nach Installation neustarten
+  autoRestartVite: true,
+}
+```
+
+## UI-Konfiguration
+
+```typescript
+ui: {
+  // Modell-Selektor anzeigen (erfordert auch ?model=true)
+  showModelSelector: true,
+  
+  // Status-Indikatoren anzeigen
+  showStatusIndicator: true,
+  
+  // Animations-Dauer (ms)
+  animationDuration: 200,
+  
+  // Toast-Benachrichtigungs-Dauer (ms)
+  toastDuration: 3000,
+  
+  // Max Chat-Nachrichten im Speicher
+  maxChatMessages: 100,
+  
+  // Kontext-Nachrichten für KI
+  maxRecentMessagesContext: 20,
+}
+```
+
+## Datei-Handhabung
+
+```typescript
+files: {
+  // Muster die von Datei-Operationen ausgeschlossen werden
+  excludePatterns: [
+    'node_modules/**',
+    '.git/**',
+    '.next/**',
+    'dist/**',
+    'build/**',
+    '*.log',
+    '.DS_Store'
+  ],
+  
+  // Max Dateigröße zum Lesen (Bytes)
+  maxFileSize: 1024 * 1024, // 1MB
+  
+  // Erweiterungen die als Text behandelt werden
+  textFileExtensions: [
+    '.js', '.jsx', '.ts', '.tsx',
+    '.css', '.scss', '.sass',
+    '.html', '.xml', '.svg',
+    '.json', '.yml', '.yaml',
+    '.md', '.txt', '.env',
+    '.gitignore', '.dockerignore'
+  ],
+}
+```
+
+## API-Einstellungen
+
+```typescript
+api: {
+  // Fehlgeschlagene Anfragen wiederholen
+  maxRetries: 3,
+  
+  // Verzögerung zwischen Wiederholungen (ms)
+  retryDelay: 1000,
+  
+  // Anfrage-Timeout (ms)
+  requestTimeout: 30000,
+}
+```
+
+## Entwicklungs-Optionen
+
+```typescript
+dev: {
+  // Debug-Konsolen-Ausgabe aktivieren
+  enableDebugLogging: true,
+  
+  // Performance-Monitoring
+  enablePerformanceMonitoring: false,
+  
+  // API-Antworten loggen
+  logApiResponses: true,
+}
+```
+
+## Umgebungsvariablen
+
+Erforderliche und optionale Umgebungsvariablen:
+
+### Erforderlich
+
+| Variable | Beschreibung |
+|----------|--------------|
+| `GEMINI_API_KEY` | Google Gemini API-Schlüssel (Standard-Modell) |
+| `SANDBOX_PROVIDER` | Anbieter: `modal`, `e2b`, oder `vercel` |
+
+### Anbieter-Spezifisch
+
+| Variable | Erforderlich Wenn | Beschreibung |
+|----------|-------------------|--------------|
+| `MODAL_BACKEND_URL` | provider=modal | Deployed Modal Backend URL |
+| `E2B_API_KEY` | provider=e2b | E2B API-Schlüssel |
+
+### Optionale KI-Anbieter
+
+| Variable | Beschreibung |
+|----------|--------------|
+| `ANTHROPIC_API_KEY` | Anthropic Claude API-Schlüssel |
+| `OPENAI_API_KEY` | OpenAI API-Schlüssel |
+| `GROQ_API_KEY` | Groq API-Schlüssel (für Kimi K2) |
+
+### Optionale Dienste
+
+| Variable | Beschreibung |
+|----------|--------------|
+| `MORPH_API_KEY` | Morph API für schnelle Code-Anwendung |
+| `PEXELS_API_KEY` | Pexels API für Stock-Bilder |
+| `FIRECRAWL_API_KEY` | Firecrawl für Website-Klonen |
+
+## Config verwenden
+
+### Direkter Zugriff
+
+```typescript
+import { appConfig } from '@/config/app.config';
+
+// Config-Werte zugreifen
+const timeout = appConfig.modal.timeoutMinutes;
+const defaultModel = appConfig.ai.defaultModel;
+```
+
+### Typsicherer Getter
+
+```typescript
+import { getConfig } from '@/config/app.config';
+
+// Typsicherer Zugriff auf Config-Abschnitte
+const aiConfig = getConfig('ai');
+const modalConfig = getConfig('modal');
+```
+
+### Verschachtelter Wert-Zugriff
+
+```typescript
+import { getConfigValue } from '@/config/app.config';
+
+// Verschachtelte Werte per Pfad zugreifen
+const maxTokens = getConfigValue('ai.maxTokens');
+const vitePort = getConfigValue('modal.vitePort');
+```
+
+## Runtime-Konfiguration
+
+Manche Einstellungen können zur Laufzeit via URL-Parameter geändert werden:
+
+| Parameter | Effekt |
+|-----------|--------|
+| `?model=true` | Modell-Selektor anzeigen |
+| `?prompt=...` | Prompt vorausfüllen |
+| `?screen=mobile` | Bildschirmgröße setzen |
+| `?image1=...` | Referenzbild-URL hinzufügen |
+
+Beispiel:
+```
+/start?model=true&screen=mobile&prompt=Erstelle%20eine%20Login-Seite
+```

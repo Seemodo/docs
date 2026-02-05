@@ -1,0 +1,139 @@
+---
+title: 'API-Einführung'
+description: 'Vollständige Referenz für die Seemodo API'
+icon: 'code'
+---
+
+Die Seemodo API bietet programmatischen Zugriff auf alle KI-gestützten Code-Generierungs-, Sandbox-Verwaltungs- und Cloud-Integrations-Features.
+
+## Basis-URL
+
+Alle API-Endpunkte sind relativ zu deiner Seemodo-Instanz:
+
+```
+https://deine-domain.com/api/
+```
+
+Für lokale Entwicklung:
+
+```
+http://localhost:3000/api/
+```
+
+## Authentifizierung
+
+Die meisten Endpunkte erfordern keine Authentifizierung für lokale Entwicklung. Für Produktions-Deployments konfiguriere Authentifizierung via Umgebungsvariablen.
+
+Für Seemodo Cloud (Supabase) Endpunkte, inkludiere den Supabase API-Token im Header:
+
+```bash
+curl -X POST https://deine-domain.com/api/seemodo-cloud \
+  -H "Content-Type: application/json" \
+  -H "X-Supabase-Token: dein-supabase-token" \
+  -d '{"action": "status", "projectRef": "deine-projekt-ref"}'
+```
+
+## API-Kategorien
+
+<CardGroup cols={2}>
+  <Card title="Code-Generierung" icon="wand-magic-sparkles" href="/de/api-reference/endpoint/generate-screen">
+    React-Screens aus natürlichsprachlichen Prompts mit KI generieren.
+  </Card>
+  <Card title="Sandbox-Verwaltung" icon="box" href="/de/api-reference/endpoint/create-sandbox">
+    Cloud-Entwicklungs-Sandboxes erstellen, verwalten und interagieren.
+  </Card>
+  <Card title="KI-Utilities" icon="robot" href="/de/api-reference/endpoint/enhance-prompt">
+    Prompts verbessern, Absichten analysieren und Ideen brainstormen.
+  </Card>
+  <Card title="Seemodo Cloud" icon="cloud" href="/de/api-reference/endpoint/seemodo-cloud">
+    Supabase Backend-Dienste in deine Projekte integrieren.
+  </Card>
+</CardGroup>
+
+## Anfrage-Format
+
+Alle POST-Endpunkte akzeptieren JSON-Payloads:
+
+```bash
+curl -X POST https://deine-domain.com/api/generate-screen \
+  -H "Content-Type: application/json" \
+  -d '{
+    "prompt": "Ein modernes Dashboard mit Analyse-Charts",
+    "width": 1280,
+    "height": 800,
+    "screenType": "Desktop"
+  }'
+```
+
+## Antwort-Format
+
+Antworten sind JSON-Objekte mit konsistenter Struktur:
+
+```json
+{
+  "success": true,
+  "data": { ... },
+  "message": "Operation erfolgreich abgeschlossen"
+}
+```
+
+Fehler-Antworten inkludieren Details:
+
+```json
+{
+  "success": false,
+  "error": "Fehlermeldung",
+  "details": "Zusätzlicher Fehler-Kontext"
+}
+```
+
+## Häufige Antwort-Codes
+
+| Code | Beschreibung |
+|------|--------------|
+| `200` | Erfolg |
+| `400` | Ungültige Anfrage - fehlende oder ungültige Parameter |
+| `401` | Nicht autorisiert - fehlende oder ungültige Authentifizierung |
+| `404` | Nicht gefunden - Ressource existiert nicht |
+| `500` | Server-Fehler - Fehler-Details prüfen |
+
+## Rate-Limiting
+
+API-Aufrufe unterliegen Rate-Limiting basierend auf deinem Abonnement-Plan. Bei Rate-Limiting erhältst du einen `429` Status-Code. Warte und versuche nach der angegebenen Zeit erneut.
+
+## Verfügbare Endpunkte
+
+### Code-Generierung
+
+| Endpunkt | Methode | Beschreibung |
+|----------|---------|--------------|
+| `/generate-screen` | POST | Einzelnen Screen aus Prompt generieren |
+| `/generate-flow` | POST | Mehrere verbundene Screens generieren |
+| `/edit-screen` | POST | Bestehenden Screen bearbeiten |
+| `/enhance-prompt` | POST | Prompt für bessere Ergebnisse verbessern |
+
+### Sandbox-Verwaltung
+
+| Endpunkt | Methode | Beschreibung |
+|----------|---------|--------------|
+| `/create-ai-sandbox` | POST | Neue Sandbox erstellen |
+| `/create-ai-sandbox-v2` | POST | Sandbox mit Modal Backend erstellen |
+| `/sandbox-status` | GET | Sandbox-Gesundheitsstatus prüfen |
+| `/get-sandbox-files` | GET | Alle Dateien in Sandbox auflisten |
+| `/kill-sandbox` | POST | Sandbox beenden |
+| `/restart-vite` | POST | Vite Dev-Server neustarten |
+
+### Website-Klonen
+
+| Endpunkt | Methode | Beschreibung |
+|----------|---------|--------------|
+| `/scrape-website` | POST | Website-Inhalt und Struktur scrapen |
+| `/scrape-url-enhanced` | POST | Erweitertes Scraping mit Screenshots |
+| `/scrape-screenshot` | POST | Website-Screenshot aufnehmen |
+
+### Seemodo Cloud
+
+| Endpunkt | Methode | Beschreibung |
+|----------|---------|--------------|
+| `/seemodo-cloud` | POST | Supabase-Integration verwalten |
+| `/supabase-proxy/*` | * | Anfragen an Supabase proxyen |
