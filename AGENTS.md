@@ -43,3 +43,6 @@ Use Mintlify's built-in components for consistent formatting. See https://www.mi
 - Don't remove existing pages without checking for inbound links
 - Don't use HTML when an MDX component exists for the same purpose
 - Don't add pages to navigation that don't exist yet
+
+## REALLY REALLY REALLY IMPORTANT
+never write files or anything into the folder /apps this is just the folder where the apps are living which you have to write the documentations okey.
