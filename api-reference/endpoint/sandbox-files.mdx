@@ -1,0 +1,178 @@
+---
+title: 'Get Sandbox Files'
+description: 'Retrieve all files and structure from the active sandbox'
+icon: 'folder-tree'
+---
+
+Get a complete listing of files in the active sandbox, including their contents and a parsed manifest with component information.
+
+## Endpoint
+
+```
+GET /api/get-sandbox-files
+```
+
+No request parameters required.
+
+## Response
+
+<ResponseField name="success" type="boolean">
+  Whether the file listing succeeded.
+</ResponseField>
+
+<ResponseField name="files" type="object">
+  Dictionary of file paths to their contents.
+</ResponseField>
+
+<ResponseField name="structure" type="string">
+  Directory tree structure as text.
+</ResponseField>
+
+<ResponseField name="fileCount" type="number">
+  Total number of files retrieved.
+</ResponseField>
+
+<ResponseField name="manifest" type="object">
+  Parsed file manifest with:
+  - `files`: Detailed file info with component data
+  - `routes`: Detected React routes
+  - `componentTree`: Component hierarchy
+  - `entryPoint`: Main entry file
+  - `styleFiles`: CSS file paths
+  - `timestamp`: When manifest was generated
+</ResponseField>
+
+## Example Request
+
+```bash
+curl http://localhost:3000/api/get-sandbox-files
+```
+
+## Success Response
+
+```json
+{
+  "success": true,
+  "files": {
+    "src/App.tsx": "import React from 'react';\nimport { BrowserRouter, Routes, Route } from 'react-router-dom';\n...",
+    "src/main.jsx": "import React from 'react'\nimport ReactDOM from 'react-dom/client'\n...",
+    "src/pages/dashboard.tsx": "export default function Dashboard() {\n  return (\n    <div className=\"min-h-screen\">\n...",
+    "src/index.css": "@tailwind base;\n@tailwind components;\n@tailwind utilities;\n...",
+    "package.json": "{\n  \"name\": \"sandbox-app\",\n  \"version\": \"1.0.0\",\n..."
+  },
+  "structure": ".\n./src\n./src/pages\n./src/components\n./public",
+  "fileCount": 12,
+  "manifest": {
+    "files": {
+      "/src/App.tsx": {
+        "content": "...",
+        "type": "component",
+        "path": "/src/App.tsx",
+        "relativePath": "src/App.tsx",
+        "exports": ["App"],
+        "imports": ["react", "react-router-dom"],
+        "lastModified": 1705312200000
+      },
+      "/src/pages/dashboard.tsx": {
+        "content": "...",
+        "type": "page",
+        "path": "/src/pages/dashboard.tsx",
+        "relativePath": "src/pages/dashboard.tsx",
+        "exports": ["Dashboard"],
+        "imports": ["react", "lucide-react"],
+        "lastModified": 1705312500000
+      }
+    },
+    "routes": [
+      { "path": "/", "component": "/src/App.tsx" },
+      { "path": "/dashboard", "component": "/src/pages/dashboard.tsx" }
+    ],
+    "componentTree": {
+      "App": ["Dashboard", "Header", "Sidebar"]
+    },
+    "entryPoint": "/src/main.jsx",
+    "styleFiles": ["/src/index.css"],
+    "timestamp": 1705312800000
+  }
+}
+```
+
+## Error Response
+
+```json
+{
+  "success": false,
+  "error": "No active sandbox"
+}
+```
+
+## File Filtering
+
+The endpoint automatically:
+
+- Excludes `node_modules`, `.git`, `dist`, and `build` directories
+- Only includes source files (`.js`, `.jsx`, `.ts`, `.tsx`, `.css`, `.json`)
+- Limits individual files to 10KB to prevent memory issues
+
+## Using the Manifest
+
+The manifest provides parsed information about each file:
+
+```javascript
+const response = await fetch('/api/get-sandbox-files');
+const { manifest } = await response.json();
+
+// Find all page components
+const pages = Object.entries(manifest.files)
+  .filter(([path, info]) => info.type === 'page');
+
+// Get the routes
+const routes = manifest.routes;
+
+// Find component dependencies
+const componentDeps = manifest.componentTree['App'];
+```
+
+## File Types
+
+The parser identifies these file types:
+
+| Type | Description |
+|------|-------------|
+| `component` | React component files |
+| `page` | Page components (in pages/ directory) |
+| `utility` | Helper/utility files |
+| `style` | CSS files |
+| `config` | Configuration files |
+
+## Integration Example
+
+```javascript
+// Display file browser
+async function loadFileTree() {
+  const response = await fetch('/api/get-sandbox-files');
+  const { files, structure, manifest } = await response.json();
+  
+  // Build tree from structure
+  const tree = structure.split('\n').map(dir => ({
+    path: dir,
+    files: Object.keys(files).filter(f => f.startsWith(dir))
+  }));
+  
+  // Get routes for navigation
+  const routes = manifest.routes.map(r => ({
+    path: r.path,
+    component: manifest.files[r.component]?.exports?.[0] || 'Unknown'
+  }));
+  
+  return { tree, routes };
+}
+```
+
+## Related Endpoints
+
+| Endpoint | Description |
+|----------|-------------|
+| `GET /api/sandbox-status` | Check sandbox health |
+| `POST /api/sandbox-routes` | Get route information |
+| `GET /api/sandbox-logs` | Get Vite server logs |

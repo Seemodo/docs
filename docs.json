@@ -47,58 +47,36 @@
         ]
       },
       {
-        "tab": "Docs Guide",
+        "tab": "API Reference",
         "groups": [
           {
-            "group": "Getting started",
-            "pages": [
-              "index",
-              "quickstart",
-              "development"
-            ]
-          },
-          {
-            "group": "Customization",
-            "pages": [
-              "essentials/settings",
-              "essentials/navigation"
-            ]
-          },
-          {
-            "group": "Writing content",
-            "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
-            ]
-          },
-          {
-            "group": "AI tools",
-            "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "API Examples",
-        "groups": [
-          {
-            "group": "API documentation",
+            "group": "Overview",
             "pages": [
               "api-reference/introduction"
             ]
           },
           {
-            "group": "Endpoint examples",
+            "group": "Code Generation",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "api-reference/endpoint/generate-screen",
+              "api-reference/endpoint/generate-flow",
+              "api-reference/endpoint/edit-screen"
+            ]
+          },
+          {
+            "group": "Sandbox",
+            "pages": [
+              "api-reference/endpoint/create-sandbox",
+              "api-reference/endpoint/sandbox-status",
+              "api-reference/endpoint/sandbox-files"
+            ]
+          },
+          {
+            "group": "AI & Utilities",
+            "pages": [
+              "api-reference/endpoint/enhance-prompt",
+              "api-reference/endpoint/scrape-website",
+              "api-reference/endpoint/seemodo-cloud"
             ]
           }
         ]

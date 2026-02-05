@@ -1,33 +1,139 @@
 ---
-title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+title: 'API Introduction'
+description: 'Complete reference for the Seemodo API'
+icon: 'code'
 ---
 
-<Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
-</Note>
+The Seemodo API provides programmatic access to all AI-powered code generation, sandbox management, and cloud integration features.
 
-## Welcome
+## Base URL
 
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
+All API endpoints are relative to your Seemodo instance:
 
-<Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
->
-  View the OpenAPI specification file
-</Card>
+```
+https://your-domain.com/api/
+```
+
+For local development:
+
+```
+http://localhost:3000/api/
+```
 
 ## Authentication
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+Most endpoints don't require authentication for local development. For production deployments, configure authentication via environment variables.
+
+For Seemodo Cloud (Supabase) endpoints, include the Supabase API token in the header:
+
+```bash
+curl -X POST https://your-domain.com/api/seemodo-cloud \
+  -H "Content-Type: application/json" \
+  -H "X-Supabase-Token: your-supabase-token" \
+  -d '{"action": "status", "projectRef": "your-project-ref"}'
+```
+
+## API Categories
+
+<CardGroup cols={2}>
+  <Card title="Code Generation" icon="wand-magic-sparkles" href="/api-reference/endpoint/generate-screen">
+    Generate React screens from natural language prompts using AI.
+  </Card>
+  <Card title="Sandbox Management" icon="box" href="/api-reference/endpoint/create-sandbox">
+    Create, manage, and interact with cloud development sandboxes.
+  </Card>
+  <Card title="AI Utilities" icon="robot" href="/api-reference/endpoint/enhance-prompt">
+    Enhance prompts, analyze intents, and brainstorm ideas.
+  </Card>
+  <Card title="Seemodo Cloud" icon="cloud" href="/api-reference/endpoint/seemodo-cloud">
+    Integrate Supabase backend services into your projects.
+  </Card>
+</CardGroup>
+
+## Request Format
+
+All POST endpoints accept JSON payloads:
+
+```bash
+curl -X POST https://your-domain.com/api/generate-screen \
+  -H "Content-Type: application/json" \
+  -d '{
+    "prompt": "A modern dashboard with analytics charts",
+    "width": 1280,
+    "height": 800,
+    "screenType": "Desktop"
+  }'
+```
+
+## Response Format
+
+Responses are JSON objects with a consistent structure:
 
 ```json
-"security": [
-  {
-    "bearerAuth": []
-  }
-]
+{
+  "success": true,
+  "data": { ... },
+  "message": "Operation completed successfully"
+}
 ```
+
+Error responses include details:
+
+```json
+{
+  "success": false,
+  "error": "Error message",
+  "details": "Additional error context"
+}
+```
+
+## Common Response Codes
+
+| Code | Description |
+|------|-------------|
+| `200` | Success |
+| `400` | Bad request - missing or invalid parameters |
+| `401` | Unauthorized - missing or invalid authentication |
+| `404` | Not found - resource doesn't exist |
+| `500` | Server error - check error details |
+
+## Rate Limiting
+
+API calls are subject to rate limiting based on your subscription plan. When rate limited, you'll receive a `429` status code. Wait and retry after the specified time.
+
+## Available Endpoints
+
+### Code Generation
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/generate-screen` | POST | Generate a single screen from prompt |
+| `/generate-flow` | POST | Generate multiple connected screens |
+| `/edit-screen` | POST | Edit an existing screen |
+| `/enhance-prompt` | POST | Improve a prompt for better results |
+
+### Sandbox Management
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/create-ai-sandbox` | POST | Create a new sandbox |
+| `/create-ai-sandbox-v2` | POST | Create sandbox with Modal backend |
+| `/sandbox-status` | GET | Check sandbox health status |
+| `/get-sandbox-files` | GET | List all files in sandbox |
+| `/kill-sandbox` | POST | Terminate a sandbox |
+| `/restart-vite` | POST | Restart the Vite dev server |
+
+### Website Cloning
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/scrape-website` | POST | Scrape website content and structure |
+| `/scrape-url-enhanced` | POST | Enhanced scraping with screenshots |
+| `/scrape-screenshot` | POST | Capture website screenshot |
+
+### Seemodo Cloud
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/seemodo-cloud` | POST | Manage Supabase integration |
+| `/supabase-proxy/*` | * | Proxy requests to Supabase |
