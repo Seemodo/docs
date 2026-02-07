@@ -85,8 +85,8 @@ curl -X POST http://app.seemodo.ai/api/edit-screen \
   Ob Morph Fast Apply für die Bearbeitung verwendet wurde.
 </ResponseField>
 
-<ResponseField name="useOpenCode" type="boolean">
-  Ob OpenCode KI für die Bearbeitung verwendet wurde.
+<ResponseField name="useSeemodAI" type="boolean">
+  Ob Seemodo AI für die Bearbeitung verwendet wurde.
 </ResponseField>
 
 ### Erfolgs-Antwort
@@ -109,8 +109,8 @@ Die API verwendet mehrere Strategien in Prioritätsreihenfolge:
 
 ```mermaid
 flowchart TD
-    A[Bearbeitungs-Anfrage] --> B{OpenCode verfügbar?}
-    B -->|Ja| C[OpenCode KI verwenden]
+    A[Bearbeitungs-Anfrage] --> B{Seemodo AI verfügbar?}
+    B -->|Ja| C[Seemodo AI verwenden]
     B -->|Nein| D{Morph API Key gesetzt?}
     C --> E[In Sandbox schreiben]
     D -->|Ja| F[Anweisungen generieren]
@@ -123,9 +123,9 @@ flowchart TD
     E --> J[Ergebnis zurückgeben]
 ```
 
-### Strategie 1: OpenCode KI (Bevorzugt)
+### Strategie 1: Seemodo AI (Bevorzugt)
 
-Wenn eine Modal-Sandbox aktiv ist, wird OpenCode für direkte Dateibearbeitung verwendet:
+Wenn eine Modal-Sandbox aktiv ist, wird Seemodo AI für direkte Dateibearbeitung verwendet:
 
 - Liest die aktuelle Datei
 - Wendet minimale Änderungen an
@@ -227,4 +227,4 @@ async function editScreen(prompt) {
 - HMR aktualisiert automatisch die Vorschau wenn Dateien sich ändern
 - Der Endpunkt erhält bestehende Funktionalität bei visuellen Änderungen
 - Morph bietet schnellere Bearbeitungen wenn API Key konfiguriert
-- OpenCode bietet die zuverlässigsten Bearbeitungen für komplexe Änderungen
+- Seemodo AI bietet die zuverlässigsten Bearbeitungen für komplexe Änderungen

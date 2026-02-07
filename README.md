@@ -12,7 +12,7 @@ docs/
 │   ├── introduction.mdx        # Platform overview
 │   ├── getting-started.mdx     # Installation & setup
 │   ├── visual-designer.mdx     # Canvas-based UI designer
-│   ├── ai-coder.mdx            # OpenCode AI assistant
+│   ├── ai-coder.mdx            # Seemodo AI assistant
 │   ├── cloud.mdx               # Supabase integration
 │   ├── sandbox.mdx             # Sandbox providers
 │   ├── architecture.mdx        # System architecture

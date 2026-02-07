@@ -4,7 +4,7 @@ description: 'Generate a React screen from a natural language prompt'
 icon: 'paintbrush'
 ---
 
-Generate a complete React screen with AI. The endpoint uses OpenCode AI to create beautiful, responsive UIs with Tailwind CSS styling.
+Generate a complete React screen with AI. The endpoint uses Seemodo AI to create beautiful, responsive UIs with Tailwind CSS styling.
 
 ## Endpoint
 
@@ -98,8 +98,8 @@ curl -X POST http://app.seemodo.ai/api/generate-screen \
   The original prompt that was processed.
 </ResponseField>
 
-<ResponseField name="useOpenCode" type="boolean">
-  Indicates OpenCode AI was used for generation.
+<ResponseField name="useSeemodAI" type="boolean">
+  Indicates Seemodo AI was used for generation.
 </ResponseField>
 
 ### Success Response
@@ -111,7 +111,7 @@ curl -X POST http://app.seemodo.ai/api/generate-screen \
   "pageSlug": "dashboard",
   "agentResponse": "Created a modern dashboard with:\n- User stats cards at the top\n- Activity feed in the center\n- Sidebar navigation on the left\n\nFiles modified:\n- src/pages/dashboard.tsx (new)\n- src/App.tsx (updated routes)",
   "prompt": "A modern dashboard with user stats...",
-  "useOpenCode": true
+  "useSeemodAI": true
 }
 ```
 
@@ -130,18 +130,18 @@ curl -X POST http://app.seemodo.ai/api/generate-screen \
 sequenceDiagram
     participant Client
     participant API
-    participant OpenCode
+    participant SeemodAI
     participant Sandbox
 
     Client->>API: POST /generate-screen
     API->>API: Build agent prompt with context
-    API->>OpenCode: Send generation request
-    OpenCode->>Sandbox: list_files()
-    OpenCode->>Sandbox: read_file(App.tsx)
-    OpenCode->>Sandbox: write_file(pages/page.tsx)
-    OpenCode->>Sandbox: Update App.tsx routes
-    OpenCode->>Sandbox: Check Vite logs
-    OpenCode-->>API: Generation complete
+    API->>SeemodAI: Send generation request
+    SeemodAI->>Sandbox: list_files()
+    SeemodAI->>Sandbox: read_file(App.tsx)
+    SeemodAI->>Sandbox: write_file(pages/page.tsx)
+    SeemodAI->>Sandbox: Update App.tsx routes
+    SeemodAI->>Sandbox: Check Vite logs
+    SeemodAI-->>API: Generation complete
     API-->>Client: Return sandbox URL
 ```
 
@@ -191,6 +191,6 @@ const response = await fetch('/api/generate-screen', {
 ## Notes
 
 - A sandbox must be initialized before calling this endpoint
-- The endpoint writes files directly to the sandbox via OpenCode
+- The endpoint writes files directly to the sandbox via Seemodo AI
 - HMR (Hot Module Replacement) automatically updates the preview
 - Do not run build commands - Vite handles everything automatically

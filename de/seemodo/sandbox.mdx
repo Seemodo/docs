@@ -18,14 +18,14 @@ Seemodo verwendet Cloud-Sandboxes um deine generierten Anwendungen auszuführen.
     |---------|---------|
     | Timeout | 1-24 Stunden (konfigurierbar) |
     | Paket-Manager | pnpm |
-    | KI-Integration | OpenCode Server integriert |
+    | KI-Integration | Seemodo AI Server integriert |
     | Git | Auto-Commit nach KI-Änderungen |
     | Vorschau | Verschlüsselte Tunnel-URLs |
 
     **Integrierte Dienste:**
     - Vite Dev-Server (Port 5173)
     - FastAPI Server (Port 8000)
-    - OpenCode KI-Server (Port 4097)
+    - Seemodo AI-Server (Port 4097)
 
     **Setup:**
     ```bash
@@ -90,7 +90,7 @@ Seemodo verwendet Cloud-Sandboxes um deine generierten Anwendungen auszuführen.
 |---------|-------|-----|--------|
 | Standard-Timeout | 1 Stunde | 60 Min | 15 Min |
 | Max Timeout | 24 Stunden | 60 Min | 15 Min |
-| OpenCode KI | ✅ Integriert | ❌ | ❌ |
+| Seemodo AI | ✅ Integriert | ❌ | ❌ |
 | Git-Integration | ✅ Auto-Commit | ❌ | ❌ |
 | Paket-Manager | pnpm | npm | npm |
 | Startzeit | ~5 Sekunden | ~10 Sekunden | ~3 Sekunden |
@@ -121,7 +121,7 @@ Der Prozess:
 1. Neue Sandbox vom Anbieter anfordern
 2. Auf Container-Start warten
 3. Vite Dev-Server initialisieren
-4. OpenCode KI starten (nur Modal)
+4. Seemodo AI starten (nur Modal)
 5. Vorschau-URL zurückgeben
 
 ### Sandbox-Zustände
@@ -142,7 +142,7 @@ flowchart TB
         direction TB
         ViteServer["Vite Dev-Server\n:5173"]
         FastAPIServer["FastAPI Server\n:8000"]
-        OpenCodeServer["OpenCode KI\n:4097"]
+        SeemodAIServer["Seemodo AI\n:4097"]
         Git["Git Repository"]
         Files["/root/vite-app\nProjekt-Dateien"]
     end
@@ -150,13 +150,13 @@ flowchart TB
     subgraph External["Externer Zugriff"]
         Preview["Vorschau-URL\n(verschlüsselter Tunnel)"]
         API["API-URL\n(für Terminal)"]
-        OpenCode["OpenCode-URL\n(für KI-Chat)"]
+        SeemodAI["Seemodo AI-URL\n(für KI-Chat)"]
     end
 
     Preview --> ViteServer
     API --> FastAPIServer
-    OpenCode --> OpenCodeServer
-    OpenCodeServer --> Files
+    SeemodAI --> SeemodAIServer
+    SeemodAIServer --> Files
     Files --> Git
     ViteServer --> Files
 ```
@@ -278,7 +278,7 @@ pnpm dev
   <Accordion title="KI verbindet nicht">
     - Stelle sicher dass du Modal-Provider nutzt
     - Warte auf vollständige Sandbox-Initialisierung
-    - Prüfe ob OpenCode-URL verfügbar ist
+    - Prüfe ob Seemodo AI-URL verfügbar ist
     - Panel auf Verbindungsfehler prüfen
   </Accordion>
 </AccordionGroup>

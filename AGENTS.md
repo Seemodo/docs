@@ -67,7 +67,7 @@ See https://mintlify.com/docs/components for all components.
 ## Seemodo-Specific Terminology
 
 - **Visual Designer** - The canvas-based UI at `/start`
-- **AI Coder** - The OpenCode-powered chat panel
+- **AI Coder** - The Seemodo AI-powered chat panel
 - **Sandbox** - Cloud development environment (Modal/E2B/Vercel)
 - **Seemodo Cloud** - Supabase integration feature
 - **Flow Generation** - Multi-screen generation (Autoflow)

@@ -47,7 +47,7 @@ flowchart TB
     subgraph SandboxRuntime["Sandbox-Runtime"]
         Vite["Vite Dev-Server :5173"]
         FastAPI["FastAPI Server :8000"]
-        OpenCode["OpenCode KI :4097"]
+        SeemodAI["Seemodo AI :4097"]
         FileSystem["Dateisystem /root/vite-app"]
     end
 
@@ -99,7 +99,7 @@ app/start/
 │   ├── LeftSidebar.tsx   # Prompt und Einstellungen
 │   ├── TldrawCanvas.tsx  # tldraw-Integration
 │   ├── SandboxPanel.tsx  # Vorschau und Terminal
-│   ├── OpenCodePanel.tsx # KI-Chat-Interface
+│   ├── SeemodAIPanel.tsx # KI-Chat-Interface
 │   ├── ModelSelector.tsx # KI-Modell-Auswahl
 │   └── brainstorm/       # Plan-Modus Komponenten
 └── lib/
@@ -148,7 +148,7 @@ flowchart LR
         direction TB
         ViteServer["Vite :5173"]
         FastAPIServer["FastAPI :8000"]
-        OpenCodeServer["OpenCode :4097"]
+        SeemodAIServer["Seemodo AI :4097"]
         Git["Git Repository"]
         Files["Projekt-Dateien"]
     end
@@ -157,9 +157,9 @@ flowchart LR
     API --> Factory
     Factory -->|Erstellt| ModalSandbox
     ViteServer -->|HMR| Preview
-    OpenCodeServer -->|Code-Änderungen| Files
+    SeemodAIServer -->|Code-Änderungen| Files
     Files -->|Triggert| ViteServer
-    OpenCodeServer -->|Auto-Commit| Git
+    SeemodAIServer -->|Auto-Commit| Git
 ```
 
 ### Sandbox-Lebenszyklus
@@ -169,8 +169,8 @@ stateDiagram-v2
     [*] --> Erstellung: API-Anfrage
     Erstellung --> Start: Container bereit
     Start --> ViteStart: Vite initialisiert
-    ViteStart --> OpenCodeStart: Vite bereit
-    OpenCodeStart --> Bereit: Alle Dienste aktiv
+    ViteStart --> SeemodAIStart: Vite bereit
+    SeemodAIStart --> Bereit: Alle Dienste aktiv
     Bereit --> Aktiv: Client verbunden
     Aktiv --> Bereit: Inaktiv-Timeout
     Bereit --> Beendet: Timeout
@@ -187,25 +187,25 @@ sequenceDiagram
     participant Benutzer
     participant Frontend
     participant API as API-Route
-    participant OpenCode as OpenCode KI
+    participant SeemodAI as Seemodo AI
     participant Sandbox
     participant Vite
 
     Benutzer->>Frontend: Prompt eingeben
     Frontend->>API: POST /api/generate-screen
-    API->>OpenCode: Prompt mit Kontext senden
+    API->>SeemodAI: Prompt mit Kontext senden
     
     loop Streaming-Antwort
-        OpenCode->>API: Code-Änderungen SSE
+        SeemodAI->>API: Code-Änderungen SSE
         API->>Frontend: Updates streamen
     end
     
-    OpenCode->>Sandbox: Dateien schreiben
+    SeemodAI->>Sandbox: Dateien schreiben
     Sandbox->>Vite: Datei-Änderung erkannt
     Vite->>Frontend: HMR-Update
     Frontend->>Benutzer: Vorschau aktualisiert
     
-    OpenCode->>Sandbox: git commit
+    SeemodAI->>Sandbox: git commit
 ```
 
 ### Prompt-Verarbeitung
@@ -221,7 +221,7 @@ flowchart TB
     Application --> Preview["Live-Vorschau"]
 ```
 
-## OpenCode-Integration
+## Seemodo AI-Integration
 
 ### Client-Architektur
 
@@ -281,7 +281,7 @@ flowchart TB
     end
 
     subgraph Generation["Code-Generierung"]
-        OpenCode["OpenCode KI"]
+        SeemodAI["Seemodo AI"]
         Morph["Morph Fast Apply"]
         Stream["SSE-Stream"]
     end
@@ -299,9 +299,9 @@ flowchart TB
     Canvas --> API
     API --> Context
     Context --> AIProvider
-    AIProvider --> OpenCode
+    AIProvider --> SeemodAI
     AIProvider --> Morph
-    OpenCode --> Stream
+    SeemodAI --> Stream
     Morph --> Stream
     Stream --> Files
     Files --> Vite
@@ -333,7 +333,7 @@ flowchart TB
 | Vercel AI SDK | KI-Modell-Integration |
 | Modal Labs | Sandbox-Infrastruktur |
 | Python/FastAPI | Modal Sandbox Server |
-| OpenCode SDK | KI-Coding-Assistent |
+| Seemodo AI SDK | KI-Coding-Assistent |
 
 ### Externe Dienste
 
@@ -414,5 +414,5 @@ seemodo-app/
 
 - SSE-Streaming für Echtzeit-Updates
 - HMR für sofortige Vorschau-Updates
-- Parallele Tool-Ausführung in OpenCode
+- Parallele Tool-Ausführung in Seemodo AI
 - Client-seitiges Caching für UI-State

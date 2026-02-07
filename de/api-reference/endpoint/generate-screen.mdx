@@ -4,7 +4,7 @@ description: 'React-Screen aus natürlichsprachlichem Prompt generieren'
 icon: 'paintbrush'
 ---
 
-Generiere einen kompletten React-Screen mit KI. Der Endpunkt verwendet OpenCode KI um schöne, responsive UIs mit Tailwind CSS Styling zu erstellen.
+Generiere einen kompletten React-Screen mit KI. Der Endpunkt verwendet Seemodo AI um schöne, responsive UIs mit Tailwind CSS Styling zu erstellen.
 
 ## Endpunkt
 
@@ -98,8 +98,8 @@ curl -X POST http://app.seemodo.ai/api/generate-screen \
   Der ursprüngliche verarbeitete Prompt.
 </ResponseField>
 
-<ResponseField name="useOpenCode" type="boolean">
-  Zeigt an dass OpenCode KI für Generierung verwendet wurde.
+<ResponseField name="useSeemodAI" type="boolean">
+  Zeigt an dass Seemodo AI für Generierung verwendet wurde.
 </ResponseField>
 
 ### Erfolgs-Antwort
@@ -111,7 +111,7 @@ curl -X POST http://app.seemodo.ai/api/generate-screen \
   "pageSlug": "dashboard",
   "agentResponse": "Modernes Dashboard erstellt mit:\n- Benutzer-Stats-Karten oben\n- Aktivitäts-Feed in der Mitte\n- Seitenleisten-Navigation links\n\nModifizierte Dateien:\n- src/pages/dashboard.tsx (neu)\n- src/App.tsx (Routen aktualisiert)",
   "prompt": "Ein modernes Dashboard mit Benutzer-Statistiken...",
-  "useOpenCode": true
+  "useSeemodAI": true
 }
 ```
 
@@ -130,18 +130,18 @@ curl -X POST http://app.seemodo.ai/api/generate-screen \
 sequenceDiagram
     participant Client
     participant API
-    participant OpenCode
+    participant SeemodAI
     participant Sandbox
 
     Client->>API: POST /generate-screen
     API->>API: Agent-Prompt mit Kontext aufbauen
-    API->>OpenCode: Generierungs-Anfrage senden
-    OpenCode->>Sandbox: list_files()
-    OpenCode->>Sandbox: read_file(App.tsx)
-    OpenCode->>Sandbox: write_file(pages/page.tsx)
-    OpenCode->>Sandbox: App.tsx Routen aktualisieren
-    OpenCode->>Sandbox: Vite-Logs prüfen
-    OpenCode-->>API: Generierung abgeschlossen
+    API->>SeemodAI: Generierungs-Anfrage senden
+    SeemodAI->>Sandbox: list_files()
+    SeemodAI->>Sandbox: read_file(App.tsx)
+    SeemodAI->>Sandbox: write_file(pages/page.tsx)
+    SeemodAI->>Sandbox: App.tsx Routen aktualisieren
+    SeemodAI->>Sandbox: Vite-Logs prüfen
+    SeemodAI-->>API: Generierung abgeschlossen
     API-->>Client: Sandbox-URL zurückgeben
 ```
 
@@ -191,6 +191,6 @@ const response = await fetch('/api/generate-screen', {
 ## Hinweise
 
 - Eine Sandbox muss vor Aufruf dieses Endpunkts initialisiert sein
-- Der Endpunkt schreibt Dateien direkt via OpenCode in die Sandbox
+- Der Endpunkt schreibt Dateien direkt via Seemodo AI in die Sandbox
 - HMR (Hot Module Replacement) aktualisiert automatisch die Vorschau
 - Keine Build-Befehle ausführen - Vite handhabt alles automatisch

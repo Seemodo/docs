@@ -47,7 +47,7 @@ flowchart TB
     subgraph SandboxRuntime["Sandbox Runtime"]
         Vite["Vite Dev Server :5173"]
         FastAPI["FastAPI Server :8000"]
-        OpenCode["OpenCode AI :4097"]
+        SeemodAI["Seemodo AI :4097"]
         FileSystem["File System /root/vite-app"]
     end
 
@@ -99,7 +99,7 @@ app/start/
 │   ├── LeftSidebar.tsx   # Prompt and settings
 │   ├── TldrawCanvas.tsx  # tldraw integration
 │   ├── SandboxPanel.tsx  # Preview and terminal
-│   ├── OpenCodePanel.tsx # AI chat interface
+│   ├── SeemodAIPanel.tsx # AI chat interface
 │   ├── ModelSelector.tsx # AI model selection
 │   └── brainstorm/       # Plan mode components
 └── lib/
@@ -148,7 +148,7 @@ flowchart LR
         direction TB
         ViteServer["Vite :5173"]
         FastAPIServer["FastAPI :8000"]
-        OpenCodeServer["OpenCode :4097"]
+        SeemodAIServer["Seemodo AI :4097"]
         Git["Git Repository"]
         Files["Project Files"]
     end
@@ -157,9 +157,9 @@ flowchart LR
     API --> Factory
     Factory -->|Creates| ModalSandbox
     ViteServer -->|HMR| Preview
-    OpenCodeServer -->|Code Changes| Files
+    SeemodAIServer -->|Code Changes| Files
     Files -->|Triggers| ViteServer
-    OpenCodeServer -->|Auto Commit| Git
+    SeemodAIServer -->|Auto Commit| Git
 ```
 
 ### Sandbox Lifecycle
@@ -169,8 +169,8 @@ stateDiagram-v2
     [*] --> Creating: API Request
     Creating --> Starting: Container Ready
     Starting --> ViteStarting: Vite Initializing
-    ViteStarting --> OpenCodeStarting: Vite Ready
-    OpenCodeStarting --> Ready: All Services Up
+    ViteStarting --> SeemodAIStarting: Vite Ready
+    SeemodAIStarting --> Ready: All Services Up
     Ready --> Active: Client Connected
     Active --> Ready: Idle Timeout
     Ready --> Terminated: Timeout
@@ -187,25 +187,25 @@ sequenceDiagram
     participant User
     participant Frontend
     participant API as API Route
-    participant OpenCode as OpenCode AI
+    participant SeemodAI as Seemodo AI
     participant Sandbox
     participant Vite
 
     User->>Frontend: Enter prompt
     Frontend->>API: POST /api/generate-screen
-    API->>OpenCode: Send prompt with context
+    API->>SeemodAI: Send prompt with context
     
     loop Streaming Response
-        OpenCode->>API: Code changes SSE
+        SeemodAI->>API: Code changes SSE
         API->>Frontend: Stream updates
     end
     
-    OpenCode->>Sandbox: Write files
+    SeemodAI->>Sandbox: Write files
     Sandbox->>Vite: File change detected
     Vite->>Frontend: HMR update
     Frontend->>User: Preview updates
     
-    OpenCode->>Sandbox: git commit
+    SeemodAI->>Sandbox: git commit
 ```
 
 ### Prompt Processing
@@ -221,7 +221,7 @@ flowchart TB
     Application --> Preview["Live Preview"]
 ```
 
-## OpenCode Integration
+## Seemodo AI Integration
 
 ### Client Architecture
 
@@ -281,7 +281,7 @@ flowchart TB
     end
 
     subgraph Generation["Code Generation"]
-        OpenCode["OpenCode AI"]
+        SeemodAI["Seemodo AI"]
         Morph["Morph Fast Apply"]
         Stream["SSE Stream"]
     end
@@ -299,9 +299,9 @@ flowchart TB
     Canvas --> API
     API --> Context
     Context --> AIProvider
-    AIProvider --> OpenCode
+    AIProvider --> SeemodAI
     AIProvider --> Morph
-    OpenCode --> Stream
+    SeemodAI --> Stream
     Morph --> Stream
     Stream --> Files
     Files --> Vite
@@ -333,7 +333,7 @@ flowchart TB
 | Vercel AI SDK | AI model integration |
 | Modal Labs | Sandbox infrastructure |
 | Python/FastAPI | Modal sandbox server |
-| OpenCode SDK | AI coding assistant |
+| Seemodo AI SDK | AI coding assistant |
 
 ### External Services
 
@@ -414,5 +414,5 @@ seemodo-app/
 
 - SSE streaming for real-time updates
 - HMR for instant preview updates
-- Parallel tool execution in OpenCode
+- Parallel tool execution in Seemodo AI
 - Client-side caching for UI state
