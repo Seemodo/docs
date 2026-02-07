@@ -76,7 +76,7 @@ npm i -g mint
 # Start local server
 mint dev
 
-# View at http://localhost:3000
+# View at http://app.seemodo.ai
 ```
 
 ### Validation

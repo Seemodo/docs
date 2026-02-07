@@ -63,7 +63,7 @@ POST /api/generate-screen
 ## Beispiel-Anfrage
 
 ```bash
-curl -X POST http://localhost:3000/api/generate-screen \
+curl -X POST http://app.seemodo.ai/api/generate-screen \
   -H "Content-Type: application/json" \
   -d '{
     "prompt": "Ein modernes Dashboard mit Benutzer-Statistiken, Aktivitäts-Feed und Seitenleisten-Navigation",
@@ -150,7 +150,7 @@ sequenceDiagram
 Wenn `pageType` auf `landingpage` gesetzt ist, generiert die KI eine hochkonvertierende Landing Page mit strukturierten Sections:
 
 ```bash
-curl -X POST http://localhost:3000/api/generate-screen \
+curl -X POST http://app.seemodo.ai/api/generate-screen \
   -H "Content-Type: application/json" \
   -d '{
     "prompt": "Eine SaaS Landing Page für ein Projektmanagement-Tool",
