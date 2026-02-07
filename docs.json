@@ -192,7 +192,7 @@
     "primary": {
       "type": "button",
       "label": "Launch App",
-      "href": "https://seemodo.ai/start"
+      "href": "https://app.seemodo.ai/start"
     }
   },
   "contextual": {
