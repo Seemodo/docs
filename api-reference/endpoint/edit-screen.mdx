@@ -81,10 +81,6 @@ curl -X POST http://app.seemodo.ai/api/edit-screen \
   Whether the preview should be refreshed.
 </ResponseField>
 
-<ResponseField name="usedMorph" type="boolean">
-  Whether Morph Fast Apply was used for the edit.
-</ResponseField>
-
 <ResponseField name="useSeemodAI" type="boolean">
   Whether Seemodo AI was used for the edit.
 </ResponseField>
@@ -99,7 +95,7 @@ curl -X POST http://app.seemodo.ai/api/edit-screen \
   "changes": ["Changed button color to blue", "Added subtitle text"],
   "sandboxUrl": "https://sandbox-abc123.modal.run/welcome",
   "shouldReload": true,
-  "usedMorph": true
+  "useSeemodAI": true
 }
 ```
 
@@ -111,16 +107,10 @@ The API uses multiple strategies in order of preference:
 flowchart TD
     A[Edit Request] --> B{Seemodo AI Available?}
     B -->|Yes| C[Use Seemodo AI]
-    B -->|No| D{Morph API Key Set?}
+    B -->|No| D[Full HTML Regeneration]
     C --> E[Write to Sandbox]
-    D -->|Yes| F[Generate Instructions]
-    D -->|No| G[Full HTML Regeneration]
-    F --> H[Apply with Morph]
-    H --> I{Merge Successful?}
-    I -->|Yes| E
-    I -->|No| G
-    G --> E
-    E --> J[Return Result]
+    D --> E
+    E --> F[Return Result]
 ```
 
 ### Strategy 1: Seemodo AI (Preferred)
@@ -132,17 +122,9 @@ When a Modal sandbox is active, uses Seemodo AI to directly edit files:
 - Writes back to sandbox
 - HMR updates preview automatically
 
-### Strategy 2: Morph Fast Apply
+### Strategy 2: Full Regeneration
 
-When `MORPH_API_KEY` is configured:
-
-1. AI generates edit instructions and minimal code snippet
-2. Morph merges the snippet into existing code
-3. Result is written to sandbox
-
-### Strategy 3: Full Regeneration
-
-Fallback when other methods aren't available:
+Fallback when Seemodo AI isn't available:
 
 1. AI generates complete modified HTML
 2. Preserves structure while applying changes
@@ -226,5 +208,4 @@ async function editScreen(prompt) {
 
 - HMR automatically updates the preview when files change
 - The endpoint preserves existing functionality when making visual changes
-- Morph provides faster edits when API key is configured
 - Seemodo AI provides the most reliable edits for complex changes

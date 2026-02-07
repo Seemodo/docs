@@ -4,7 +4,7 @@ description: 'Extract content and structure from any website for cloning'
 icon: 'globe'
 ---
 
-Scrape a website's content, structure, and styling to use as reference for AI generation. Powered by Firecrawl for reliable extraction.
+Scrape a website's content, structure, and styling to use as reference for AI generation.
 
 ## Endpoint
 
@@ -22,7 +22,7 @@ POST /api/scrape-website
   Output formats to include:
   - `markdown` - Clean markdown content
   - `html` - Raw HTML structure
-  - `screenshot` - Page screenshot (requires Firecrawl Pro)
+  - `screenshot` - Page screenshot
 </ParamField>
 
 <ParamField body="options" type="object">
@@ -99,12 +99,12 @@ curl -X POST http://app.seemodo.ai/api/scrape-website \
 sequenceDiagram
     participant User
     participant API
-    participant Firecrawl
+    participant Scraper
     participant Generator
 
     User->>API: POST /scrape-website
-    API->>Firecrawl: Scrape URL
-    Firecrawl-->>API: Return content
+    API->>Scraper: Scrape URL
+    Scraper-->>API: Return content
     API-->>User: Scraped data
     User->>API: POST /generate-screen
     Note over API: Uses scraped content<br/>as reference
@@ -174,19 +174,6 @@ Returns a base64-encoded screenshot that can be used as a reference image.
 
 ## Error Handling
 
-### API Key Not Configured
-
-```json
-{
-  "success": true,
-  "data": {
-    "title": "Example Website",
-    "content": "This is a mock response for https://example.com. Configure FIRECRAWL_API_KEY to enable real scraping.",
-    "markdown": "# Example Website\n\nThis is mock content for demonstration purposes."
-  }
-}
-```
-
 ### Scrape Failed
 
 ```json
@@ -200,20 +187,11 @@ Returns a base64-encoded screenshot that can be used as a reference image.
 }
 ```
 
-## Configuration
-
-```env
-FIRECRAWL_API_KEY=your-firecrawl-api-key
-```
-
-Get an API key at [firecrawl.dev](https://firecrawl.dev).
-
 ## Limitations
 
 - Some websites block automated scraping
 - JavaScript-heavy SPAs may not render completely
-- Rate limits apply based on your Firecrawl plan
-- Screenshots require Firecrawl Pro
+- Rate limits may apply
 
 ## Best Practices
 

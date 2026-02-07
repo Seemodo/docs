@@ -32,9 +32,6 @@ flowchart TB
     end
 
     subgraph Services["External Services"]
-        Pexels["Pexels API"]
-        Firecrawl["Firecrawl"]
-        Morph["Morph API"]
         Supabase["Supabase Cloud"]
     end
 
@@ -282,7 +279,6 @@ flowchart TB
 
     subgraph Generation["Code Generation"]
         SeemodAI["Seemodo AI"]
-        Morph["Morph Fast Apply"]
         Stream["SSE Stream"]
     end
 
@@ -300,9 +296,7 @@ flowchart TB
     API --> Context
     Context --> AIProvider
     AIProvider --> SeemodAI
-    AIProvider --> Morph
     SeemodAI --> Stream
-    Morph --> Stream
     Stream --> Files
     Files --> Vite
     Vite --> Preview
@@ -343,9 +337,6 @@ flowchart TB
 | Anthropic Claude | Alternative AI model |
 | OpenAI GPT | Alternative AI model |
 | Groq | Fast inference (Kimi K2) |
-| Firecrawl | Website scraping |
-| Pexels | Stock images |
-| Morph | Fast code application |
 | Supabase | Backend-as-a-service |
 
 ## Project Structure

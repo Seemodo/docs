@@ -81,10 +81,6 @@ curl -X POST http://app.seemodo.ai/api/edit-screen \
   Ob die Vorschau aktualisiert werden sollte.
 </ResponseField>
 
-<ResponseField name="usedMorph" type="boolean">
-  Ob Morph Fast Apply für die Bearbeitung verwendet wurde.
-</ResponseField>
-
 <ResponseField name="useSeemodAI" type="boolean">
   Ob Seemodo AI für die Bearbeitung verwendet wurde.
 </ResponseField>
@@ -99,7 +95,7 @@ curl -X POST http://app.seemodo.ai/api/edit-screen \
   "changes": ["Button-Farbe zu blau geändert", "Untertitel-Text hinzugefügt"],
   "sandboxUrl": "https://sandbox-abc123.modal.run/welcome",
   "shouldReload": true,
-  "usedMorph": true
+  "useSeemodAI": true
 }
 ```
 
@@ -111,16 +107,10 @@ Die API verwendet mehrere Strategien in Prioritätsreihenfolge:
 flowchart TD
     A[Bearbeitungs-Anfrage] --> B{Seemodo AI verfügbar?}
     B -->|Ja| C[Seemodo AI verwenden]
-    B -->|Nein| D{Morph API Key gesetzt?}
+    B -->|Nein| D[Vollständige HTML-Regenerierung]
     C --> E[In Sandbox schreiben]
-    D -->|Ja| F[Anweisungen generieren]
-    D -->|Nein| G[Vollständige HTML-Regenerierung]
-    F --> H[Mit Morph anwenden]
-    H --> I{Merge erfolgreich?}
-    I -->|Ja| E
-    I -->|Nein| G
-    G --> E
-    E --> J[Ergebnis zurückgeben]
+    D --> E
+    E --> F[Ergebnis zurückgeben]
 ```
 
 ### Strategie 1: Seemodo AI (Bevorzugt)
@@ -132,17 +122,9 @@ Wenn eine Modal-Sandbox aktiv ist, wird Seemodo AI für direkte Dateibearbeitung
 - Schreibt zurück in Sandbox
 - HMR aktualisiert Vorschau automatisch
 
-### Strategie 2: Morph Fast Apply
+### Strategie 2: Vollständige Regenerierung
 
-Wenn `MORPH_API_KEY` konfiguriert ist:
-
-1. KI generiert Bearbeitungsanweisungen und minimales Code-Snippet
-2. Morph mergt das Snippet in bestehenden Code
-3. Ergebnis wird in Sandbox geschrieben
-
-### Strategie 3: Vollständige Regenerierung
-
-Fallback wenn andere Methoden nicht verfügbar:
+Fallback wenn Seemodo AI nicht verfügbar:
 
 1. KI generiert vollständiges modifiziertes HTML
 2. Erhält Struktur während Änderungen angewandt werden
@@ -226,5 +208,4 @@ async function editScreen(prompt) {
 
 - HMR aktualisiert automatisch die Vorschau wenn Dateien sich ändern
 - Der Endpunkt erhält bestehende Funktionalität bei visuellen Änderungen
-- Morph bietet schnellere Bearbeitungen wenn API Key konfiguriert
 - Seemodo AI bietet die zuverlässigsten Bearbeitungen für komplexe Änderungen

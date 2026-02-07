@@ -19,8 +19,7 @@
               {
                 "group": "Getting Started",
                 "pages": [
-                  "seemodo/introduction",
-                  "seemodo/getting-started"
+                  "seemodo/introduction"
                 ]
               },
               {
@@ -95,8 +94,7 @@
               {
                 "group": "Erste Schritte",
                 "pages": [
-                  "de/seemodo/introduction",
-                  "de/seemodo/getting-started"
+                  "de/seemodo/introduction"
                 ]
               },
               {

@@ -4,7 +4,7 @@ description: 'Inhalt und Struktur von beliebiger Website für Klonen extrahieren
 icon: 'globe'
 ---
 
-Inhalt, Struktur und Styling einer Website scrapen zur Verwendung als Referenz für KI-Generierung. Powered by Firecrawl für zuverlässige Extraktion.
+Inhalt, Struktur und Styling einer Website scrapen zur Verwendung als Referenz für KI-Generierung.
 
 ## Endpunkt
 
@@ -22,7 +22,7 @@ POST /api/scrape-website
   Ausgabeformate zum Inkludieren:
   - `markdown` - Sauberer Markdown-Inhalt
   - `html` - Rohe HTML-Struktur
-  - `screenshot` - Seiten-Screenshot (erfordert Firecrawl Pro)
+  - `screenshot` - Seiten-Screenshot
 </ParamField>
 
 <ParamField body="options" type="object">
@@ -99,12 +99,12 @@ curl -X POST http://app.seemodo.ai/api/scrape-website \
 sequenceDiagram
     participant Benutzer
     participant API
-    participant Firecrawl
+    participant Scraper
     participant Generator
 
     Benutzer->>API: POST /scrape-website
-    API->>Firecrawl: URL scrapen
-    Firecrawl-->>API: Inhalt zurückgeben
+    API->>Scraper: URL scrapen
+    Scraper-->>API: Inhalt zurückgeben
     API-->>Benutzer: Gescrapte Daten
     Benutzer->>API: POST /generate-screen
     Note over API: Nutzt gescrapten Inhalt<br/>als Referenz
@@ -174,19 +174,6 @@ Gibt einen base64-kodierten Screenshot zurück der als Referenzbild genutzt werd
 
 ## Fehlerbehandlung
 
-### API Key nicht konfiguriert
-
-```json
-{
-  "success": true,
-  "data": {
-    "title": "Beispiel Website",
-    "content": "Dies ist eine Mock-Antwort für https://example.com. Konfiguriere FIRECRAWL_API_KEY um echtes Scraping zu aktivieren.",
-    "markdown": "# Beispiel Website\n\nDies ist Mock-Inhalt für Demonstrationszwecke."
-  }
-}
-```
-
 ### Scraping fehlgeschlagen
 
 ```json
@@ -200,20 +187,11 @@ Gibt einen base64-kodierten Screenshot zurück der als Referenzbild genutzt werd
 }
 ```
 
-## Konfiguration
-
-```env
-FIRECRAWL_API_KEY=dein-firecrawl-api-key
-```
-
-API Key erhältst du auf [firecrawl.dev](https://firecrawl.dev).
-
 ## Einschränkungen
 
 - Manche Websites blockieren automatisches Scraping
 - JavaScript-lastige SPAs rendern möglicherweise nicht vollständig
-- Rate-Limits gelten basierend auf deinem Firecrawl-Plan
-- Screenshots erfordern Firecrawl Pro
+- Rate-Limits können gelten
 
 ## Best Practices
 
