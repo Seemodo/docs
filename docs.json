@@ -19,33 +19,33 @@
               {
                 "group": "Overview",
                 "pages": [
-                  "seemodo/introduction",
-                  "seemodo/getting-started"
+                  "en/seemodo/introduction",
+                  "en/seemodo/getting-started"
                 ]
               },
               {
                 "group": "Building Apps",
                 "pages": [
-                  "seemodo/visual-designer",
-                  "seemodo/ai-coder",
-                  "seemodo/flow-generation",
-                  "seemodo/sandbox"
+                  "en/seemodo/visual-designer",
+                  "en/seemodo/ai-coder",
+                  "en/seemodo/flow-generation",
+                  "en/seemodo/sandbox"
                 ]
               },
               {
                 "group": "Platform",
                 "pages": [
-                  "seemodo/cloud",
-                  "seemodo/projects",
-                  "seemodo/deployment",
-                  "seemodo/github"
+                  "en/seemodo/cloud",
+                  "en/seemodo/projects",
+                  "en/seemodo/deployment",
+                  "en/seemodo/github"
                 ]
               },
               {
                 "group": "Account",
                 "pages": [
-                  "seemodo/credits",
-                  "seemodo/troubleshooting"
+                  "en/seemodo/credits",
+                  "en/seemodo/troubleshooting"
                 ]
               }
             ]
@@ -56,7 +56,7 @@
               {
                 "group": "Overview",
                 "pages": [
-                  "api-reference/introduction"
+                  "en/api-reference/introduction"
                 ]
               }
             ]
