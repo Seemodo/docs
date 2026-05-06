@@ -1,109 +1,135 @@
 ---
 title: "GitHub Integration"
-description: "Connect your Seemodo projects to GitHub for two-way sync, version control, and collaboration with external tools."
+description: "Connect Seemodo projects to GitHub repositories. Push, pull, view diffs, clone URLs, and keep your code synced."
 icon: "code-branch"
 ---
 
 # GitHub Integration
 
-Connect your Seemodo projects to GitHub repositories. Push your generated code to GitHub, pull changes from external contributors, and keep everything in sync.
+Connect your Seemodo projects to GitHub for version control, collaboration with external tools, and code portability.
 
 ## Connecting your GitHub account
 
 <Steps>
-  <Step title="Open a project">
-    Navigate to the Project Editor.
+  <Step title="Go to Settings → GitHub">
+    Or click the Git icon in any Project Editor.
   </Step>
-  <Step title="Click the GitHub button">
-    In the top bar, click the **Git** icon.
+  <Step title="Click Connect GitHub">
+    You'll be redirected to GitHub to authorize Seemodo.
   </Step>
-  <Step title="Authorize Seemodo">
-    If not connected yet, you'll be redirected to GitHub to authorize Seemodo. Grant access to the repositories you want to use.
+  <Step title="Grant access">
+    Authorize Seemodo with the required scopes (`repo`, `read:org`). Choose which organizations Seemodo can access.
   </Step>
   <Step title="Connection confirmed">
-    Your GitHub username and avatar appear, confirming the connection.
+    Your GitHub username and avatar appear in Settings. A green dot shows on the Git button in the Project Editor.
   </Step>
 </Steps>
 
-## Connecting a project to a repository
+## Linking a project to a repository
 
-After your GitHub account is linked:
+Once your GitHub account is connected, link individual projects:
 
 <Steps>
-  <Step title="Open the GitHub dialog">
-    Click the Git icon in the Project Editor.
+  <Step title="Open the project">
+    Navigate to the Project Editor for the project you want to link.
   </Step>
-  <Step title="Choose organization">
-    Select your personal account or an organization where you want the repo.
+  <Step title="Click the GitHub icon in the toolbar">
+    The GitHub connection dialog opens.
   </Step>
-  <Step title="Create or connect a repository">
-    - **Create new** — Seemodo creates a new repository with your project name
-    - **Connect existing** — Choose an existing repository from the list
+  <Step title="Choose an organization">
+    Select your personal account or any organization you have access to from the dropdown.
   </Step>
-  <Step title="Select branch">
-    Choose which branch to sync with (default: `main`).
+  <Step title="Confirm the connection">
+    A confirmation dialog explains that the project will be synced with GitHub under the selected org/account. Click **Transfer anyway** to confirm.
+    
+    Seemodo creates a private repository automatically (named after your project). The repository is created server-side — no manual repo selection needed.
+  </Step>
+  <Step title="Done">
+    Your project is now linked. The dialog shows the connection status.
   </Step>
 </Steps>
 
 ## Syncing code
 
-Once connected, you can:
+Once connected, the GitHub dialog shows sync controls:
 
 ### Push to GitHub
 
-Send your Seemodo project code to the connected repository:
+Sends your current Seemodo project code to the connected repository:
 
-- Click **Push** in the GitHub dialog
-- Your latest code is committed and pushed to the selected branch
-- View the push result and any changes
+1. Click **Push**
+2. Seemodo commits and pushes all current files
+3. Success message with commit details
+4. Last sync timestamp updates
 
 ### Pull from GitHub
 
-Get changes from GitHub into your Seemodo project:
+Fetches the latest code from GitHub into your Seemodo project:
 
-- Click **Pull** to fetch and merge remote changes
-- Useful when external contributors have pushed to the repo
-- Seemodo's sandbox updates with the pulled code
+1. Click **Pull**
+2. Remote changes are merged into your sandbox
+3. Success message shows how many files were pulled
+4. Live preview updates with the pulled code
 
-### Diff view
+### View Diff
 
 Before pushing, review what changed:
 
-- See added, modified, and deleted files
-- View line-by-line diffs
-- Confirm before pushing
+1. Click **View Diff**
+2. A diff viewer opens showing:
+   - Added files (green)
+   - Modified files (yellow)
+   - Deleted files (red)
+   - Line-by-line unified diff
 
-## Repository status
+## Clone URLs
 
-| Status | Meaning |
+The dialog provides clone URLs in multiple formats:
+
+| Format | Example |
 |--------|---------|
-| **Connected** | Repo linked and syncing |
-| **Last sync** | Timestamp of the last push/pull |
-| **Branch** | Current synced branch |
-| **Ahead/Behind** | How many commits you're ahead or behind |
+| **HTTPS** | `https://github.com/org/repo.git` |
+| **SSH** | `git@github.com:org/repo.git` |
+| **CLI** | `gh repo clone org/repo` |
+
+Click the **copy** icon next to any URL to copy it to your clipboard.
 
 ## Disconnecting
 
-Click **Disconnect** in the GitHub dialog to unlink the repository. Your code remains in both Seemodo and GitHub — only the sync connection is removed.
+1. Open the GitHub dialog for the project
+2. Click **Disconnect**
+3. Confirm the disconnection
 
-## Git in the Visual Designer
+Your repository remains on GitHub — only the sync link is removed.
 
-The Sandbox Panel in the Visual Designer also has a **Git tab**:
+## Git in the Visual Designer sandbox
 
-- View current branch
-- See uncommitted changes
-- Commit with a message
-- View commit log
+The Sandbox Panel (terminal icon) has a dedicated **Git tab** with sandbox-local version control:
 
-This is local Git within the sandbox — separate from the GitHub integration but useful for tracking changes during development.
+| Feature | Description |
+|---------|-------------|
+| **Branch name** | Shows current branch (typically `main`) |
+| **Changes** | List of modified files with status icons (added/modified/deleted/untracked) |
+| **Commit** | Write a message and commit all changes |
+| **History** | View last 20 commits with hash, author, date, and message |
+| **Diff** | Click any commit to see its unified diff |
+| **Auto-refresh** | Status polls every 10 seconds while the panel is open |
+
+## Settings → GitHub
+
+In global settings, the GitHub tab shows:
+
+- **Connection status** — Connected (with login and avatar) or Not connected
+- **Connect/Disconnect** button
+- **How it works** — Step-by-step explanation
 
 ## Next steps
 
 <CardGroup cols={2}>
-  <Card title="Deployment" icon="globe" href="/seemodo/deployment">
-    Deploy your app to production
+  <Card title="Deployment" icon="globe" href="/en/seemodo/deployment">
+    Publish your app to a live URL
   </Card>
-  <Card title="Credits & Plans" icon="coins" href="/seemodo/credits">
-    Understand pricing and usage
+  <Card title="Settings" icon="gear" href="/en/seemodo/settings">
+    Configure all workspace settings
   </Card>
 </CardGroup>

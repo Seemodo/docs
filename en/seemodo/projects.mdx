@@ -57,17 +57,37 @@ Use the search field at the top of the Dashboard to find projects by name.
 
 ## Project settings
 
-Open project settings via the **gear icon** on a project card or from within the Project Editor.
+Open project settings by clicking the **project name** (with the chevron) in the Project Editor toolbar. This opens the **Project Settings Modal**.
 
-Settings include:
+### Overview & Statistics
 
-| Setting | Description |
-|---------|-------------|
-| **Name** | Rename your project |
-| **Description** | Add a project description |
-| **Custom domain** | Set a custom path for your deployed app |
-| **Site metadata** | Title, description, favicon, and OG image for deployed sites |
-| **Delete** | Permanently remove the project |
+The modal shows key project stats at a glance:
+
+| Stat | Description |
+|------|-------------|
+| **Project name** | Editable display name |
+| **Description** | Short project description |
+| **Created** | Creation date |
+| **Edit count** | Total AI edits made |
+| **Messages** | Total chat messages sent |
+| **Tool calls** | Number of AI tool executions |
+| **Credits used** | Total credits consumed by this project |
+| **Deployed URL** | Link to live deployment (if published) |
+
+### Full project settings
+
+Click **Open full project settings** in the modal to navigate to `/projects/[id]/settings` which includes:
+
+| Section | Details |
+|---------|---------|
+| **General** | Name, description, custom domain path |
+| **Integrations** | Seemodo Cloud connection, external services |
+| **Transfer** | Transfer project ownership to another user |
+| **Danger Zone** | Delete the project permanently |
+
+### Danger Zone
+
+The delete action requires confirmation. Once confirmed, the project and all its data (chat history, sandbox, deployments) are permanently removed.
 
 ## Sharing & Collaboration
 
@@ -106,10 +126,10 @@ From the Dashboard, open the context menu (⋯) on any project card and select *
 ## Next steps
 
 <CardGroup cols={2}>
-  <Card title="Deployment" icon="globe" href="/seemodo/deployment">
+  <Card title="Deployment" icon="globe" href="/en/seemodo/deployment">
     Publish your projects
   </Card>
-  <Card title="GitHub" icon="code-branch" href="/seemodo/github">
+  <Card title="GitHub" icon="code-branch" href="/en/seemodo/github">
     Sync projects with GitHub
   </Card>
 </CardGroup>

@@ -1,45 +1,46 @@
 ---
 title: "GitHub Integration"
-description: "Verbinde Seemodo-Projekte mit GitHub für Zwei-Wege-Sync, Versionskontrolle und Zusammenarbeit."
+description: "Seemodo-Projekte mit GitHub verbinden. Push, Pull, Diffs anzeigen, Clone-URLs und Code synchronisieren."
 icon: "code-branch"
 ---
 
 # GitHub Integration
 
-Verbinde deine Seemodo-Projekte mit GitHub-Repositories. Push generierten Code zu GitHub, pull Änderungen von externen Beitragenden und halte alles synchron.
+Verbinde Seemodo-Projekte mit GitHub für Versionskontrolle, Zusammenarbeit und Code-Portabilität.
 
 ## GitHub-Konto verbinden
 
 <Steps>
-  <Step title="Projekt öffnen">
-    Navigiere zum Projekt-Editor.
+  <Step title="Einstellungen → GitHub öffnen">
+    Oder Git-Icon in einem Projekt-Editor klicken.
   </Step>
-  <Step title="GitHub-Button klicken">
-    In der Top Bar: Klick auf das **Git**-Icon.
+  <Step title="Connect GitHub klicken">
+    Weiterleitung zu GitHub zur Autorisierung.
   </Step>
-  <Step title="Seemodo autorisieren">
-    Falls noch nicht verbunden, wirst du zu GitHub weitergeleitet um Seemodo zu autorisieren.
+  <Step title="Zugriff gewähren">
+    Wähle welche Organisationen und Repositories Seemodo nutzen darf.
   </Step>
   <Step title="Verbindung bestätigt">
-    Dein GitHub-Benutzername und Avatar erscheinen.
+    GitHub-Username und Avatar erscheinen. Grüner Punkt am Git-Button im Editor.
   </Step>
 </Steps>
 
-## Projekt mit Repository verbinden
+## Projekt mit Repository verknüpfen
 
 <Steps>
-  <Step title="GitHub-Dialog öffnen">
-    Git-Icon im Projekt-Editor klicken.
+  <Step title="Projekt öffnen">
+    Zum Projekt-Editor navigieren.
+  </Step>
+  <Step title="GitHub-Icon in der Toolbar klicken">
+    GitHub-Dialog öffnet sich.
   </Step>
   <Step title="Organisation wählen">
-    Persönliches Konto oder eine Organisation auswählen.
+    Persönliches Konto oder Organisation aus dem Dropdown wählen.
   </Step>
-  <Step title="Repository erstellen oder verbinden">
-    - **Neu erstellen** — Seemodo erstellt ein neues Repository
-    - **Bestehendes verbinden** — Aus der Liste wählen
-  </Step>
-  <Step title="Branch wählen">
-    Branch für die Synchronisierung auswählen (Standard: `main`).
+  <Step title="Verbindung bestätigen">
+    Ein Bestätigungsdialog erklärt dass das Projekt mit GitHub unter der gewählten Organisation synchronisiert wird. Klick **Transfer anyway** zum Bestätigen.
+    
+    Seemodo erstellt automatisch ein privates Repository (benannt nach dem Projekt).
   </Step>
 </Steps>
 
@@ -47,28 +48,54 @@ Verbinde deine Seemodo-Projekte mit GitHub-Repositories. Push generierten Code z
 
 ### Push zu GitHub
 
-- Klick auf **Push**
-- Dein aktueller Code wird committet und gepusht
-- Ergebnis und Änderungen anzeigen
+1. **Push** klicken
+2. Seemodo committet und pusht alle aktuellen Dateien
+3. Erfolgsmeldung mit Commit-Details
 
 ### Pull von GitHub
 
-- Klick auf **Pull** um Remote-Änderungen zu holen
-- Nützlich wenn externe Beitragende gepusht haben
-- Sandbox aktualisiert sich mit dem gepullten Code
+1. **Pull** klicken
+2. Remote-Änderungen werden in die Sandbox gemergt
+3. Live-Vorschau aktualisiert sich
 
-### Diff-Ansicht
+### Diff ansehen
 
-Vor dem Push: Geänderte Dateien und Zeilenvergleiche ansehen.
+Vor dem Push Änderungen prüfen:
+
+1. **View Diff** klicken
+2. Diff-Viewer zeigt: hinzugefügte (grün), geänderte (gelb), gelöschte (rot) Dateien
+3. Zeilenweise Vergleiche
+
+## Clone URLs
+
+| Format | Beispiel |
+|--------|---------|
+| **HTTPS** | `https://github.com/org/repo.git` |
+| **SSH** | `git@github.com:org/repo.git` |
+| **CLI** | `gh repo clone org/repo` |
+
+Kopier-Icon neben jeder URL klicken.
+
+## Verbindung trennen
+
+1. GitHub-Dialog öffnen
+2. **Disconnect** klicken
+3. Bestätigen
+
+Repository bleibt auf GitHub — nur die Sync-Verbindung wird entfernt.
 
 ## Git im Visual Designer
 
-Das Sandbox Panel hat auch einen **Git-Tab**:
+Das Sandbox Panel hat einen **Git-Tab**:
 
-- Aktuellen Branch anzeigen
-- Nicht-committete Änderungen sehen
-- Mit Nachricht committen
-- Commit-Log ansehen
+| Feature | Beschreibung |
+|---------|-------------|
+| **Branch** | Aktuellen Branch anzeigen |
+| **Änderungen** | Geänderte Dateien mit Status-Icons |
+| **Commit** | Nachricht schreiben und alle Änderungen committen |
+| **History** | Letzte 20 Commits mit Hash, Autor, Datum, Nachricht |
+| **Diff** | Commit anklicken für unified Diff |
+| **Auto-Refresh** | Status pollt alle 10 Sekunden |
 
 ## Nächste Schritte
 
@@ -76,7 +103,7 @@ Das Sandbox Panel hat auch einen **Git-Tab**:
   <Card title="Deployment" icon="globe" href="/de/seemodo/deployment">
     App veröffentlichen
   </Card>
-  <Card title="Credits & Pläne" icon="coins" href="/de/seemodo/credits">
-    Preise und Nutzung
+  <Card title="Einstellungen" icon="gear" href="/de/seemodo/settings">
+    Alle Workspace-Einstellungen
   </Card>
 </CardGroup>

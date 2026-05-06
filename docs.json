@@ -45,6 +45,7 @@
                 "group": "Account",
                 "pages": [
                   "en/seemodo/credits",
+                  "en/seemodo/settings",
                   "en/seemodo/troubleshooting"
                 ]
               }
@@ -98,6 +99,7 @@
                 "group": "Konto",
                 "pages": [
                   "de/seemodo/credits",
+                  "de/seemodo/settings",
                   "de/seemodo/troubleshooting"
                 ]
               }

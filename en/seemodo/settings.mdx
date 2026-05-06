@@ -1,0 +1,232 @@
+---
+title: "Settings"
+description: "Configure your profile, appearance, AI models, team, integrations, billing, and security in Seemodo."
+icon: "gear"
+---
+
+# Settings
+
+Access global settings from the sidebar → **Settings** (`/settings`). Here you configure everything about your Seemodo workspace.
+
+## Profile
+
+Manage your account information:
+
+| Field | Description |
+|-------|-------------|
+| **Display Name** | Your name shown in projects and collaboration |
+| **Email** | Your account email (read-only) |
+| **Delete Account** | Permanently delete your Seemodo account and all data |
+
+## Appearance
+
+Choose your preferred theme:
+
+- **Dark Mode** — Dark background with light text (default)
+- **Light Mode** — Light background with dark text
+
+The theme applies across the entire application instantly.
+
+## AI Model (LLM)
+
+Configure which AI model powers your project chat and code edits:
+
+### Mode selection
+
+| Mode | Description |
+|------|-------------|
+| **Smart Router** | Seemodo automatically switches between models by task complexity (fast model for simple, powerful model for complex) |
+| **Fixed** | You choose a specific provider and model to always use |
+
+### Fixed mode options
+
+When using Fixed mode, select:
+
+1. **Provider** — Choose from available AI providers (depends on server configuration)
+2. **Model** — Pick a specific model from that provider
+
+Available providers may include Anthropic, OpenAI, Groq, OpenRouter, and Vertex (Google Cloud). The list depends on which API keys are configured on the server.
+
+<Tip>
+Smart Router is recommended for most users. It automatically selects the fastest or most capable model depending on the task complexity. Changes apply to new chat sessions.
+</Tip>
+
+## Team
+
+Manage your workspace team (requires Pro+ plan):
+
+### Inviting members
+
+1. Enter the email address
+2. Choose a role: **Admin**, **Member**, or **Viewer**
+3. Click **Invite**
+
+Invitations expire after **7 days** if not accepted.
+
+### Roles & permissions
+
+| Role | Can edit projects | Manage team | Billing access | Full control |
+|------|------------------|-------------|----------------|--------------|
+| **Owner** | ✓ | ✓ | ✓ | ✓ |
+| **Admin** | ✓ | ✓ | ✓ | — |
+| **Member** | ✓ | — | — | — |
+| **Viewer** | Read-only | — | — | — |
+
+### Managing members
+
+- View all current team members with their roles
+- Remove members (except the owner)
+- See pending invitations and their expiry status
+
+## Integrations
+
+Connect external services to enhance your workflow:
+
+### Seemodo Cloud
+
+Connect your projects to Seemodo Cloud for database, auth, and storage. Select which project to configure.
+
+### MCP Connectors
+
+Browse and connect Model Context Protocol (MCP) integrations:
+
+- View available connectors by category
+- Connect/configure individual integrations
+- Add **Custom MCP** connectors with a server URL
+
+### Other integrations
+
+- **AI Gateway** — Always connected, powers model routing
+- Additional integrations (Stripe, Webhooks, etc.) coming soon
+
+## Connectors
+
+Dedicated page for managing all connected services. Navigate to **Settings** → **Connectors** or directly to `/settings/connectors`:
+
+- Browse Seemodo Cloud connections per project
+- Manage workspace-level MCP integrations
+- Add custom connector endpoints
+
+## Tool Approval
+
+Control how the AI uses tools in your projects. For each tool, choose between:
+
+| Setting | Behavior |
+|---------|----------|
+| **Always Ask** | AI pauses and shows an Approve/Deny dialog before executing |
+| **Auto-approve** | AI uses the tool without asking |
+
+### Available tools by category
+
+**External Services** — Tools that access external websites and APIs:
+
+| Tool | Description |
+|------|-------------|
+| Fetch Website | Download content from external URLs |
+| Download to Project | Save external files to your project |
+| Web Search | Search the web for information |
+| Generate Image | Generate images using AI |
+| Edit Image | Edit/transform images using AI |
+
+**Code Modifications** — Potentially destructive code operations:
+
+| Tool | Description |
+|------|-------------|
+| Add npm Package | Install new npm dependencies |
+| Delete File | Remove files from your project |
+
+**Database** — Database operations:
+
+| Tool | Description |
+|------|-------------|
+| Execute SQL | Run SQL queries against your database |
+
+<Tip>
+Tools set to "Always Ask" show an approval dialog in the chat before executing. This gives you control over external API calls, file deletions, and dependency installations.
+</Tip>
+
+## GitHub
+
+Connect your GitHub account for repository sync:
+
+### Connection status
+
+Shows whether your GitHub account is linked, including your GitHub username and avatar.
+
+### Connect GitHub
+
+Click **Connect GitHub** to authorize via OAuth. This enables:
+
+- Creating repositories from Seemodo projects
+- Pushing code to GitHub
+- Pulling changes from collaborators
+- Two-way sync
+
+### Disconnect
+
+Remove the GitHub connection. Your repositories on GitHub remain untouched.
+
+### How it works
+
+1. Connect your GitHub account (one-time OAuth)
+2. Open any project → click the Git icon
+3. Create a new repo or connect an existing one
+4. Push/Pull to keep code in sync
+
+## Billing
+
+Manage your subscription and credits:
+
+### Current plan
+
+Shows your active plan with:
+- Plan name and tier
+- Messages/credits per day
+- **Manage** button → opens the Stripe billing portal for payment methods, invoices, and plan changes
+
+### Credit balance
+
+Two visual meters show your usage:
+- **Daily Credits** — Used today vs. available (resets daily)
+- **Monthly Credits** — Used this billing period vs. total allocation (green meter)
+- Below: Rollover credits and Top-up credits if applicable
+
+### Plan selector
+
+Compare and switch between Free, Pro, and Business plans:
+
+- **Monthly/Annual toggle** — Annual billing saves ~16%
+- **Credit tier dropdown** (Pro/Business) — Choose your monthly credit allocation:
+  - 100, 200, 400, 800, 1,200, or 2,000 credits/month
+  - Price scales with selected tier
+- **Upgrade button** — Redirects to Stripe checkout
+- Pro plan shows **"MOST POPULAR"** badge
+
+The Enterprise plan is available via custom quote (not shown in the selector).
+
+## Security
+
+Change your password:
+
+| Field | Purpose |
+|-------|---------|
+| **Current Password** | Verify your identity |
+| **New Password** | Your new password (min. 6 characters) |
+| **Confirm Password** | Type the new password again |
+
+Click **Update Password** to save.
+
+## Notifications & API Keys
+
+Coming soon — these sections are planned for future releases.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="GitHub Integration" icon="code-branch" href="/en/seemodo/github">
+    Detailed GitHub workflow guide
+  </Card>
+  <Card title="Plans & Pricing" icon="coins" href="/en/seemodo/credits">
+    See full pricing details
+  </Card>
+</CardGroup>

@@ -1,89 +1,161 @@
 ---
 title: "AI Coder"
-description: "Die Chat-Oberfläche zum Erstellen und Iterieren deiner Anwendungen durch natürliche Sprache."
+description: "Das Chat-Interface zum Erstellen und Iterieren deiner Anwendungen. Mit Spracheingabe, Datei-Referenzen, Prompt-Queue, Visual Edits und mehreren KI-Modi."
 icon: "message-bot"
 ---
 
 # AI Coder
 
-Der AI Coder ist Seemodos konversationelles Entwicklungs-Interface. Im Projekt-Editor (`/projects/[id]`) baust du komplette Anwendungen durch Chat — wie mit einem Entwickler, der baut was du beschreibst.
+Der AI Coder ist Seemodos konversationelles Entwicklungs-Interface. Im Projekt-Editor (`/projects/[id]`) baust du komplette Anwendungen durch Chat.
 
-## Der Projekt-Editor
+## Layout des Projekt-Editors
 
-| Panel | Zweck |
-|-------|-------|
-| **Chat-Panel** (links) | Deine Konversation mit der KI |
-| **Vorschau-Panel** (rechts) | Live-Vorschau deiner laufenden App |
-| **Top Bar** | Zurück, Projektname, Publish, GitHub, Teilen |
+| Bereich | Zweck |
+|---------|-------|
+| **Top Toolbar** | Zurück, Projektname, Visual Edits, History, Publish, GitHub, Teilen |
+| **Linkes Panel** | AI Assistant (Chat), History oder Visual Edits — umschaltbar |
+| **Resize-Handle** | Ziehen zum Anpassen der Panel-Breiten (320–700px) |
+| **Rechtes Panel** | Live-Vorschau deiner laufenden App |
 
-## Mit der KI chatten
+## Toolbar-Buttons
 
-Schreib was du willst und drücke Enter. Die KI:
+| Button | Aktion |
+|--------|--------|
+| **← Zurück** | Zum Dashboard zurückkehren |
+| **Projektname** (mit Pfeil) | Klick öffnet Projekt-Einstellungen |
+| **🖌 Visual** | Wechsel zu Visual Edits Modus |
+| **🕐 History** | Wechsel zur Chat-Verlaufsansicht |
+| **Publish** (grün) | Deploy-Panel öffnen |
+| **GitHub** | GitHub-Dialog öffnen (grüner Punkt wenn verbunden) |
+| **Teilen** | Teilen-Dialog für Mitarbeiter-Einladungen |
 
-1. Liest deine Nachricht und versteht die Absicht
-2. Plant welche Code-Änderungen nötig sind
-3. Schreibt/ändert Dateien in deinem Projekt
-4. Deine Live-Vorschau aktualisiert sich automatisch
+## Der AI Chat
 
-### Was du fragen kannst
+### Chat-Modi
 
-<AccordionGroup>
-  <Accordion title="Features bauen">
-    - "Füge Benutzer-Authentifizierung mit Login- und Registrierungsseiten hinzu"
-    - "Erstelle einen Warenkorb mit Hinzufügen/Entfernen/Mengen-Funktionalität"
-    - "Baue einen Echtzeit-Chat mit Nachrichten-Bubbles und Zeitstempeln"
-  </Accordion>
-  <Accordion title="Bearbeiten und verfeinern">
-    - "Mach die Sidebar einklappbar"
-    - "Ändere das Theme zu Dark Mode"
-    - "Das Formular soll das E-Mail-Format validieren vor dem Absenden"
-  </Accordion>
-  <Accordion title="Probleme beheben">
-    - "Der Button funktioniert nicht wenn ich klicke"
-    - "Da ist zu viel Abstand zwischen den Karten"
-    - "Die Seite ist nicht responsive auf Mobilgeräten"
-  </Accordion>
-  <Accordion title="Integrationen hinzufügen">
-    - "Verbinde mit Seemodo Cloud für Benutzer-Authentifizierung"
-    - "Füge ein Kontaktformular hinzu das Eingaben in der Datenbank speichert"
-    - "Integriere Bild-Upload mit Cloud-Storage"
-  </Accordion>
-</AccordionGroup>
+Über den **Modus-Selector** am unteren Rand wechselst du zwischen:
 
-### Datei-Erwähnungen mit @
+| Modus | Beschreibung | Tool-Limit |
+|-------|-------------|------------|
+| **Chat & Edit** | Standard. KI liest Code, plant Änderungen, bearbeitet Dateien. | Max 25 Tool-Aufrufe |
+| **Planning** | Nur Diskussion. KI hilft beim Planen ohne Code-Änderungen. | Keine Tools |
+| **Agent** | Erweiterter Modus mit mehr Tools und längeren Ketten. | Max 50 Tool-Aufrufe |
 
-Tippe `@` im Chat um bestimmte Dateien zu referenzieren. Ein Autocomplete-Menü zeigt deine Projekt-Dateien.
+### Nachrichteneingabe
 
-### Vorschlag-Buttons
+Der Composer unten bietet:
 
-Nach jeder KI-Antwort erscheinen kontextbezogene Vorschlag-Buttons. Klicke sie für logische nächste Schritte.
+- **Textfeld** — Prompt schreiben. Shift+Enter für neue Zeile, Enter zum Senden.
+- **@ Datei-Erwähnungen** — `@` tippen für Autocomplete-Dropdown mit bis zu 10 passenden Projektdateien. Tab/Enter zum Auswählen, Escape zum Schließen.
+- **🎤 Spracheingabe** — Mikrofon-Icon für Diktat. Kontinuierliche Erkennung mit Zwischenergebnissen. Transkribierter Text erscheint im Eingabefeld.
+- **Senden** — Nachricht absenden (Enter). Während KI streamt wird dies zu **"Zur Queue hinzufügen"** (amber).
+- **Stop** — Erscheint während KI streamt; sofort abbrechen.
 
-### Aufgaben-Fortschritt
+Wenn die KI arbeitet und du tippst, erscheint ein Hinweis: "Enter drücken um zur Queue hinzuzufügen · Nachricht wird gesendet wenn KI fertig ist".
 
-Bei komplexen Operationen zeigt die KI eine Aufgabenliste mit Fortschrittsanzeige.
+### Prompt-Queue
+
+Wenn die KI arbeitet, kannst du weiter Nachrichten senden. Sie gehen in eine **Queue**:
+
+- **Queue-Badge** — Zeigt Anzahl wartender Nachrichten
+- **Pause/Fortsetzen** — Queue-Verarbeitung pausieren
+- **Aufklappen** — Alle wartenden Nachrichten sehen
+- **Umordnen** — Nachrichten per Drag & Drop umsortieren
+- **Entfernen** — Einzelne Nachrichten löschen
+
+### KI-Antworten
+
+Jede Antwort kann enthalten:
+
+- **Markdown-Inhalt** — Formatierter Text mit Code-Blöcken
+- **Thinking** (einklappbar) — Der Denkprozess der KI
+- **Tool Calls** (einklappbar) — Welche Tools die KI verwendet hat
+- **Files Modified** (einklappbar) — Liste geänderter Dateien
+- **Aufgaben-Fortschritt** — Checkliste der Schritte
+- **Vorschlag-Buttons** — Kontextbezogene nächste Schritte
+
+### Tool-Genehmigung
+
+Wenn die KI ein Tool nutzen will das Bestätigung braucht:
+
+- **"Genehmigung erforderlich"** Karte erscheint
+- **Genehmigen** — Aktion erlauben
+- **Ablehnen** — Aktion verweigern
+
+### Supabase-Verbindungshinweis
+
+Wenn die KI erkennt dass deine App eine Datenbank braucht:
+
+- "Datenbank benötigt" Nachricht
+- **Verbinden** — Seemodo Cloud Setup öffnen
+- **Überspringen** — Ohne Datenbank fortfahren
 
 ## Visual Edits
 
-Klicke das **Pinsel-Icon** in der Top Bar für den visuellen Bearbeitungsmodus:
+Klicke den **🖌 Pinsel** für visuelles Point-and-Click-Editing:
 
-- Elemente direkt in der Vorschau anklicken
-- Eigenschaften (Text, Farbe, Abstände) visuell ändern
-- Änderungen werden sofort angewendet
+<Steps>
+  <Step title="Element-Picker aktivieren">
+    Fadenkreuz-Icon in der Vorschau-Toolbar klicken.
+  </Step>
+  <Step title="Element in der Vorschau anklicken">
+    Element wird hervorgehoben. Ein Chip zeigt Tag, Selector und Quelldatei.
+  </Step>
+  <Step title="Eigenschaften bearbeiten">
+    Das Visual Edits Panel zeigt Tabs für:
+    
+    - **Text** — Inhalt, Schriftgröße, Schriftstärke, Textausrichtung, Farbe
+    - **Farben** — Hintergrund- und Textfarbe
+    - **Abstände** — Margin und Padding (oben, rechts, unten, links) mit Slidern
+    - **Rahmen** — Breite, Farbe, Radius, Stil
+    - **Schatten** — Box Shadow Konfiguration
+    - **Bild** — Hintergrundbild-URL, Upload oder KI-Generierung
+  </Step>
+  <Step title="Änderungen live sehen">
+    Änderungen werden sofort als CSS-Overrides in der Vorschau angezeigt.
+  </Step>
+  <Step title="Speichern oder verwerfen">
+    - **Änderungen speichern** — Wandelt Visual Edits in einen KI-Prompt um der permanente Code-Änderungen bewirkt
+    - **Verwerfen** — Entfernt alle temporären Overrides
+  </Step>
+</Steps>
 
-## Tipps für effektive Entwicklung
+## Vorschau-Panel
 
-- **Sei spezifisch** — "Ändere die Button-Farbe zu #3B82F6" statt "mach es hübscher"
-- **Ein Feature pro Nachricht** — Funktioniert besser als 10 Dinge auf einmal
-- **Referenziere was existiert** — "der Button im Header" oder "die Preiskarte"
-- **Kontext nennen** — "das ist eine Essenslieferungs-App" hilft bei besseren Inhalten
+### Vorschau-Toolbar
+
+| Button | Aktion |
+|--------|--------|
+| **Desktop/Tablet/Mobile** | Viewport-Breite wechseln |
+| **Fadenkreuz** | Element-Picker für Visual Edits |
+| **Aktualisieren** | Vorschau manuell neu laden |
+| **Externer Link** | Vorschau in neuem Tab öffnen |
+
+### Vorschau-Tabs
+
+| Tab | Inhalt |
+|-----|--------|
+| **Preview** | Live laufende App im iframe |
+| **Code** | Projekt-Quellcode durchsuchen (Dateibaum + Viewer) |
+| **Console** | Browser-Konsole mit Fehler-Badge |
+| **Database** | Seemodo Cloud Interface (wenn verbunden) |
+
+## Tipps
+
+- **@ Mentions nutzen** — "@src/components/Header.tsx mach das Logo größer"
+- **Planning-Modus** für Architektur-Diskussionen ohne Code-Änderungen
+- **Agent-Modus** für komplexe Multi-Datei-Operationen
+- **Queue nutzen** wenn du eine Sequenz von Änderungen kennst
+- **Visual Edits** für schnelle Styling-Tweaks ohne Tippen
+- **Console-Tab prüfen** wenn etwas kaputt aussieht
 
 ## Nächste Schritte
 
 <CardGroup cols={2}>
-  <Card title="Live-Vorschau" icon="eye" href="/de/seemodo/sandbox">
-    Die Sandbox-Umgebung verstehen
+  <Card title="Visual Designer" icon="paintbrush" href="/de/seemodo/visual-designer">
+    Screens auf dem Canvas generieren
   </Card>
-  <Card title="Deployment" icon="globe" href="/de/seemodo/deployment">
-    Deine App veröffentlichen
+  <Card title="Einstellungen" icon="gear" href="/de/seemodo/settings">
+    KI-Modelle und Tool-Genehmigung konfigurieren
   </Card>
 </CardGroup>

@@ -46,22 +46,42 @@ All previous deployments with:
 
 ### Site metadata
 
-Configure how your app appears when shared:
+Configure how your app appears when shared on social media and in search results:
 
-| Field | Purpose |
-|-------|---------|
-| **Site title** | The browser tab title and social share heading |
-| **Site description** | Description shown in search results and social previews |
-| **Favicon** | The small icon in browser tabs |
-| **OG Image** | The preview image shown when sharing your URL on social media |
+| Field | Purpose | Format |
+|-------|---------|--------|
+| **Site title** | Browser tab title and social share heading | Text |
+| **Site description** | Description in search results and social previews | Text |
+| **Favicon** | Small icon in browser tabs | SVG (uploadable or AI-generated) |
+| **OG Image** | Preview image shown when sharing the URL | SVG/Image (uploadable or AI-generated) |
 
-<Tip>
-You can use AI to generate site metadata. Click the sparkles icon next to the metadata fields and the AI creates appropriate content based on your app.
-</Tip>
+#### AI-generated metadata
 
-### Custom domain path
+Click the **✨ sparkles icon** next to any metadata field to let AI generate it:
 
-Set a custom path for your deployment URL. Your app will be available at `[custom-path].seemodo.app`.
+- **Title** — AI analyzes your app and creates an appropriate title
+- **Description** — AI writes a compelling description based on your app's purpose
+- **Favicon** — AI generates an SVG icon matching your app's theme
+- **OG Image** — AI creates a social preview graphic
+
+You can regenerate each field individually until you're satisfied.
+
+#### Editing metadata
+
+Each field has a **pencil icon** to edit manually. Changes are saved with the **Save** button.
+
+### Custom domain
+
+| Domain type | Details |
+|-------------|---------|
+| **seemodo.app subdomain** | Free with all plans. Set a custom path: `your-name.seemodo.app` |
+| **Custom domain** | Pro+ plans. Point your own domain to the deployment |
+
+To set your custom path, type it in the domain input field in the Deploy panel. It instantly updates your public URL.
+
+### Password protection
+
+For Business and Enterprise plans, you can add password protection to your deployed site — restricting access to only those with the password.
 
 ## Deployment states
 
@@ -84,10 +104,10 @@ Remove old deployments from the history using the delete button on each entry.
 ## Next steps
 
 <CardGroup cols={2}>
-  <Card title="GitHub" icon="code-branch" href="/seemodo/github">
+  <Card title="GitHub" icon="code-branch" href="/en/seemodo/github">
     Sync your code with GitHub
   </Card>
-  <Card title="Projects" icon="folder" href="/seemodo/projects">
+  <Card title="Projects" icon="folder" href="/en/seemodo/projects">
     Manage your projects
   </Card>
 </CardGroup>

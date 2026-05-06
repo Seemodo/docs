@@ -1,0 +1,186 @@
+---
+title: "Einstellungen"
+description: "Profil, Darstellung, KI-Modelle, Team, Integrationen, Billing und Sicherheit in Seemodo konfigurieren."
+icon: "gear"
+---
+
+# Einstellungen
+
+Zugang über Sidebar → **Einstellungen** (`/settings`). Hier konfigurierst du alles rund um deinen Seemodo-Workspace.
+
+## Profil
+
+| Feld | Beschreibung |
+|------|-------------|
+| **Anzeigename** | Dein Name in Projekten und bei der Zusammenarbeit |
+| **E-Mail** | Deine Account-E-Mail (nicht änderbar) |
+| **Konto löschen** | Seemodo-Konto und alle Daten dauerhaft löschen |
+
+## Darstellung
+
+Wähle dein bevorzugtes Theme:
+
+- **Dark Mode** — Dunkler Hintergrund mit hellem Text (Standard)
+- **Light Mode** — Heller Hintergrund mit dunklem Text
+
+## KI-Modell (LLM)
+
+Konfiguriere welches KI-Modell dein Projekt-Chat und Code-Edits antreibt:
+
+### Modus-Auswahl
+
+| Modus | Beschreibung |
+|-------|-------------|
+| **Smart Router** | Seemodo wechselt automatisch zwischen Modellen je nach Aufgabenkomplexität |
+| **Fixed** | Du wählst einen bestimmten Anbieter und ein Modell |
+
+### Fixed-Modus
+
+Bei Fixed-Modus wählst du:
+
+1. **Anbieter** — Aus verfügbaren KI-Providern wählen (abhängig von Server-Konfiguration)
+2. **Modell** — Spezifisches Modell von diesem Anbieter
+
+Verfügbare Provider können Anthropic, OpenAI, Groq, OpenRouter und Vertex (Google Cloud) umfassen.
+
+<Tip>
+Smart Router wird für die meisten Nutzer empfohlen. Änderungen gelten für neue Chat-Sessions.
+</Tip>
+
+## Team
+
+Workspace-Team verwalten (erfordert Pro+ Plan):
+
+### Mitglieder einladen
+
+1. E-Mail-Adresse eingeben
+2. Rolle wählen: **Admin**, **Member** oder **Viewer**
+3. **Einladen** klicken
+
+Einladungen laufen nach **7 Tagen** ab.
+
+### Rollen & Berechtigungen
+
+| Rolle | Projekte bearbeiten | Team verwalten | Billing-Zugang | Volle Kontrolle |
+|-------|---------------------|----------------|----------------|-----------------|
+| **Owner** | ✓ | ✓ | ✓ | ✓ |
+| **Admin** | ✓ | ✓ | ✓ | — |
+| **Member** | ✓ | — | — | — |
+| **Viewer** | Nur Lesen | — | — | — |
+
+### Mitglieder verwalten
+
+- Alle aktuellen Teammitglieder mit Rollen sehen
+- Mitglieder entfernen (außer Owner)
+- Ausstehende Einladungen und deren Ablaufstatus sehen
+
+## Integrationen
+
+### Seemodo Cloud
+
+Projekte mit Seemodo Cloud verbinden für Datenbank, Auth und Storage.
+
+### MCP Connectors
+
+Model Context Protocol (MCP) Integrationen durchsuchen und verbinden:
+
+- Verfügbare Connectors nach Kategorie anzeigen
+- Einzelne Integrationen verbinden/konfigurieren
+- **Custom MCP** Connectors mit Server-URL hinzufügen
+
+## Tool-Genehmigung
+
+Steuere wie die KI Tools in deinen Projekten nutzt:
+
+| Einstellung | Verhalten |
+|-------------|-----------|
+| **Immer fragen** | KI pausiert und zeigt einen Genehmigen/Ablehnen-Dialog |
+| **Auto-genehmigen** | KI nutzt das Tool ohne zu fragen |
+
+### Verfügbare Tools nach Kategorie
+
+**Externe Services:**
+
+| Tool | Beschreibung |
+|------|-------------|
+| Website abrufen | Inhalte von externen URLs laden |
+| In Projekt laden | Externe Dateien im Projekt speichern |
+| Web-Suche | Im Web nach Informationen suchen |
+| Bild generieren | Bilder mit KI erzeugen |
+| Bild bearbeiten | Bilder mit KI transformieren |
+
+**Code-Änderungen:**
+
+| Tool | Beschreibung |
+|------|-------------|
+| npm Paket hinzufügen | Neue Abhängigkeiten installieren |
+| Datei löschen | Dateien aus dem Projekt entfernen |
+
+**Datenbank:**
+
+| Tool | Beschreibung |
+|------|-------------|
+| SQL ausführen | SQL-Queries gegen die Datenbank ausführen |
+
+<Tip>
+Tools mit "Immer fragen" zeigen einen Genehmigungsdialog im Chat bevor sie ausgeführt werden.
+</Tip>
+
+## GitHub
+
+GitHub-Konto für Repository-Sync verbinden:
+
+- **Verbindungsstatus** — Ob GitHub verknüpft ist (Username + Avatar)
+- **Connect GitHub** — OAuth-Autorisierung
+- **Disconnect** — Verbindung trennen
+
+## Billing
+
+Abonnement und Credits verwalten:
+
+### Aktueller Plan
+
+- Planname und Tier
+- Nachrichten/Credits pro Tag
+- **Verwalten** Button → öffnet Stripe Billing-Portal
+
+### Credit-Guthaben
+
+Zwei visuelle Meter zeigen die Nutzung:
+- **Tägliche Credits** — Heute verbraucht vs. verfügbar
+- **Monatliche Credits** — Im Abrechnungszeitraum verbraucht vs. gesamt (grüner Meter)
+- Darunter: Rollover-Credits und Top-up-Credits falls vorhanden
+
+### Plan-Auswahl
+
+- **Monatlich/Jährlich Umschalter** — Jährlich spart ~16%
+- **Credit-Tier Dropdown** (Pro/Business) — Monatliche Zuweisung wählen:
+  - 100, 200, 400, 800, 1.200 oder 2.000 Credits/Monat
+  - Preis skaliert mit gewähltem Tier
+- **Upgrade Button** — Weiterleitung zu Stripe Checkout
+- Pro-Plan zeigt **"MOST POPULAR"** Badge
+
+## Sicherheit
+
+Passwort ändern:
+
+| Feld | Zweck |
+|------|-------|
+| **Aktuelles Passwort** | Identität bestätigen |
+| **Neues Passwort** | Min. 6 Zeichen |
+| **Passwort bestätigen** | Neues Passwort erneut eingeben |
+
+## Benachrichtigungen & API Keys
+
+Kommt bald — für zukünftige Releases geplant.
+
+## Nächste Schritte
+
+<CardGroup cols={2}>
+  <Card title="GitHub Integration" icon="code-branch" href="/de/seemodo/github">
+    Detaillierter GitHub-Workflow
+  </Card>
+  <Card title="Pläne & Preise" icon="coins" href="/de/seemodo/credits">
+    Vollständige Preisdetails
+  </Card>
+</CardGroup>

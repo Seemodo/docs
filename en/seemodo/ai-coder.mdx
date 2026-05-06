@@ -1,113 +1,214 @@
 ---
 title: "AI Coder"
-description: "The full-featured chat interface for building and iterating on your applications through natural language conversation."
+description: "The full-featured chat interface for building and iterating on your applications. Includes voice input, file mentions, prompt queue, visual edits, and multiple AI modes."
 icon: "message-bot"
 ---
 
 # AI Coder
 
-The AI Coder is Seemodo's conversational development interface. Available in the Project Editor (`/projects/[id]`), it lets you build complete applications through chat — like having a developer who builds what you describe.
+The AI Coder is Seemodo's conversational development interface. Available in the Project Editor (`/projects/[id]`), it lets you build complete applications through chat.
 
-## The Project Editor
+## The Project Editor layout
 
-When you open a project, you see:
+When you open a project, you see a split-screen workspace:
 
-| Panel | Purpose |
-|-------|---------|
-| **Chat Panel** (left) | Your conversation with the AI. Write instructions, see responses. |
-| **Preview Panel** (right) | Live preview of your running application |
-| **Top Bar** | Back button, project name, Publish, GitHub, Share buttons |
+| Area | Purpose |
+|------|---------|
+| **Top toolbar** | Back button, project name, Visual Edits, History, Publish, GitHub, Share |
+| **Left panel** | AI Assistant (chat), History, or Visual Edits — switchable via tabs |
+| **Resize handle** | Drag to adjust panel widths (320–700px) |
+| **Right panel** | Live Preview of your running app |
 
-### Resizable panels
+## Top toolbar buttons
 
-Drag the divider between chat and preview to adjust panel widths.
+| Button | Action |
+|--------|--------|
+| **← Back** | Return to the Dashboard |
+| **Project name** (with chevron) | Click to open Project Settings modal |
+| **🖌 Visual** | Switch left panel to Visual Edits mode |
+| **🕐 History** | Switch left panel to chat history view |
+| **Publish** (green) | Open the Deploy panel to publish your app |
+| **GitHub** | Open GitHub connection dialog (green dot when connected) |
+| **Share** | Open sharing dialog to invite collaborators |
 
-## Chatting with the AI
+## The AI Chat panel
 
-Type what you want and press Enter. The AI:
+### Header
 
-1. Reads your message and understands the intent
-2. Plans what code changes are needed
-3. Writes/modifies files in your project
-4. Your live preview updates automatically via hot-reload
+Shows "AI Assistant" with an "Active" indicator when the AI is streaming a response.
 
-### What you can ask
+### Chat modes
 
-<AccordionGroup>
-  <Accordion title="Build features">
-    - "Add user authentication with login and registration pages"
-    - "Create a shopping cart with add/remove/quantity functionality"
-    - "Build a real-time chat with message bubbles and timestamps"
-  </Accordion>
-  <Accordion title="Edit and refine">
-    - "Make the sidebar collapsible"
-    - "Change the theme to dark mode"
-    - "The form should validate email format before submitting"
-  </Accordion>
-  <Accordion title="Fix issues">
-    - "The button doesn't work when I click it"
-    - "There's too much spacing between the cards"
-    - "The page is not responsive on mobile"
-  </Accordion>
-  <Accordion title="Add integrations">
-    - "Connect to Seemodo Cloud for user authentication"
-    - "Add a contact form that saves submissions to the database"
-    - "Integrate image upload with cloud storage"
-  </Accordion>
-</AccordionGroup>
+Click the **mode selector** at the bottom of the chat input to switch between:
 
-### File mentions with @
+| Mode | Description | Tool limit |
+|------|-------------|------------|
+| **Chat & Edit** | Default mode. AI reads your code, plans changes, edits files. | Max 25 tool calls |
+| **Planning** | Discussion-only mode. AI helps you plan without making code changes. | No tools |
+| **Agent** | Extended mode with more powerful tools and longer tool chains. | Max 50 tool calls |
 
-Type `@` in the chat to reference specific files. An autocomplete menu shows your project files. This helps the AI focus on the right file when you need a specific change.
+### Message input
 
-### Suggestion buttons
+The composer at the bottom provides:
 
-After each AI response, context-aware suggestion buttons appear. Click them for logical next steps without typing.
+- **Text area** — Type your prompt. Supports multi-line (Shift+Enter for new line, Enter to send).
+- **@ File mentions** — Type `@` to open an autocomplete dropdown with up to 10 matching project files. Select a file (Tab/Enter) to include its content as context for the AI. Press Escape to dismiss.
+- **🎤 Voice input** — Click the microphone icon to dictate via Web Speech API. Continuous recognition with interim results. Transcribed text appears in the input for you to review before sending.
+- **Send** — Submit your message (or press Enter). While AI is streaming, this becomes **"Add to queue"** (amber styling).
+- **Stop** — Appears while AI is streaming; click to cancel the current response immediately.
 
-### Task progress
+When the AI is busy and you type a message, a hint appears: "Press Enter to add to queue · Message will be sent when AI finishes".
 
-During complex operations, the AI shows a task list with checkboxes indicating progress — so you always know what's happening.
+### Prompt Queue
 
-## Chat History
+When the AI is already working, you can keep sending messages. They enter a **queue**:
 
-Click the **History** button in the top bar to browse all past conversations and messages for your project.
+- **Queue badge** — Shows count of pending messages
+- **Pause/Resume** — Pause queue processing
+- **Expand** — See all queued messages
+- **Reorder** — Drag messages to change execution order
+- **Remove** — Delete individual queued messages
 
-## Visual Edits
+The queue processes messages one at a time after each AI response completes.
 
-Click the **paintbrush icon** in the top bar to switch to Visual Edit mode. This lets you:
+### Streaming status
 
-- Click elements directly in the preview
-- Modify properties (text, color, spacing) visually
-- See changes applied immediately
+While the AI is working, a shimmer bar at the bottom shows:
+- Spinner with status text (e.g., "Thinking...", "Writing code...")
+- Step counter when processing multiple operations ("Step X/Y")
+- The header shows a green pulsing dot with "Active"
 
-## The live preview
+### AI responses
 
-The right panel shows your running application. You can:
+Each response can show:
 
-- **Interact** with it (click buttons, fill forms, navigate pages)
-- **See real-time updates** as the AI makes changes
-- **Inspect elements** in visual edit mode
+- **Markdown content** — Formatted text with code blocks, lists, headings
+- **Thinking** (collapsible) — The AI's internal reasoning process
+- **Tool Calls** (collapsible) — Which tools the AI used (file edits, terminal commands, etc.)
+- **Files Modified** (collapsible) — List of files that were changed with file paths
+- **Task progress** — Structured checklist of steps the AI is working through (with progress bar)
+- **Suggestion buttons** — Bordered blue pills with context-aware next steps to click
+- **Error messages** — Red-highlighted when something went wrong
 
-The sandbox automatically starts when you open a project and stays running while you work.
+### Tool approval
+
+When the AI wants to use a tool that requires confirmation:
+
+- An **"Approval Required"** card appears
+- Click **Approve** to allow the action
+- Click **Deny** to reject it
+
+Configure which tools need approval in **Settings** → **Tool Approval**.
+
+### Supabase connection prompt
+
+If the AI detects your app needs a database, a special card appears:
+
+- "Database required" message
+- **Connect** button — opens Seemodo Cloud setup
+- **Skip** button — continue without database
+
+## Suggestion buttons
+
+After each AI response, clickable suggestion buttons appear with logical next steps based on what was just built. Click any suggestion to send it as your next message.
+
+## Task panel
+
+During complex operations, the AI shows a structured task list:
+
+- **Progress bar** — Visual indicator of completion
+- **Task items** — Each with status (pending → in progress → done)
+- **Subtasks** — Nested under parent tasks
+
+## History panel
+
+Click the **History** tab to browse all past conversations:
+
+- Chronological message list
+- User and AI messages with timestamps
+- Useful for reviewing what was built and decisions made
+
+## Visual Edits panel
+
+Click the **Visual** tab (or 🖌 paintbrush icon) for point-and-click editing:
+
+<Steps>
+  <Step title="Enable the element picker">
+    Click the crosshair icon in the preview toolbar.
+  </Step>
+  <Step title="Click an element in the preview">
+    The element gets highlighted and selected. A chip shows the element tag, selector, and source file.
+  </Step>
+  <Step title="Edit properties">
+    The Visual Edits panel shows tabs for:
+    
+    - **Text** — Edit content, font size, font weight, text alignment, color
+    - **Colors** — Background color, text color
+    - **Spacing** — Margin and padding (top, right, bottom, left) with sliders
+    - **Border** — Width, color, radius, style
+    - **Shadow** — Box shadow configuration
+    - **Image** — Background image URL, upload, or AI generation
+  </Step>
+  <Step title="Preview changes live">
+    Changes apply instantly in the preview as CSS overrides — no permanent modification yet.
+  </Step>
+  <Step title="Save or discard">
+    - **Save Changes** — Converts your visual edits into a natural-language prompt that the AI applies as permanent code changes
+    - **Discard** — Removes all temporary overrides
+  </Step>
+</Steps>
+
+## Live Preview panel
+
+The right panel shows your running application:
+
+### Preview toolbar
+
+| Button | Action |
+|--------|--------|
+| **Desktop/Tablet/Mobile** | Switch viewport width |
+| **Crosshair** | Enable element picker for Visual Edits |
+| **Refresh** | Manually reload the preview |
+| **External link** | Open preview in a new browser tab |
+
+### Preview tabs
+
+| Tab | Content |
+|-----|---------|
+| **Preview** | Live running app in an iframe |
+| **Code** | Browse project source code (file tree + viewer) |
+| **Console** | Browser console output with error count badge |
+| **Database** | Seemodo Cloud database interface (when connected) |
+
+### Auto-refresh behavior
+
+The preview automatically refreshes:
+- After the AI finishes making changes (streaming ends)
+- After package installation completes
+- Via HMR (Hot Module Replacement) for file changes
+
+If HMR heartbeat fails 3 times, the preview reloads automatically.
+
+## Initial prompt
+
+When you create a new project with a prompt (from Dashboard or template), the AI automatically starts building based on your description — no need to send a first message.
 
 ## Tips for effective development
 
-<Tip>
-Be specific about what you want. Instead of "make it better", try "increase the font size of the title to 24px and add a blue border to the card."
-</Tip>
-
-- **One feature at a time** works better than asking for 10 things at once
-- **Describe the end result** rather than implementation steps
-- **Reference what exists** — "the button in the header" or "the pricing card"
-- **Mention context** — "this is a food delivery app" helps the AI make better content decisions
+- **Use @ mentions** to point the AI at specific files: "@src/components/Header.tsx make the logo larger"
+- **Use Planning mode** when you want to discuss architecture before making changes
+- **Use Agent mode** for complex multi-file operations that need more tool calls
+- **Queue multiple prompts** if you know what sequence of changes you want
+- **Use Visual Edits** for quick styling tweaks without typing
+- **Check the Console tab** if something looks broken — errors appear there
 
 ## Next steps
 
 <CardGroup cols={2}>
-  <Card title="Live Preview" icon="eye" href="/seemodo/sandbox">
-    Understand the sandbox environment
+  <Card title="Visual Designer" icon="paintbrush" href="/en/seemodo/visual-designer">
+    Generate screens on the canvas
   </Card>
-  <Card title="Deployment" icon="globe" href="/seemodo/deployment">
-    Publish your app to production
+  <Card title="Settings" icon="gear" href="/en/seemodo/settings">
+    Configure AI models and tool approval
   </Card>
 </CardGroup>

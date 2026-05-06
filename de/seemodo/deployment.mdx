@@ -40,20 +40,34 @@ Alle vorherigen Deployments mit Zeitstempel, Status und Rollback-Möglichkeit.
 
 ### Site-Metadaten
 
-| Feld | Zweck |
-|------|-------|
-| **Site-Titel** | Browser-Tab-Titel und Social-Share-Überschrift |
-| **Site-Beschreibung** | In Suchergebnissen und Social-Previews |
-| **Favicon** | Kleines Icon im Browser-Tab |
-| **OG-Bild** | Vorschaubild beim Teilen auf Social Media |
+| Feld | Zweck | Format |
+|------|-------|--------|
+| **Site-Titel** | Browser-Tab-Titel und Social-Share-Überschrift | Text |
+| **Site-Beschreibung** | In Suchergebnissen und Social-Previews | Text |
+| **Favicon** | Kleines Icon im Browser-Tab | SVG (uploadbar oder KI-generiert) |
+| **OG-Bild** | Vorschaubild beim Teilen auf Social Media | SVG/Bild (uploadbar oder KI-generiert) |
 
-<Tip>
-Du kannst KI nutzen um Site-Metadaten zu generieren. Klicke das Sparkles-Icon und die KI erstellt passenden Inhalt basierend auf deiner App.
-</Tip>
+#### KI-generierte Metadaten
+
+Klicke das **✨ Sparkles-Icon** neben jedem Feld:
+
+- **Titel** — KI analysiert deine App und erstellt einen passenden Titel
+- **Beschreibung** — KI schreibt eine ansprechende Beschreibung
+- **Favicon** — KI generiert ein SVG-Icon passend zu deiner App
+- **OG-Bild** — KI erstellt eine Social-Preview-Grafik
+
+Jedes Feld kann individuell regeneriert werden.
 
 ### Custom Domain
 
-Setze einen eigenen Pfad für deine Deploy-URL: `[dein-pfad].seemodo.app`.
+| Domain-Typ | Details |
+|------------|---------|
+| **seemodo.app Subdomain** | Kostenlos bei allen Plänen. Eigenen Pfad setzen: `dein-name.seemodo.app` |
+| **Custom Domain** | Pro+ Pläne. Eigene Domain auf das Deployment zeigen |
+
+### Passwortschutz
+
+Für Business und Enterprise Pläne: Passwortschutz für deployed Sites — Zugang nur mit Passwort.
 
 ## Deployment-Status
 
