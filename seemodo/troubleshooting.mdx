@@ -1,224 +1,123 @@
 ---
 title: "Troubleshooting"
-description: "Solutions for common issues when using Seemodo"
+description: "Solutions for common issues with generation, sandbox, deployment, and account."
 icon: "wrench"
 ---
 
-This guide covers common issues and their solutions when working with Seemodo.
+# Troubleshooting
 
-## Sandbox Issues
-
-### Sandbox not starting
-
-<Steps>
-  <Step title="Check provider configuration">
-    Verify your `.env` file has the correct settings:
-    ```env
-    SANDBOX_PROVIDER=modal
-    MODAL_BACKEND_URL=https://your-backend.modal.run
-    ```
-  </Step>
-  <Step title="Verify Modal deployment">
-    Ensure your Modal backend is deployed and running:
-    ```bash
-    cd modal-backend
-    modal deploy main.py
-    ```
-  </Step>
-  <Step title="Check network connectivity">
-    Your browser must be able to reach the Modal backend URL. Test in a new tab.
-  </Step>
-  <Step title="Review browser console">
-    Open DevTools (F12) and check the Console tab for error messages.
-  </Step>
-</Steps>
-
-### Preview not loading
-
-| Symptom | Cause | Solution |
-|---------|-------|----------|
-| Blank iframe | Vite not ready | Wait 5-10 seconds, then refresh |
-| Build error | Code error | Check AI chat for error messages |
-| Timeout | Sandbox expired | Generate a new screen to restart |
-| CORS error | Tunnel issue | Try refreshing the page |
-
-### Sandbox keeps timing out
-
-The default timeout is 60 minutes. To extend:
-
-1. Modify `config/app.config.ts`:
-   ```typescript
-   modal: {
-     timeoutMinutes: 120, // 2 hours
-   }
-   ```
-2. Redeploy the Modal backend
-
-## AI Generation Issues
-
-### Generation fails
+## Generation issues
 
 <AccordionGroup>
-  <Accordion title="Invalid API key">
-    Verify your AI provider keys in `.env`:
-    ```env
-    GEMINI_API_KEY=your_valid_key_here
-    ```
-    
-    Test the key by making a direct API call.
+  <Accordion title="Generation seems stuck or takes too long">
+    - Check your internet connection
+    - Try refreshing the page and generating again
+    - If using Max Mode, generation takes longer — this is expected
+    - Check your credit balance — generation stops if you have 0 credits
   </Accordion>
-  <Accordion title="Rate limiting">
-    If you're making many requests, you may hit rate limits. Wait a few minutes and try again.
+  <Accordion title="Generated result doesn't match my prompt">
+    - Be more specific in your prompt (mention colors, layout, content explicitly)
+    - Use the **Enhance** button to improve your prompt before generating
+    - Upload reference images for visual guidance
+    - Enable **Deep Design** for more thoughtful results
   </Accordion>
-  <Accordion title="Prompt too complex">
-    Very long or complex prompts may fail. Try:
-    - Breaking into smaller pieces
-    - Using Plan mode for complex features
-    - Being more specific about what you want
-  </Accordion>
-  <Accordion title="Model unavailable">
-    If a specific model fails, try a different one:
-    - Add `?model=true` to the URL
-    - Select an alternative model
+  <Accordion title="Generated screen shows errors">
+    - Try editing with AI: "Fix the errors on this page"
+    - Open the Sandbox Panel → Vite Logs to see specific error messages
+    - Use the Terminal tab to check console output
   </Accordion>
 </AccordionGroup>
 
-### Poor quality output
-
-<Steps>
-  <Step title="Use Deep Design mode">
-    Enable Deep Design in the sidebar for better results.
-  </Step>
-  <Step title="Add reference images">
-    Upload screenshots or mockups to guide the AI.
-  </Step>
-  <Step title="Be more specific">
-    Instead of "make it pretty", specify colors, layout, and components.
-  </Step>
-  <Step title="Try a different model">
-    Some models are better for certain types of designs.
-  </Step>
-</Steps>
-
-### AI not responding
-
-If the Seemodo AI panel shows "Thinking" indefinitely:
-
-1. Check the connection indicator (should be green)
-2. Click the Reconnect button
-3. Refresh the page if needed
-4. Check if the sandbox is still running
-
-## Code Issues
-
-### Build errors after generation
-
-The AI automatically detects and fixes most build errors. If an error persists:
-
-1. Check the error message in the AI chat
-2. Ask the AI specifically to fix it:
-   ```
-   Fix the TypeScript error in Button.tsx
-   ```
-3. Review the generated code for obvious issues
-
-### Missing packages
-
-Packages are auto-installed, but sometimes fail:
-
-```bash
-# In the sandbox terminal
-pnpm add package-name
-```
-
-Or ask the AI:
-```
-Install lodash and use it in the utils file
-```
-
-### HMR not working
-
-If changes aren't reflecting in the preview:
-
-1. Click "Restart Vite" in the terminal
-2. Wait for the dev server to restart
-3. Refresh the preview iframe
-
-## Seemodo Cloud Issues
-
-### Connection failed
+## Sandbox issues
 
 <AccordionGroup>
-  <Accordion title="Invalid project reference">
-    The project reference is just the ID, not the full URL:
-    - ✅ Correct: `abcdefghijklmnop`
-    - ❌ Wrong: `https://abcdefghijklmnop.supabase.co`
+  <Accordion title="Sandbox not starting">
+    - Wait up to 30 seconds — sandbox startup can take time
+    - Refresh the page and try again
+    - Check if you have an active subscription or credits remaining
   </Accordion>
-  <Accordion title="Invalid API token">
-    Get a new token from Supabase Dashboard → Account → Access Tokens.
-    
-    Ensure it has the required permissions.
+  <Accordion title="Preview shows blank or white screen">
+    - Open Sandbox Panel → Vite Logs to check for build errors
+    - The AI may have introduced a syntax error — ask it to fix: "The page is blank, please fix any errors"
+    - Try clicking "Restart" in the terminal
   </Accordion>
-  <Accordion title="Project paused">
-    Free Supabase projects pause after inactivity. Visit the dashboard to resume.
+  <Accordion title="Changes not appearing in preview">
+    - Hot-reload usually handles this automatically
+    - If stuck, ask the AI: "Restart the dev server"
+    - Open Terminal and run the restart command
+  </Accordion>
+  <Accordion title="Sandbox crashes repeatedly">
+    - The auto-recovery system restarts crashed sandboxes
+    - If it keeps crashing, the code might have an infinite loop — ask AI to review and fix
+    - Check Vite Logs for out-of-memory errors
   </Accordion>
 </AccordionGroup>
 
-### Database operations failing
+## Deployment issues
 
-1. Check RLS policies aren't blocking the operation
-2. Verify the table exists in the correct schema
-3. Ask the AI to debug:
-   ```
-   Why is the insert into users table failing?
-   ```
+<AccordionGroup>
+  <Accordion title="Deployment fails">
+    - Check the error message in the Deploy panel
+    - Common cause: build errors in your code — fix them through AI chat first
+    - Try deploying again after fixing issues
+  </Accordion>
+  <Accordion title="Deployed app doesn't work correctly">
+    - Check that your app works in the preview first
+    - Some features requiring server-side logic may not work in static deployments
+    - Ensure all API URLs are using production endpoints
+  </Accordion>
+</AccordionGroup>
 
-## Browser Issues
+## Account & billing
 
-### Slow performance
+<AccordionGroup>
+  <Accordion title="Credits not refreshing">
+    - Monthly credits reset on your billing date
+    - Check Account Settings → Credits Information for your reset date
+    - Extra purchased credits don't expire or reset
+  </Accordion>
+  <Accordion title="Can't log in">
+    - Try resetting your password via the login page
+    - Clear browser cookies and try again
+    - Make sure you're using the same login method (email, Google, etc.) you signed up with
+  </Accordion>
+  <Accordion title="Subscription not updating">
+    - Payment processing can take a few minutes
+    - Refresh the page after completing checkout
+    - Contact support at info@seemodo.ai if the issue persists
+  </Accordion>
+</AccordionGroup>
 
-<CardGroup cols={2}>
-  <Card title="Too many open tabs" icon="browser">
-    Close other tabs, especially those with active sandboxes.
-  </Card>
-  <Card title="Browser cache" icon="database">
-    Clear cache and reload the page.
-  </Card>
-  <Card title="Extensions" icon="puzzle-piece">
-    Disable browser extensions that might interfere.
-  </Card>
-  <Card title="Hardware acceleration" icon="microchip">
-    Ensure hardware acceleration is enabled in browser settings.
-  </Card>
-</CardGroup>
+## GitHub integration
 
-### Canvas not loading
+<AccordionGroup>
+  <Accordion title="Can't connect to GitHub">
+    - Make sure you've authorized Seemodo on GitHub
+    - Check that you have the right permissions for the target organization
+    - Try disconnecting and reconnecting
+  </Accordion>
+  <Accordion title="Push/Pull fails">
+    - Check if there are merge conflicts
+    - Ensure the target branch exists
+    - Verify your GitHub token hasn't expired
+  </Accordion>
+</AccordionGroup>
 
-tldraw requires WebGL support:
+## Seemodo Cloud
 
-1. Check that WebGL is enabled in your browser
-2. Update your graphics drivers
-3. Try a different browser (Chrome recommended)
+<AccordionGroup>
+  <Accordion title="Cloud activation fails">
+    - Ensure you have an active sandbox running first
+    - Try closing and reopening the Cloud modal
+    - Check your internet connection
+  </Accordion>
+  <Accordion title="Database queries not working">
+    - Verify Seemodo Cloud is activated (cloud icon should be active)
+    - Check the SQL syntax in the database manager
+    - Ask the AI to debug: "The database query for users isn't working"
+  </Accordion>
+</AccordionGroup>
 
-## Common Error Messages
+## Still need help?
 
-| Error | Meaning | Solution |
-|-------|---------|----------|
-| `SANDBOX_NOT_FOUND` | Sandbox expired or doesn't exist | Generate a new screen |
-| `SEEMODO_AI_CONNECTION_FAILED` | Can't reach Seemodo AI server | Wait for sandbox to fully initialize |
-| `MODEL_UNAVAILABLE` | AI model is down | Try a different model |
-| `RATE_LIMIT_EXCEEDED` | Too many requests | Wait a few minutes |
-| `INSUFFICIENT_CREDITS` | Out of credits | Purchase more or wait for refresh |
-
-## Getting Help
-
-If these solutions don't resolve your issue:
-
-1. **Check the console** - Press F12 and look for error messages
-2. **Export logs** - Click "Export" in the Seemodo AI panel
-3. **Create a minimal reproduction** - Note the exact steps to reproduce
-4. **Contact support** - Email support@seemodo.ai with:
-   - Browser and OS version
-   - Steps to reproduce
-   - Error messages and screenshots
-   - Exported logs if available
+Contact us at **info@seemodo.ai** or visit our [website](https://seemodo.ai) for more support options.

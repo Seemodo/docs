@@ -17,30 +17,32 @@
             "tab": "Seemodo App",
             "groups": [
               {
-                "group": "Getting Started",
+                "group": "Overview",
                 "pages": [
-                  "seemodo/introduction"
+                  "seemodo/introduction",
+                  "seemodo/getting-started"
                 ]
               },
               {
-                "group": "Core Features",
+                "group": "Building Apps",
                 "pages": [
                   "seemodo/visual-designer",
                   "seemodo/ai-coder",
-                  "seemodo/cloud"
+                  "seemodo/flow-generation",
+                  "seemodo/sandbox"
                 ]
               },
               {
-                "group": "Technical Reference",
+                "group": "Platform",
                 "pages": [
-                  "seemodo/architecture",
-                  "seemodo/sandbox",
-                  "seemodo/api-reference",
-                  "seemodo/configuration"
+                  "seemodo/cloud",
+                  "seemodo/projects",
+                  "seemodo/deployment",
+                  "seemodo/github"
                 ]
               },
               {
-                "group": "Resources",
+                "group": "Account",
                 "pages": [
                   "seemodo/credits",
                   "seemodo/troubleshooting"
@@ -56,30 +58,6 @@
                 "pages": [
                   "api-reference/introduction"
                 ]
-              },
-              {
-                "group": "Code Generation",
-                "pages": [
-                  "api-reference/endpoint/generate-screen",
-                  "api-reference/endpoint/generate-flow",
-                  "api-reference/endpoint/edit-screen"
-                ]
-              },
-              {
-                "group": "Sandbox",
-                "pages": [
-                  "api-reference/endpoint/create-sandbox",
-                  "api-reference/endpoint/sandbox-status",
-                  "api-reference/endpoint/sandbox-files"
-                ]
-              },
-              {
-                "group": "AI & Utilities",
-                "pages": [
-                  "api-reference/endpoint/enhance-prompt",
-                  "api-reference/endpoint/scrape-website",
-                  "api-reference/endpoint/seemodo-cloud"
-                ]
               }
             ]
           }
@@ -92,30 +70,32 @@
             "tab": "Seemodo App",
             "groups": [
               {
-                "group": "Erste Schritte",
+                "group": "Übersicht",
                 "pages": [
-                  "de/seemodo/introduction"
+                  "de/seemodo/introduction",
+                  "de/seemodo/getting-started"
                 ]
               },
               {
-                "group": "Kernfunktionen",
+                "group": "Apps Bauen",
                 "pages": [
                   "de/seemodo/visual-designer",
                   "de/seemodo/ai-coder",
-                  "de/seemodo/cloud"
+                  "de/seemodo/flow-generation",
+                  "de/seemodo/sandbox"
                 ]
               },
               {
-                "group": "Technische Referenz",
+                "group": "Plattform",
                 "pages": [
-                  "de/seemodo/architecture",
-                  "de/seemodo/sandbox",
-                  "de/seemodo/api-reference",
-                  "de/seemodo/configuration"
+                  "de/seemodo/cloud",
+                  "de/seemodo/projects",
+                  "de/seemodo/deployment",
+                  "de/seemodo/github"
                 ]
               },
               {
-                "group": "Ressourcen",
+                "group": "Konto",
                 "pages": [
                   "de/seemodo/credits",
                   "de/seemodo/troubleshooting"
@@ -130,30 +110,6 @@
                 "group": "Übersicht",
                 "pages": [
                   "de/api-reference/introduction"
-                ]
-              },
-              {
-                "group": "Code-Generierung",
-                "pages": [
-                  "de/api-reference/endpoint/generate-screen",
-                  "de/api-reference/endpoint/generate-flow",
-                  "de/api-reference/endpoint/edit-screen"
-                ]
-              },
-              {
-                "group": "Sandbox",
-                "pages": [
-                  "de/api-reference/endpoint/create-sandbox",
-                  "de/api-reference/endpoint/sandbox-status",
-                  "de/api-reference/endpoint/sandbox-files"
-                ]
-              },
-              {
-                "group": "KI & Utilities",
-                "pages": [
-                  "de/api-reference/endpoint/enhance-prompt",
-                  "de/api-reference/endpoint/scrape-website",
-                  "de/api-reference/endpoint/seemodo-cloud"
                 ]
               }
             ]

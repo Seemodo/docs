@@ -1,139 +1,89 @@
 ---
-title: 'API-Einführung'
-description: 'Vollständige Referenz für die Seemodo API'
-icon: 'code'
+title: "API-Übersicht"
+description: "Übersicht der Seemodo-API-Endpunkte für Generierung, Bearbeitung, Sandbox-Verwaltung und Cloud-Services."
+icon: "code"
 ---
 
-Die Seemodo API bietet programmatischen Zugriff auf alle KI-gestützten Code-Generierungs-, Sandbox-Verwaltungs- und Cloud-Integrations-Features.
+# API-Übersicht
+
+Seemodo bietet API-Endpunkte für die Kernfunktionen der Plattform: Screen-Generierung, Bearbeitung, Flow-Erstellung, Sandbox-Verwaltung und Cloud-Services.
 
 ## Basis-URL
 
-Alle API-Endpunkte sind relativ zu deiner Seemodo-Instanz:
+Alle API-Anfragen gehen an:
 
 ```
-https://deine-domain.com/api/
-```
-
-Für lokale Entwicklung:
-
-```
-http://app.seemodo.ai/api/
+https://api.seemodo.app
 ```
 
 ## Authentifizierung
 
-Die meisten Endpunkte erfordern keine Authentifizierung für lokale Entwicklung. Für Produktions-Deployments konfiguriere Authentifizierung via Umgebungsvariablen.
-
-Für Seemodo Cloud (Supabase) Endpunkte, inkludiere den Supabase API-Token im Header:
+Anfragen benötigen ein gültiges Token als Bearer Token im Authorization-Header:
 
 ```bash
-curl -X POST https://deine-domain.com/api/seemodo-cloud \
-  -H "Content-Type: application/json" \
-  -H "X-Supabase-Token: dein-supabase-token" \
-  -d '{"action": "status", "projectRef": "deine-projekt-ref"}'
+Authorization: Bearer <dein-token>
 ```
-
-## API-Kategorien
-
-<CardGroup cols={2}>
-  <Card title="Code-Generierung" icon="wand-magic-sparkles" href="/de/api-reference/endpoint/generate-screen">
-    React-Screens aus natürlichsprachlichen Prompts mit KI generieren.
-  </Card>
-  <Card title="Sandbox-Verwaltung" icon="box" href="/de/api-reference/endpoint/create-sandbox">
-    Cloud-Entwicklungs-Sandboxes erstellen, verwalten und interagieren.
-  </Card>
-  <Card title="KI-Utilities" icon="robot" href="/de/api-reference/endpoint/enhance-prompt">
-    Prompts verbessern, Absichten analysieren und Ideen brainstormen.
-  </Card>
-  <Card title="Seemodo Cloud" icon="cloud" href="/de/api-reference/endpoint/seemodo-cloud">
-    Supabase Backend-Dienste in deine Projekte integrieren.
-  </Card>
-</CardGroup>
-
-## Anfrage-Format
-
-Alle POST-Endpunkte akzeptieren JSON-Payloads:
-
-```bash
-curl -X POST https://deine-domain.com/api/generate-screen \
-  -H "Content-Type: application/json" \
-  -d '{
-    "prompt": "Ein modernes Dashboard mit Analyse-Charts",
-    "width": 1280,
-    "height": 800,
-    "screenType": "Desktop"
-  }'
-```
-
-## Antwort-Format
-
-Antworten sind JSON-Objekte mit konsistenter Struktur:
-
-```json
-{
-  "success": true,
-  "data": { ... },
-  "message": "Operation erfolgreich abgeschlossen"
-}
-```
-
-Fehler-Antworten inkludieren Details:
-
-```json
-{
-  "success": false,
-  "error": "Fehlermeldung",
-  "details": "Zusätzlicher Fehler-Kontext"
-}
-```
-
-## Häufige Antwort-Codes
-
-| Code | Beschreibung |
-|------|--------------|
-| `200` | Erfolg |
-| `400` | Ungültige Anfrage - fehlende oder ungültige Parameter |
-| `401` | Nicht autorisiert - fehlende oder ungültige Authentifizierung |
-| `404` | Nicht gefunden - Ressource existiert nicht |
-| `500` | Server-Fehler - Fehler-Details prüfen |
-
-## Rate-Limiting
-
-API-Aufrufe unterliegen Rate-Limiting basierend auf deinem Abonnement-Plan. Bei Rate-Limiting erhältst du einen `429` Status-Code. Warte und versuche nach der angegebenen Zeit erneut.
 
 ## Verfügbare Endpunkte
 
-### Code-Generierung
+### Generierung
 
 | Endpunkt | Methode | Beschreibung |
-|----------|---------|--------------|
-| `/generate-screen` | POST | Einzelnen Screen aus Prompt generieren |
-| `/generate-flow` | POST | Mehrere verbundene Screens generieren |
-| `/edit-screen` | POST | Bestehenden Screen bearbeiten |
-| `/enhance-prompt` | POST | Prompt für bessere Ergebnisse verbessern |
+|----------|---------|-------------|
+| `/api/generate-screen` | POST | Einen Screen aus einem Prompt generieren |
+| `/api/generate-wireframe` | POST | Ein Wireframe-Layout generieren |
+| `/api/generate-flow` | POST | Screen-Aufschlüsselung für Multi-Screen-Flows |
+| `/api/edit-screen` | POST | Bestehenden Screen mit KI bearbeiten |
+| `/api/enhance-prompt` | POST | Prompt mit KI verbessern |
 
-### Sandbox-Verwaltung
-
-| Endpunkt | Methode | Beschreibung |
-|----------|---------|--------------|
-| `/create-ai-sandbox` | POST | Neue Sandbox erstellen |
-| `/create-ai-sandbox-v2` | POST | Sandbox mit Modal Backend erstellen |
-| `/sandbox-status` | GET | Sandbox-Gesundheitsstatus prüfen |
-| `/get-sandbox-files` | GET | Alle Dateien in Sandbox auflisten |
-| `/kill-sandbox` | POST | Sandbox beenden |
-| `/restart-vite` | POST | Vite Dev-Server neustarten |
-
-### Website-Klonen
+### Sandbox
 
 | Endpunkt | Methode | Beschreibung |
-|----------|---------|--------------|
-| `/scrape-website` | POST | Website-Inhalt und Struktur scrapen |
-| `/scrape-url-enhanced` | POST | Erweitertes Scraping mit Screenshots |
-| `/scrape-screenshot` | POST | Website-Screenshot aufnehmen |
+|----------|---------|-------------|
+| `/api/create-ai-sandbox` | POST | Neue Sandbox-Umgebung erstellen |
+| `/api/sandbox-status` | GET | Sandbox-Status und URL prüfen |
+| `/api/sandbox-logs` | GET | Sandbox-Build-Logs abrufen |
+| `/api/run-command` | POST | Befehl im Sandbox-Terminal ausführen |
+| `/api/install-packages` | POST | npm-Pakete in der Sandbox installieren |
+| `/api/kill-sandbox` | POST | Sandbox beenden |
 
-### Seemodo Cloud
+### Cloud
 
 | Endpunkt | Methode | Beschreibung |
-|----------|---------|--------------|
-| `/seemodo-cloud` | POST | Supabase-Integration verwalten |
-| `/supabase-proxy/*` | * | Anfragen an Supabase proxyen |
+|----------|---------|-------------|
+| `/api/seemodo-cloud` | POST | Seemodo Cloud aktivieren oder verwalten |
+| `/api/supabase-proxy` | ALL | Proxy-Anfragen an die Cloud-Datenbank |
+
+### Hilfsfunktionen
+
+| Endpunkt | Methode | Beschreibung |
+|----------|---------|-------------|
+| `/api/scrape-website` | POST | Website-URL für Inhalte scrapen |
+| `/api/scrape-screenshot` | POST | Screenshot einer URL erstellen |
+| `/api/extract-brand-styles` | POST | Markenfarben und Stile aus URL extrahieren |
+| `/api/proxy-image` | GET | Bild-URL proxen (CORS umgehen) |
+
+## Rate Limits
+
+API-Anfragen sind je nach Plan limitiert. Bei Überschreitung: `429 Too Many Requests`.
+
+## Fehlerbehandlung
+
+Standard HTTP-Statuscodes:
+
+| Code | Bedeutung |
+|------|-----------|
+| 200 | Erfolg |
+| 400 | Ungültige Anfrage |
+| 401 | Nicht autorisiert |
+| 403 | Keine Berechtigung |
+| 429 | Rate-Limit überschritten |
+| 500 | Interner Server-Fehler |
+
+Fehler-Antworten enthalten ein JSON-Body:
+
+```json
+{
+  "error": "Beschreibung des Fehlers"
+}
+```

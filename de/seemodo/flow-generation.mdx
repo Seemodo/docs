@@ -1,0 +1,82 @@
+---
+title: "Flow Generation"
+description: "Generiere komplette Multi-Screen-Apps in einem Durchgang mit Autoflow. Die KI teilt deine Idee in Screens auf und generiert alle gleichzeitig."
+icon: "diagram-project"
+---
+
+# Flow Generation
+
+Flow Generation erstellt komplette Multi-Screen-Anwendungen aus einer einzigen Beschreibung. Beschreibe deine gesamte App und Seemodo generiert alle Seiten gleichzeitig.
+
+## Single Screen vs. Create Flow
+
+| Modus | Beschreibung |
+|-------|-------------|
+| **Single Screen** | Ein Screen pro Prompt |
+| **Create Flow** | Mehrere verbundene Screens aus einer App-Beschreibung |
+
+## Flow generieren
+
+<Steps>
+  <Step title="Zu Create Flow wechseln">
+    Klicke den **Create Flow** Tab in der Prompt-Sektion.
+  </Step>
+  <Step title="App beschreiben">
+    Schreibe eine Gesamt-Beschreibung deiner Anwendung:
+    
+    "Eine Essenslieferungs-App mit Splash-Screen, Restaurant-Übersicht mit Filtern, Restaurant-Detail mit Speisekarte, Warenkorb mit Mengen, Checkout mit Adresse und Bezahlung, Bestellbestätigung und Lieferverfolgung mit Karte."
+  </Step>
+  <Step title="Autoflow klicken">
+    Die KI analysiert deine Beschreibung und erstellt eine Liste einzelner Screens mit Namen und detaillierten Prompts.
+  </Step>
+  <Step title="Überprüfen und anpassen">
+    Screen-Namen und Prompts bearbeiten. Per Drag & Drop umsortieren. Nicht benötigte Screens entfernen.
+  </Step>
+  <Step title="Generate Flow klicken">
+    Alle Screens werden parallel generiert und erscheinen nebeneinander auf dem Canvas.
+  </Step>
+</Steps>
+
+## Autoflow
+
+Autoflow ist die KI, die deine App-Beschreibung in logische Screens aufteilt.
+
+### Anzahl der Screens steuern
+
+Gib eine Zahl im **#**-Feld neben dem Autoflow-Button ein. Leer lassen = KI entscheidet die optimale Anzahl.
+
+## Screens anpassen
+
+| Aktion | Wie |
+|--------|-----|
+| **Umordnen** | Greif-Handle links ziehen |
+| **Umbenennen** | Auf den Screen-Namen klicken |
+| **Prompt bearbeiten** | Beschreibung eines Screens ändern |
+| **Entfernen** | Minus-Button (−) klicken |
+| **Alle löschen** | "Clear" klicken |
+
+## Gemeinsame Einstellungen
+
+Alle Screens im Flow teilen: Design-Modus, Seitentyp, Bildschirmgröße, Deep Design, Max Mode und Referenzbilder.
+
+## Tipps für tolle Flows
+
+- **User Journey beschreiben** — Was passiert zuerst, dann, danach
+- **Stil einmal nennen** — "Dunkles Theme, blaue Akzente" in der Hauptbeschreibung gilt für alle
+- **Spezifisch bei Inhalten sein** — "Restaurant-Liste mit Name, Bewertung, Lieferzeit, Küche" statt "eine Listenseite"
+- **Referenzbilder hochladen** — Stil wird auf alle Screens angewendet
+
+<Note>
+Flow Generation im Free-Plan ist auf 3 Screens limitiert. Standard erlaubt 5. Pro und Teams haben unbegrenzte Screens pro Flow.
+</Note>
+
+## Nächste Schritte
+
+<CardGroup cols={2}>
+  <Card title="Visual Designer" icon="paintbrush" href="/de/seemodo/visual-designer">
+    Einzelne Screens generieren
+  </Card>
+  <Card title="Deployment" icon="globe" href="/de/seemodo/deployment">
+    Deinen Flow als Live-App veröffentlichen
+  </Card>
+</CardGroup>

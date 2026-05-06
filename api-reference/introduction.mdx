@@ -1,139 +1,89 @@
 ---
-title: 'API Introduction'
-description: 'Complete reference for the Seemodo API'
-icon: 'code'
+title: "API Overview"
+description: "Overview of the Seemodo API endpoints available for generation, editing, sandbox management, and cloud services."
+icon: "code"
 ---
 
-The Seemodo API provides programmatic access to all AI-powered code generation, sandbox management, and cloud integration features.
+# API Overview
+
+Seemodo exposes API endpoints that power the platform's core features. These endpoints handle screen generation, editing, flow creation, sandbox management, and cloud services.
 
 ## Base URL
 
-All API endpoints are relative to your Seemodo instance:
+All API requests are made to:
 
 ```
-https://your-domain.com/api/
-```
-
-For local development:
-
-```
-http://app.seemodo.ai/api/
+https://api.seemodo.app
 ```
 
 ## Authentication
 
-Most endpoints don't require authentication for local development. For production deployments, configure authentication via environment variables.
-
-For Seemodo Cloud (Supabase) endpoints, include the Supabase API token in the header:
+Requests require a valid authentication token passed as a Bearer token in the Authorization header:
 
 ```bash
-curl -X POST https://your-domain.com/api/seemodo-cloud \
-  -H "Content-Type: application/json" \
-  -H "X-Supabase-Token: your-supabase-token" \
-  -d '{"action": "status", "projectRef": "your-project-ref"}'
+Authorization: Bearer <your-token>
 ```
 
-## API Categories
+## Available endpoints
 
-<CardGroup cols={2}>
-  <Card title="Code Generation" icon="wand-magic-sparkles" href="/api-reference/endpoint/generate-screen">
-    Generate React screens from natural language prompts using AI.
-  </Card>
-  <Card title="Sandbox Management" icon="box" href="/api-reference/endpoint/create-sandbox">
-    Create, manage, and interact with cloud development sandboxes.
-  </Card>
-  <Card title="AI Utilities" icon="robot" href="/api-reference/endpoint/enhance-prompt">
-    Enhance prompts, analyze intents, and brainstorm ideas.
-  </Card>
-  <Card title="Seemodo Cloud" icon="cloud" href="/api-reference/endpoint/seemodo-cloud">
-    Integrate Supabase backend services into your projects.
-  </Card>
-</CardGroup>
+### Generation
 
-## Request Format
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/generate-screen` | POST | Generate a single screen from a prompt |
+| `/api/generate-wireframe` | POST | Generate a wireframe layout |
+| `/api/generate-flow` | POST | Generate screen breakdown for multi-screen flows |
+| `/api/edit-screen` | POST | Edit an existing screen with AI |
+| `/api/enhance-prompt` | POST | Improve a prompt with AI |
 
-All POST endpoints accept JSON payloads:
+### Sandbox
 
-```bash
-curl -X POST https://your-domain.com/api/generate-screen \
-  -H "Content-Type: application/json" \
-  -d '{
-    "prompt": "A modern dashboard with analytics charts",
-    "width": 1280,
-    "height": 800,
-    "screenType": "Desktop"
-  }'
-```
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/create-ai-sandbox` | POST | Create a new sandbox environment |
+| `/api/sandbox-status` | GET | Check sandbox status and URL |
+| `/api/sandbox-logs` | GET | Retrieve sandbox build logs |
+| `/api/run-command` | POST | Execute a command in the sandbox terminal |
+| `/api/install-packages` | POST | Install npm packages in the sandbox |
+| `/api/kill-sandbox` | POST | Terminate a sandbox |
 
-## Response Format
+### Cloud
 
-Responses are JSON objects with a consistent structure:
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/seemodo-cloud` | POST | Activate or manage Seemodo Cloud |
+| `/api/supabase-proxy` | ALL | Proxy requests to the cloud database |
+
+### Utilities
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/scrape-website` | POST | Scrape a website URL for content |
+| `/api/scrape-screenshot` | POST | Capture a screenshot of a URL |
+| `/api/extract-brand-styles` | POST | Extract brand colors and styles from a URL |
+| `/api/proxy-image` | GET | Proxy an image URL to avoid CORS |
+
+## Rate limits
+
+API requests are rate-limited based on your plan. Exceeding limits returns a `429 Too Many Requests` response.
+
+## Error handling
+
+All endpoints return standard HTTP status codes:
+
+| Code | Meaning |
+|------|---------|
+| 200 | Success |
+| 400 | Bad request (invalid parameters) |
+| 401 | Unauthorized (invalid or missing token) |
+| 403 | Forbidden (insufficient permissions) |
+| 429 | Rate limit exceeded |
+| 500 | Internal server error |
+
+Error responses include a JSON body:
 
 ```json
 {
-  "success": true,
-  "data": { ... },
-  "message": "Operation completed successfully"
+  "error": "Description of what went wrong"
 }
 ```
-
-Error responses include details:
-
-```json
-{
-  "success": false,
-  "error": "Error message",
-  "details": "Additional error context"
-}
-```
-
-## Common Response Codes
-
-| Code | Description |
-|------|-------------|
-| `200` | Success |
-| `400` | Bad request - missing or invalid parameters |
-| `401` | Unauthorized - missing or invalid authentication |
-| `404` | Not found - resource doesn't exist |
-| `500` | Server error - check error details |
-
-## Rate Limiting
-
-API calls are subject to rate limiting based on your subscription plan. When rate limited, you'll receive a `429` status code. Wait and retry after the specified time.
-
-## Available Endpoints
-
-### Code Generation
-
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/generate-screen` | POST | Generate a single screen from prompt |
-| `/generate-flow` | POST | Generate multiple connected screens |
-| `/edit-screen` | POST | Edit an existing screen |
-| `/enhance-prompt` | POST | Improve a prompt for better results |
-
-### Sandbox Management
-
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/create-ai-sandbox` | POST | Create a new sandbox |
-| `/create-ai-sandbox-v2` | POST | Create sandbox with Modal backend |
-| `/sandbox-status` | GET | Check sandbox health status |
-| `/get-sandbox-files` | GET | List all files in sandbox |
-| `/kill-sandbox` | POST | Terminate a sandbox |
-| `/restart-vite` | POST | Restart the Vite dev server |
-
-### Website Cloning
-
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/scrape-website` | POST | Scrape website content and structure |
-| `/scrape-url-enhanced` | POST | Enhanced scraping with screenshots |
-| `/scrape-screenshot` | POST | Capture website screenshot |
-
-### Seemodo Cloud
-
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/seemodo-cloud` | POST | Manage Supabase integration |
-| `/supabase-proxy/*` | * | Proxy requests to Supabase |

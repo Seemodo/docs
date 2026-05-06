@@ -1,232 +1,116 @@
 ---
 title: "Seemodo Cloud"
-description: "Connect Supabase for full backend capabilities including database, auth, and storage"
+description: "Built-in database, authentication, storage, and secrets management for your applications — activate with one click."
 icon: "cloud"
 ---
 
-Seemodo Cloud integrates your Supabase project directly into the AI development workflow. This enables the AI to create and manage database tables, authentication, storage, and more.
+# Seemodo Cloud
 
-## Overview
+Seemodo Cloud gives your application a complete backend — database, authentication, file storage, and secrets — without any configuration. Activate it with one click and the AI can immediately use it in your app.
 
-When you connect Seemodo Cloud, the AI gains access to:
+## What Seemodo Cloud provides
 
-<CardGroup cols={2}>
-  <Card title="Database" icon="database">
-    Create tables, run queries, manage data, set up relationships.
-  </Card>
-  <Card title="Authentication" icon="lock">
-    Configure auth providers, manage users, set up sessions.
-  </Card>
-  <Card title="Storage" icon="folder">
-    Create buckets, upload files, configure access policies.
-  </Card>
-  <Card title="Edge Functions" icon="bolt">
-    Deploy serverless functions directly from the sandbox.
-  </Card>
-</CardGroup>
+| Service | What it does |
+|---------|--------------|
+| **Database** | SQL database with tables, rows, and full query support |
+| **Authentication** | User signup, login, password reset, session management |
+| **Storage** | File and image uploads with buckets |
+| **Secrets** | Environment variables for API keys and sensitive data |
 
-## Setting Up
-
-### Prerequisites
-
-You need a Supabase project with a **Management API token**:
-
-1. Go to your [Supabase Dashboard](https://supabase.com/dashboard)
-2. Navigate to **Account** → **Access Tokens**
-3. Create a new token with appropriate permissions
-4. Copy the token
-
-<Warning>
-  Keep your Management API token secure. It provides full access to your Supabase project.
-</Warning>
-
-### Connecting Seemodo Cloud
+## Activating Seemodo Cloud
 
 <Steps>
-  <Step title="Generate a screen">
-    First, create a sandbox by generating a screen in HiFi mode.
+  <Step title="Generate a HiFi screen or open a project">
+    You need an active sandbox first.
   </Step>
-  <Step title="Open Seemodo Cloud">
-    Click the **Cloud** button (cloud icon) next to the Terminal button.
+  <Step title="Click the Cloud icon">
+    In the Visual Designer: the cloud button next to the terminal icon.
+    In the Project Editor: available through settings.
   </Step>
-  <Step title="Enter your credentials">
-    - **Project Reference**: Your Supabase project ID (e.g., `abcdefghijklmnop`)
-    - **Management API Token**: The token from your Supabase dashboard
+  <Step title="Choose activation mode">
+    - **Create new** — Seemodo provisions a fresh database project
+    - **Link existing** — Connect an existing database project by reference ID
   </Step>
-  <Step title="Activate">
-    Click **Activate Cloud**. Seemodo will:
-    - Validate your credentials
-    - Retrieve your project's API keys
-    - Configure the AI's MCP (Model Context Protocol) server
-    - Copy Supabase guidelines to the sandbox
+  <Step title="Done">
+    Seemodo Cloud is active. The AI can now use the database, auth, and storage in your app.
   </Step>
 </Steps>
 
-Once activated, you'll see a success message and the Cloud button will highlight.
+## Database Manager
 
-## Using Seemodo Cloud
+Once activated, the Seemodo Cloud modal shows a full database management interface:
 
-After activation, simply ask the AI to work with your backend:
+### Tables
 
-### Database Operations
+- View all tables in your database
+- See column definitions, types, and constraints
+- Browse rows with pagination
+- Create, edit, and delete rows inline
 
-```
-Create a users table with:
-- id (uuid, primary key)
-- email (text, unique)
-- full_name (text)
-- avatar_url (text, nullable)
-- created_at (timestamp with timezone)
-Enable Row Level Security
-```
+### SQL Editor
 
-```
-Add a posts table that references users:
-- id, user_id (foreign key), title, content, published_at
+Run raw SQL queries against your database:
+
+```sql
+SELECT * FROM users WHERE created_at > '2024-01-01';
 ```
 
-```
-Query all users who signed up in the last 7 days
-```
+### Schema management
 
-### Authentication
+The AI can create tables and modify your schema through chat. Just ask:
 
-```
-Set up email/password authentication with:
-- Email confirmation required
-- Password minimum 8 characters
-- Session duration 7 days
-```
+- "Create a products table with name, price, description, and image_url columns"
+- "Add a created_at timestamp to the orders table"
+- "Set up a many-to-many relationship between users and projects"
 
-```
-Configure Google OAuth for the project
-```
+## Authentication
 
-### Storage
+Seemodo Cloud provides built-in user management:
 
-```
-Create a public 'avatars' bucket for user profile pictures
-Set max file size to 2MB, allow only image types
-```
+- **User list** — View all registered users with email, creation date, and last sign-in
+- **User details** — See individual user metadata
+- **Auth integration** — The AI sets up sign-up/login flows in your app automatically
 
-```
-Create a private 'documents' bucket with user-based access
-```
+When you ask the AI to "add user authentication", it uses Seemodo Cloud's auth system.
 
-### RLS Policies
+## Storage
 
-```
-Create RLS policies for the posts table:
-- Users can read all published posts
-- Users can only update/delete their own posts
-- Users can only insert posts with their own user_id
-```
+Cloud storage for file uploads:
 
-## How It Works
+- **Buckets** — Organize files in named buckets (e.g., "avatars", "documents")
+- **Upload/Download** — Manage files through the interface
+- **Public URLs** — Get shareable links for uploaded files
 
-```mermaid
-sequenceDiagram
-    participant You
-    participant AI as Seemodo AI
-    participant MCP as MCP Server
-    participant Supabase
+Ask the AI: "Add profile image upload that saves to cloud storage"
 
-    You->>AI: Create a users table
-    AI->>MCP: Execute Supabase tool
-    MCP->>Supabase: Management API call
-    Supabase-->>MCP: Success response
-    MCP-->>AI: Table created
-    AI->>You: ✓ Users table created with RLS enabled
-```
+## Secrets
 
-The AI uses the Model Context Protocol (MCP) to communicate with Supabase. This provides:
+Store sensitive values securely:
 
-- **Type-safe operations**: The AI knows exactly what's possible
-- **Direct access**: No intermediary API layer
-- **Real-time feedback**: Immediate confirmation of changes
+- API keys
+- Third-party tokens
+- Configuration values
 
-## Best Practices
+Secrets are injected as environment variables accessible by your app code.
 
-<AccordionGroup>
-  <Accordion title="Always enable RLS">
-    Ask the AI to enable Row Level Security on every table. It will create appropriate policies automatically.
-  </Accordion>
-  <Accordion title="Use descriptive names">
-    Clear table and column names help the AI understand your data model.
-  </Accordion>
-  <Accordion title="Request migrations">
-    For production apps, ask the AI to create migration files rather than direct schema changes.
-  </Accordion>
-  <Accordion title="Test policies">
-    After creating RLS policies, ask the AI to test them with different user scenarios.
-  </Accordion>
-</AccordionGroup>
+## Using Seemodo Cloud in your app
 
-## Supabase Client Integration
+Once activated, simply tell the AI what you need:
 
-When Seemodo Cloud is active, the AI automatically:
+- "Save form submissions to the database"
+- "Add user login with email and password"
+- "Let users upload profile pictures"
+- "Store the API key in secrets and use it in my fetch calls"
 
-1. Creates `src/lib/supabase.ts` with your client configuration
-2. Uses environment variables for credentials
-3. Implements proper TypeScript types
+The AI handles all the integration code automatically.
 
-Example generated client:
+## Next steps
 
-```typescript src/lib/supabase.ts
-import { createClient } from '@supabase/supabase-js';
-
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
-```
-
-<Note>
-  The AI always uses `pnpm` for package installation in the sandbox. If you see npm commands, the AI will automatically use pnpm instead.
-</Note>
-
-## Troubleshooting
-
-<AccordionGroup>
-  <Accordion title="Connection failed">
-    - Verify your project reference is correct (just the ID, not full URL)
-    - Check that your API token is valid and has necessary permissions
-    - Ensure your Supabase project is active (not paused)
-  </Accordion>
-  <Accordion title="Operations failing">
-    - Check the Supabase dashboard for error logs
-    - Verify RLS policies aren't blocking the operation
-    - Ask the AI to debug the specific error message
-  </Accordion>
-  <Accordion title="Missing tables">
-    - Refresh the Supabase dashboard
-    - Tables are created in the `public` schema by default
-    - Check if migrations are pending
-  </Accordion>
-</AccordionGroup>
-
-## Security Considerations
-
-<Warning>
-  **Development Only**: Seemodo Cloud is designed for development and prototyping. For production:
-  
-  - Never expose your Management API token
-  - Always use environment variables for credentials
-  - Review all AI-generated RLS policies
-  - Test authentication flows thoroughly
-</Warning>
-
-### Token Permissions
-
-Your Management API token should have these minimum permissions:
-
-- Database: Read & Write
-- Auth: Read & Write (if using auth features)
-- Storage: Read & Write (if using storage)
-- Edge Functions: Read & Write (if deploying functions)
-
-### Data Privacy
-
-- API tokens are stored in your browser's localStorage
-- Tokens are only sent to your Supabase project, not to Seemodo servers
-- Clear cloud connection with the disconnect button when done
+<CardGroup cols={2}>
+  <Card title="Deployment" icon="globe" href="/seemodo/deployment">
+    Deploy your app with the cloud backend
+  </Card>
+  <Card title="Projects" icon="folder" href="/seemodo/projects">
+    Manage your projects and settings
+  </Card>
+</CardGroup>

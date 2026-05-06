@@ -1,126 +1,80 @@
 ---
-title: "Introduction"
-description: "Build apps with AI - instant code generation from prompts, visual canvas design, or by cloning existing websites"
+title: "What is Seemodo"
+description: "Seemodo is an AI-powered platform that turns your ideas into production-ready web applications through natural language."
 icon: "rocket"
 ---
 
-Seemodo is a full-stack AI-powered development platform that enables rapid application creation through multiple modalities. Build complete React applications in minutes, not hours.
+# What is Seemodo
 
-## What is Seemodo?
+Seemodo lets you build complete web applications by describing what you want. Write a prompt, and Seemodo generates fully functional code — with a live preview running in real-time.
 
-Seemodo is an AI coding assistant that transforms your ideas into working applications. Whether you describe what you want in plain text, design visually on a canvas, or clone an existing website, Seemodo generates production-ready React code with Tailwind CSS styling.
+No coding experience needed. Just your idea.
 
 <CardGroup cols={2}>
-  <Card title="Text-to-App" icon="message">
-    Describe what you want and get a working React application instantly.
+  <Card title="Visual Designer" icon="paintbrush" href="/seemodo/visual-designer">
+    Design on a canvas with AI-generated screens
   </Card>
-  <Card title="Visual Design" icon="paintbrush">
-    Use the canvas-based designer to create screens visually with tldraw.
+  <Card title="AI Coder" icon="message-bot" href="/seemodo/ai-coder">
+    Chat with AI to build and edit your app
   </Card>
-  <Card title="Website Cloning" icon="clone">
-    Clone any website's design instantly.
+  <Card title="Flow Generation" icon="diagram-project" href="/seemodo/flow-generation">
+    Create multi-screen apps in one shot
   </Card>
-  <Card title="AI Chat Editor" icon="comments">
-    Iteratively refine your app through natural language conversation.
+  <Card title="Seemodo Cloud" icon="cloud" href="/seemodo/cloud">
+    Database, authentication, and storage built-in
   </Card>
 </CardGroup>
 
-## Key Features
+## What you can build
 
-### Multi-Model AI Support
+- **SaaS Applications** — Dashboards, CRM, project management tools
+- **E-Commerce** — Stores, product catalogs, checkout flows
+- **Landing Pages** — Marketing sites, portfolios, funnels
+- **Mobile Apps** — Responsive mobile-first designs
+- **Internal Tools** — Admin panels, analytics, data management
+- **Social Platforms** — Chat apps, forums, community tools
 
-Seemodo supports multiple AI providers for maximum flexibility:
+## Two ways to build
 
-| Model | Provider | Best For |
-|-------|----------|----------|
-| Gemini 3 Pro | Google | Default, balanced performance |
-| Claude Sonnet 4 | Anthropic | Complex reasoning |
-| GPT-5 | OpenAI | General purpose |
-| Kimi K2 | Groq | Fast inference |
+Seemodo offers two complementary workspaces:
 
-### Live Sandbox Preview
+### Visual Designer (`/start`)
 
-Every generated application runs in a real sandbox environment with:
+A canvas-based workspace where you generate screens visually. Best for:
+- Designing individual screens or complete flows
+- Wireframing before building
+- Generating landing pages with many sections
+- Quick prototyping with reference images
 
-- **Hot Module Replacement (HMR)** - See changes instantly
-- **Full Vite dev server** - Real development environment
-- **Package management** - Auto-detect and install npm dependencies
-- **Error recovery** - AI automatically fixes build errors
+### Project Editor (`/projects/[id]`)
 
-### Seemodo Cloud
+A full development environment with AI chat. Best for:
+- Building complete applications with multiple pages
+- Iterating through conversation over time
+- Working with code, files, and live preview side by side
+- Connecting databases, APIs, and deploying
 
-Connect your Supabase project for full backend capabilities:
+## Core capabilities
 
-- Database management
-- Authentication
-- Storage
-- Edge Functions
-- Row Level Security policies
+| Feature | What it does |
+|---------|--------------|
+| **AI Generation** | Describe a screen in natural language, get production code |
+| **Live Sandbox** | Your app runs live with hot-reload as AI makes changes |
+| **AI Chat** | Conversational editing — ask for changes, AI applies them |
+| **Autoflow** | AI splits your app idea into screens and generates them all |
+| **Seemodo Cloud** | One-click database, authentication, and file storage |
+| **Deployment** | Publish your app to a public URL with one click |
+| **GitHub Sync** | Two-way sync with your GitHub repositories |
+| **Team Collaboration** | Share projects and work together |
+| **Export** | Download your code as a ZIP at any time |
 
-## Getting Started
-
-<Steps>
-  <Step title="Open Seemodo">
-    Navigate to the Seemodo app at `http://app.seemodo.ai` or your deployed URL.
-  </Step>
-  <Step title="Enter a prompt">
-    Describe what you want to build, or paste a URL to clone.
-  </Step>
-  <Step title="Generate">
-    Click Generate and watch your app come to life in the live preview.
-  </Step>
-  <Step title="Iterate with AI">
-    Use the AI chat to refine and extend your application.
-  </Step>
-</Steps>
-
-## Architecture Overview
-
-```mermaid
-flowchart TB
-    subgraph Frontend["Next.js Frontend"]
-        Home["/ Home"]
-        Generation["/generation Code IDE"]
-        Start["/start Visual Canvas"]
-    end
-
-    subgraph APIRoutes["API Routes"]
-        GenAPI["Code Generation"]
-        SandboxAPI["Sandbox Management"]
-        EditAPI["Code Editing"]
-    end
-
-    subgraph AIProviders["AI Providers"]
-        Gemini["Google Gemini"]
-        Claude["Anthropic Claude"]
-        GPT["OpenAI GPT"]
-    end
-
-    subgraph Sandbox["Sandbox Runtime"]
-        Vite["Vite Dev Server"]
-        SeemodAI["Seemodo AI"]
-        Files["File System"]
-    end
-
-    Frontend --> APIRoutes
-    APIRoutes --> AIProviders
-    APIRoutes --> Sandbox
-    Sandbox --> |Live Preview| Frontend
-```
-
-## Next Steps
+## Next steps
 
 <CardGroup cols={2}>
-  <Card title="Quick Start" icon="play" href="/seemodo/getting-started">
-    Set up Seemodo and generate your first app.
+  <Card title="Get started" icon="play" href="/seemodo/getting-started">
+    Create your account and build your first app
   </Card>
-  <Card title="AI Coder Guide" icon="robot" href="/seemodo/ai-coder">
-    Learn how to use the AI chat interface effectively.
-  </Card>
-  <Card title="Visual Designer" icon="palette" href="/seemodo/visual-designer">
-    Master the canvas-based visual design tools.
-  </Card>
-  <Card title="Seemodo Cloud" icon="cloud" href="/seemodo/cloud">
-    Connect Supabase for backend functionality.
+  <Card title="Plans & Credits" icon="coins" href="/seemodo/credits">
+    Understand pricing and credit costs
   </Card>
 </CardGroup>

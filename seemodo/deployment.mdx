@@ -1,0 +1,93 @@
+---
+title: "Deployment"
+description: "Publish your application with one click and get a live URL. Configure custom domains, site metadata, and manage deployment history."
+icon: "globe"
+---
+
+# Deployment
+
+Deploy your Seemodo app to production with one click. Your app gets a public URL where anyone can access it.
+
+## Publishing your app
+
+<Steps>
+  <Step title="Open your project">
+    Navigate to the Project Editor for the app you want to deploy.
+  </Step>
+  <Step title="Click Publish">
+    Click the **Publish** button in the top bar. The Deploy panel opens.
+  </Step>
+  <Step title="Deploy">
+    Click **Deploy** to start the build and publish process.
+  </Step>
+  <Step title="Get your URL">
+    Once complete, you receive a live URL like `yourproject.seemodo.app`.
+  </Step>
+</Steps>
+
+## Deploy panel features
+
+The Deploy panel shows:
+
+### Current deployment
+
+- **Status** — Draft, Building, Live, or Error
+- **URL** — Your public app URL
+- **Preview URL** — Test URL before going live
+- **Created** — When the deployment was made
+
+### Deployment history
+
+All previous deployments with:
+- Timestamp
+- Status (success/failed)
+- Commit SHA reference
+- One-click rollback capability
+
+### Site metadata
+
+Configure how your app appears when shared:
+
+| Field | Purpose |
+|-------|---------|
+| **Site title** | The browser tab title and social share heading |
+| **Site description** | Description shown in search results and social previews |
+| **Favicon** | The small icon in browser tabs |
+| **OG Image** | The preview image shown when sharing your URL on social media |
+
+<Tip>
+You can use AI to generate site metadata. Click the sparkles icon next to the metadata fields and the AI creates appropriate content based on your app.
+</Tip>
+
+### Custom domain path
+
+Set a custom path for your deployment URL. Your app will be available at `[custom-path].seemodo.app`.
+
+## Deployment states
+
+| State | Meaning |
+|-------|---------|
+| **Draft** | Not yet deployed |
+| **Pending** | Deployment queued |
+| **Building** | Code is being compiled and packaged |
+| **Live** | Successfully deployed and accessible |
+| **Error** | Deployment failed (check error message) |
+
+## Re-deploying
+
+After making changes through the AI Coder, click **Publish** again to deploy the latest version. Previous deployments remain in history.
+
+## Deleting deployments
+
+Remove old deployments from the history using the delete button on each entry.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="GitHub" icon="code-branch" href="/seemodo/github">
+    Sync your code with GitHub
+  </Card>
+  <Card title="Projects" icon="folder" href="/seemodo/projects">
+    Manage your projects
+  </Card>
+</CardGroup>

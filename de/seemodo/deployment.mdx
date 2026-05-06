@@ -1,0 +1,77 @@
+---
+title: "Deployment"
+description: "Veröffentliche deine App mit einem Klick und erhalte eine Live-URL. Custom Domains, Metadaten und Deployment-Verlauf."
+icon: "globe"
+---
+
+# Deployment
+
+Deploye deine Seemodo-App mit einem Klick. Deine App bekommt eine öffentliche URL, unter der jeder darauf zugreifen kann.
+
+## App veröffentlichen
+
+<Steps>
+  <Step title="Projekt öffnen">
+    Navigiere zum Projekt-Editor der App die du deployen willst.
+  </Step>
+  <Step title="Publish klicken">
+    Klicke den **Publish**-Button in der Top Bar. Das Deploy-Panel öffnet sich.
+  </Step>
+  <Step title="Deployen">
+    Klicke **Deploy** um den Build- und Publish-Prozess zu starten.
+  </Step>
+  <Step title="URL erhalten">
+    Nach Abschluss erhältst du eine Live-URL wie `deinprojekt.seemodo.app`.
+  </Step>
+</Steps>
+
+## Deploy-Panel
+
+### Aktuelles Deployment
+
+- **Status** — Entwurf, Wird gebaut, Live oder Fehler
+- **URL** — Deine öffentliche App-URL
+- **Vorschau-URL** — Test-URL vor dem Live-Gang
+- **Erstellt** — Wann das Deployment gemacht wurde
+
+### Deployment-Verlauf
+
+Alle vorherigen Deployments mit Zeitstempel, Status und Rollback-Möglichkeit.
+
+### Site-Metadaten
+
+| Feld | Zweck |
+|------|-------|
+| **Site-Titel** | Browser-Tab-Titel und Social-Share-Überschrift |
+| **Site-Beschreibung** | In Suchergebnissen und Social-Previews |
+| **Favicon** | Kleines Icon im Browser-Tab |
+| **OG-Bild** | Vorschaubild beim Teilen auf Social Media |
+
+<Tip>
+Du kannst KI nutzen um Site-Metadaten zu generieren. Klicke das Sparkles-Icon und die KI erstellt passenden Inhalt basierend auf deiner App.
+</Tip>
+
+### Custom Domain
+
+Setze einen eigenen Pfad für deine Deploy-URL: `[dein-pfad].seemodo.app`.
+
+## Deployment-Status
+
+| Status | Bedeutung |
+|--------|-----------|
+| **Draft** | Noch nicht deployed |
+| **Pending** | Deployment in Warteschlange |
+| **Building** | Code wird kompiliert |
+| **Live** | Erfolgreich deployed und erreichbar |
+| **Error** | Deployment fehlgeschlagen |
+
+## Nächste Schritte
+
+<CardGroup cols={2}>
+  <Card title="GitHub" icon="code-branch" href="/de/seemodo/github">
+    Code mit GitHub synchronisieren
+  </Card>
+  <Card title="Projekte" icon="folder" href="/de/seemodo/projects">
+    Projekte verwalten
+  </Card>
+</CardGroup>

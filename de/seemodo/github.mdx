@@ -1,0 +1,82 @@
+---
+title: "GitHub Integration"
+description: "Verbinde Seemodo-Projekte mit GitHub für Zwei-Wege-Sync, Versionskontrolle und Zusammenarbeit."
+icon: "code-branch"
+---
+
+# GitHub Integration
+
+Verbinde deine Seemodo-Projekte mit GitHub-Repositories. Push generierten Code zu GitHub, pull Änderungen von externen Beitragenden und halte alles synchron.
+
+## GitHub-Konto verbinden
+
+<Steps>
+  <Step title="Projekt öffnen">
+    Navigiere zum Projekt-Editor.
+  </Step>
+  <Step title="GitHub-Button klicken">
+    In der Top Bar: Klick auf das **Git**-Icon.
+  </Step>
+  <Step title="Seemodo autorisieren">
+    Falls noch nicht verbunden, wirst du zu GitHub weitergeleitet um Seemodo zu autorisieren.
+  </Step>
+  <Step title="Verbindung bestätigt">
+    Dein GitHub-Benutzername und Avatar erscheinen.
+  </Step>
+</Steps>
+
+## Projekt mit Repository verbinden
+
+<Steps>
+  <Step title="GitHub-Dialog öffnen">
+    Git-Icon im Projekt-Editor klicken.
+  </Step>
+  <Step title="Organisation wählen">
+    Persönliches Konto oder eine Organisation auswählen.
+  </Step>
+  <Step title="Repository erstellen oder verbinden">
+    - **Neu erstellen** — Seemodo erstellt ein neues Repository
+    - **Bestehendes verbinden** — Aus der Liste wählen
+  </Step>
+  <Step title="Branch wählen">
+    Branch für die Synchronisierung auswählen (Standard: `main`).
+  </Step>
+</Steps>
+
+## Code synchronisieren
+
+### Push zu GitHub
+
+- Klick auf **Push**
+- Dein aktueller Code wird committet und gepusht
+- Ergebnis und Änderungen anzeigen
+
+### Pull von GitHub
+
+- Klick auf **Pull** um Remote-Änderungen zu holen
+- Nützlich wenn externe Beitragende gepusht haben
+- Sandbox aktualisiert sich mit dem gepullten Code
+
+### Diff-Ansicht
+
+Vor dem Push: Geänderte Dateien und Zeilenvergleiche ansehen.
+
+## Git im Visual Designer
+
+Das Sandbox Panel hat auch einen **Git-Tab**:
+
+- Aktuellen Branch anzeigen
+- Nicht-committete Änderungen sehen
+- Mit Nachricht committen
+- Commit-Log ansehen
+
+## Nächste Schritte
+
+<CardGroup cols={2}>
+  <Card title="Deployment" icon="globe" href="/de/seemodo/deployment">
+    App veröffentlichen
+  </Card>
+  <Card title="Credits & Pläne" icon="coins" href="/de/seemodo/credits">
+    Preise und Nutzung
+  </Card>
+</CardGroup>

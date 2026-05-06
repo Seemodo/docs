@@ -1,126 +1,78 @@
 ---
-title: "Einführung"
-description: "Erstelle Apps mit KI - sofortige Code-Generierung aus Prompts, visuellem Canvas-Design oder durch Klonen bestehender Websites"
+title: "Was ist Seemodo"
+description: "Seemodo ist eine KI-gestützte Plattform, die deine Ideen in produktionsfertige Web-Apps verwandelt — durch natürliche Sprache."
 icon: "rocket"
 ---
 
-Seemodo ist eine KI-gestützte Full-Stack-Entwicklungsplattform, die schnelle Anwendungserstellung durch mehrere Modalitäten ermöglicht. Erstelle komplette React-Anwendungen in Minuten statt Stunden.
+# Was ist Seemodo
 
-## Was ist Seemodo?
+Seemodo ermöglicht es dir, komplette Web-Anwendungen zu erstellen, indem du einfach beschreibst, was du willst. Schreibe einen Prompt und Seemodo generiert funktionsfähigen Code — mit einer Live-Vorschau in Echtzeit.
 
-Seemodo ist ein KI-Coding-Assistent, der deine Ideen in funktionierende Anwendungen verwandelt. Ob du beschreibst was du möchtest, visuell auf einem Canvas designst oder eine bestehende Website klonst - Seemodo generiert produktionsreifen React-Code mit Tailwind CSS Styling.
+Keine Programmierkenntnisse nötig. Nur deine Idee.
 
 <CardGroup cols={2}>
-  <Card title="Text-zu-App" icon="message">
-    Beschreibe was du möchtest und erhalte sofort eine funktionierende React-Anwendung.
+  <Card title="Visual Designer" icon="paintbrush" href="/de/seemodo/visual-designer">
+    Designs auf einem Canvas mit KI-generierten Screens
   </Card>
-  <Card title="Visuelles Design" icon="paintbrush">
-    Nutze den Canvas-basierten Designer um Screens visuell mit tldraw zu erstellen.
+  <Card title="AI Coder" icon="message-bot" href="/de/seemodo/ai-coder">
+    Chatte mit der KI um deine App zu entwickeln
   </Card>
-  <Card title="Website-Klonen" icon="clone">
-    Klone jedes Website-Design sofort.
+  <Card title="Flow Generation" icon="diagram-project" href="/de/seemodo/flow-generation">
+    Erstelle Multi-Screen-Apps in einem Schritt
   </Card>
-  <Card title="KI-Chat-Editor" icon="comments">
-    Verfeinere deine App iterativ durch natürlichsprachliche Konversation.
+  <Card title="Seemodo Cloud" icon="cloud" href="/de/seemodo/cloud">
+    Datenbank, Authentifizierung und Storage integriert
   </Card>
 </CardGroup>
 
-## Hauptfunktionen
+## Was du bauen kannst
 
-### Multi-Modell KI-Unterstützung
+- **SaaS-Anwendungen** — Dashboards, CRM, Projektmanagement-Tools
+- **E-Commerce** — Shops, Produktkataloge, Checkout-Flows
+- **Landing Pages** — Marketing-Seiten, Portfolios, Funnels
+- **Mobile Apps** — Responsive Mobile-First-Designs
+- **Interne Tools** — Admin-Panels, Analytics, Datenverwaltung
+- **Social Platforms** — Chat-Apps, Foren, Community-Tools
 
-Seemodo unterstützt mehrere KI-Anbieter für maximale Flexibilität:
+## Zwei Wege zum Bauen
 
-| Modell | Anbieter | Beste Verwendung |
-|--------|----------|------------------|
-| Gemini 3 Pro | Google | Standard, ausgewogene Leistung |
-| Claude Sonnet 4 | Anthropic | Komplexes Reasoning |
-| GPT-5 | OpenAI | Allgemeine Zwecke |
-| Kimi K2 | Groq | Schnelle Inferenz |
+### Visual Designer (`/start`)
 
-### Live Sandbox-Vorschau
+Ein Canvas-basierter Workspace für visuelle Screen-Generierung. Ideal für:
+- Einzelne Screens oder komplette Flows designen
+- Wireframing vor dem Bauen
+- Landing Pages mit vielen Sektionen
+- Schnelles Prototyping mit Referenzbildern
 
-Jede generierte Anwendung läuft in einer echten Sandbox-Umgebung mit:
+### Projekt-Editor (`/projects/[id]`)
 
-- **Hot Module Replacement (HMR)** - Änderungen sofort sehen
-- **Vollständiger Vite Dev-Server** - Echte Entwicklungsumgebung
-- **Paket-Management** - Automatische Erkennung und Installation von npm-Abhängigkeiten
-- **Fehler-Wiederherstellung** - KI behebt Build-Fehler automatisch
+Eine vollständige Entwicklungsumgebung mit KI-Chat. Ideal für:
+- Komplette Anwendungen mit mehreren Seiten
+- Iteratives Arbeiten über Zeit
+- Code, Dateien und Live-Vorschau nebeneinander
+- Datenbank-Anbindung, APIs und Deployment
 
-### Seemodo Cloud
+## Kernfunktionen
 
-Verbinde dein Supabase-Projekt für volle Backend-Funktionalität:
-
-- Datenbank-Management
-- Authentifizierung
-- Storage
-- Edge Functions
-- Row Level Security Policies
-
-## Erste Schritte
-
-<Steps>
-  <Step title="Seemodo öffnen">
-    Navigiere zur Seemodo-App unter `http://app.seemodo.ai` oder deiner bereitgestellten URL.
-  </Step>
-  <Step title="Prompt eingeben">
-    Beschreibe was du erstellen möchtest, oder füge eine URL zum Klonen ein.
-  </Step>
-  <Step title="Generieren">
-    Klicke auf Generieren und beobachte wie deine App in der Live-Vorschau entsteht.
-  </Step>
-  <Step title="Mit KI iterieren">
-    Nutze den KI-Chat um deine Anwendung zu verfeinern und zu erweitern.
-  </Step>
-</Steps>
-
-## Architektur-Übersicht
-
-```mermaid
-flowchart TB
-    subgraph Frontend["Next.js Frontend"]
-        Home["/ Startseite"]
-        Generation["/generation Code IDE"]
-        Start["/start Visueller Canvas"]
-    end
-
-    subgraph APIRoutes["API-Routen"]
-        GenAPI["Code-Generierung"]
-        SandboxAPI["Sandbox-Verwaltung"]
-        EditAPI["Code-Bearbeitung"]
-    end
-
-    subgraph AIProviders["KI-Anbieter"]
-        Gemini["Google Gemini"]
-        Claude["Anthropic Claude"]
-        GPT["OpenAI GPT"]
-    end
-
-    subgraph Sandbox["Sandbox-Runtime"]
-        Vite["Vite Dev-Server"]
-        SeemodAI["Seemodo AI"]
-        Files["Dateisystem"]
-    end
-
-    Frontend --> APIRoutes
-    APIRoutes --> AIProviders
-    APIRoutes --> Sandbox
-    Sandbox --> |Live-Vorschau| Frontend
-```
+| Feature | Was es tut |
+|---------|-----------|
+| **KI-Generierung** | Beschreibe einen Screen, erhalte produktionsreifen Code |
+| **Live-Sandbox** | Deine App läuft live mit Hot-Reload bei Änderungen |
+| **KI-Chat** | Fordere Änderungen per Nachricht an — die KI setzt sie um |
+| **Autoflow** | KI teilt deine App-Idee in Screens auf und generiert alle |
+| **Seemodo Cloud** | Ein-Klick-Datenbank, Auth und File-Storage |
+| **Deployment** | App mit einem Klick veröffentlichen |
+| **GitHub Sync** | Zwei-Wege-Sync mit GitHub-Repositories |
+| **Team-Zusammenarbeit** | Projekte teilen und gemeinsam arbeiten |
+| **Export** | Code jederzeit als ZIP herunterladen |
 
 ## Nächste Schritte
 
 <CardGroup cols={2}>
-  <Card title="Schnellstart" icon="play" href="/de/seemodo/getting-started">
-    Richte Seemodo ein und generiere deine erste App.
+  <Card title="Erste Schritte" icon="play" href="/de/seemodo/getting-started">
+    Konto erstellen und erste App bauen
   </Card>
-  <Card title="KI-Coder Anleitung" icon="robot" href="/de/seemodo/ai-coder">
-    Lerne wie du das KI-Chat-Interface effektiv nutzt.
-  </Card>
-  <Card title="Visueller Designer" icon="palette" href="/de/seemodo/visual-designer">
-    Meistere die Canvas-basierten visuellen Design-Tools.
-  </Card>
-  <Card title="Seemodo Cloud" icon="cloud" href="/de/seemodo/cloud">
-    Verbinde Supabase für Backend-Funktionalität.
+  <Card title="Pläne & Credits" icon="coins" href="/de/seemodo/credits">
+    Preise und Credit-Kosten verstehen
   </Card>
 </CardGroup>

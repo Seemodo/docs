@@ -1,298 +1,105 @@
 ---
-title: "Sandbox Providers"
-description: "Understanding the different sandbox environments for running generated code"
-icon: "server"
+title: "Live Preview & Sandbox"
+description: "Your app runs in a real cloud sandbox with hot-reload, terminal access, AI coder, Git, and build logs."
+icon: "eye"
 ---
 
-Seemodo uses cloud sandboxes to run your generated applications. Each sandbox provides a complete development environment with a Vite dev server, package management, and AI integration.
+# Live Preview & Sandbox
 
-## Available Providers
+Every application in Seemodo runs inside a live cloud sandbox. This is a real development environment — your code runs, you can interact with your app, and changes appear instantly.
 
-<Tabs>
-  <Tab title="Modal (Recommended)">
-    **Fast, scalable cloud sandboxes with full AI integration**
+## How the sandbox works
 
-    Modal Labs provides pre-configured sandboxes optimized for Seemodo:
+When you generate a HiFi screen or open a project, Seemodo provisions a cloud sandbox:
 
-    | Feature | Details |
-    |---------|---------|
-    | Timeout | 1-24 hours (configurable) |
-    | Package Manager | pnpm |
-    | AI Integration | Seemodo AI server included |
-    | Git | Auto-commit after AI changes |
-    | Preview | Encrypted tunnel URLs |
+1. A fresh development environment starts
+2. Your project code is synced
+3. A dev server launches with hot-reload
+4. The live preview appears in your workspace
 
-    **Included Services:**
-    - Vite dev server (port 5173)
-    - FastAPI server (port 8000)
-    - Seemodo AI server (port 4097)
+Changes made by the AI (or through the terminal) trigger hot-reload — you see updates instantly without refreshing.
 
-    **Setup:**
-    ```bash
-    cd modal-backend
-    pip install modal
-    modal setup
-    modal deploy main.py
-    ```
+## Sandbox in the Visual Designer
 
-    Add to `.env`:
-    ```env
-    SANDBOX_PROVIDER=modal
-    MODAL_BACKEND_URL=https://your-deployed-url.modal.run
-    ```
-  </Tab>
-  <Tab title="E2B">
-    **Secure sandboxes for code execution**
+In the Visual Designer (`/start`), the sandbox activates automatically when you generate a HiFi screen. The loading sequence shows:
 
-    E2B provides isolated sandboxes with full filesystem access:
+- "Setting up Seemodo..."
+- "Preparing sandbox..."
+- "Loading environment..."
+- "Almost ready..."
 
-    | Feature | Details |
-    |---------|---------|
-    | Timeout | 60 minutes |
-    | Package Manager | npm |
-    | AI Integration | External only |
-    | Preview | Port 5173 |
+Once ready, your generated screen runs live inside the canvas frame.
 
-    **Setup:**
-    
-    Get an API key from [e2b.dev](https://e2b.dev) and add to `.env`:
-    ```env
-    SANDBOX_PROVIDER=e2b
-    E2B_API_KEY=your_e2b_api_key
-    ```
-  </Tab>
-  <Tab title="Vercel Sandbox">
-    **Native Next.js support with Vercel infrastructure**
+## Sandbox in the Project Editor
 
-    Optimized for Next.js applications:
+In the Project Editor (`/projects/[id]`), the sandbox starts as soon as you open a project. The Preview Panel on the right shows your running app.
 
-    | Feature | Details |
-    |---------|---------|
-    | Timeout | 15 minutes |
-    | Package Manager | npm |
-    | Framework | Next.js native |
-    | Preview | Port 3000 |
+Features:
+- **Auto-recovery** — If the sandbox crashes, Seemodo detects it and restarts automatically
+- **Keep-alive** — The sandbox stays running while you're working
+- **Multiple pages** — Navigate between pages in the preview just like a real app
 
-    **Setup:**
-    ```env
-    SANDBOX_PROVIDER=vercel
-    ```
+## The Sandbox Panel
 
-    <Note>
-      Vercel Sandbox is best suited for Next.js-specific applications.
-    </Note>
-  </Tab>
-</Tabs>
+In the Visual Designer, click the **terminal icon** (next to the Generate button) to open the Sandbox Panel with four tabs:
 
-## Provider Comparison
+### AI Coder (OpenCode)
 
-| Feature | Modal | E2B | Vercel |
-|---------|-------|-----|--------|
-| Default Timeout | 1 hour | 60 min | 15 min |
-| Max Timeout | 24 hours | 60 min | 15 min |
-| Seemodo AI | ✅ Built-in | ❌ | ❌ |
-| Git Integration | ✅ Auto-commit | ❌ | ❌ |
-| Package Manager | pnpm | npm | npm |
-| Startup Time | ~5 seconds | ~10 seconds | ~3 seconds |
-| Best For | Full AI workflow | Quick prototypes | Next.js apps |
+A full AI coding assistant with file-system access. Unlike the inline AI Editor (which edits one screen at a time), the Sandbox AI Coder can:
 
-## Sandbox Lifecycle
+- Create new files and components
+- Edit multiple files simultaneously
+- Set up routing, state management, and complex features
+- Install packages
+- Work across your entire project
 
-```mermaid
-stateDiagram-v2
-    [*] --> Creating: Generate Screen
-    Creating --> Initializing: Sandbox Created
-    Initializing --> Ready: Services Started
-    Ready --> Active: User Interaction
-    Active --> Ready: Idle
-    Active --> Terminated: Timeout/Kill
-    Ready --> Terminated: Timeout
-    Terminated --> [*]
-```
+### Terminal
 
-### Creating a Sandbox
+A full command-line shell connected to your sandbox. Run any command:
 
-A sandbox is automatically created when you:
-
-1. Generate a HiFi screen
-2. Click Generate Flow with HiFi mode
-
-The process:
-1. Request new sandbox from provider
-2. Wait for container startup
-3. Initialize Vite dev server
-4. Start Seemodo AI (Modal only)
-5. Return preview URL
-
-### Sandbox States
-
-| State | Description |
-|-------|-------------|
-| **Initializing** | Sandbox is starting up |
-| **Ready** | All services running, preview available |
-| **Active** | User is interacting with the sandbox |
-| **Idle** | No recent activity |
-| **Terminated** | Sandbox has been stopped |
-
-## Modal Sandbox Architecture
-
-```mermaid
-flowchart TB
-    subgraph Modal["Modal Sandbox Instance"]
-        direction TB
-        ViteServer["Vite Dev Server\n:5173"]
-        FastAPIServer["FastAPI Server\n:8000"]
-        SeemodAIServer["Seemodo AI\n:4097"]
-        Git["Git Repository"]
-        Files["/root/vite-app\nProject Files"]
-    end
-
-    subgraph External["External Access"]
-        Preview["Preview URL\n(encrypted tunnel)"]
-        API["API URL\n(for terminal)"]
-        SeemodAI["Seemodo AI URL\n(for AI chat)"]
-    end
-
-    Preview --> ViteServer
-    API --> FastAPIServer
-    SeemodAI --> SeemodAIServer
-    SeemodAIServer --> Files
-    Files --> Git
-    ViteServer --> Files
-```
-
-### Pre-installed Template
-
-Modal sandboxes come with a pre-configured Vite + React + Tailwind template:
-
-```
-/root/vite-app/
-├── src/
-│   ├── main.jsx
-│   ├── App.jsx
-│   └── index.css
-├── public/
-├── index.html
-├── package.json
-├── vite.config.js
-├── tailwind.config.js
-└── postcss.config.js
-```
-
-## Configuration
-
-All sandbox settings are in `config/app.config.ts`:
-
-```typescript
-export const appConfig = {
-  // Modal Configuration
-  modal: {
-    timeoutMinutes: 60,
-    backendUrl: process.env.MODAL_BACKEND_URL,
-    vitePort: 5173,
-    viteStartupDelay: 5000,
-    workingDirectory: '/root/vite-app',
-  },
-  
-  // E2B Configuration
-  e2b: {
-    timeoutMinutes: 60,
-    vitePort: 5173,
-    viteStartupDelay: 10000,
-    workingDirectory: '/home/user/app',
-  },
-  
-  // Vercel Configuration
-  vercelSandbox: {
-    timeoutMinutes: 15,
-    devPort: 3000,
-    devServerStartupDelay: 7000,
-    workingDirectory: '/app',
-  },
-};
-```
-
-## Terminal Access
-
-Open the terminal to run commands directly in the sandbox:
-
-1. Click the **Terminal** button after a sandbox is active
-2. Use the built-in terminal or AI chat
-
-Common commands:
 ```bash
-# View files
-ls -la src/
-
-# Install a package
-pnpm add lodash
-
-# Check for errors
-cat vite.log
-
-# View git history
-git log --oneline
+npm install axios
+ls src/components/
+cat package.json
 ```
 
-## Downloading Your Project
+### Git
 
-Export your project as a ZIP file:
+Version control built into the sandbox:
 
-1. Open the Sandbox Panel
-2. Click the **Download** button
-3. Receive a complete ZIP with:
-   - All source files
-   - `package.json` with dependencies
-   - Configuration files
-   - Git history (Modal only)
+- View current branch
+- See changed files with status (added/modified/deleted)
+- Write commit messages and commit
+- View commit history with diffs
 
-Run the downloaded project locally:
-```bash
-unzip project.zip
-cd project
-pnpm install
-pnpm dev
-```
+### Vite Logs
 
-## Troubleshooting
+Real-time build output from the development server:
 
-<AccordionGroup>
-  <Accordion title="Sandbox not starting">
-    - Check your provider API key/URL is correct
-    - Verify the Modal backend is deployed
-    - Check network connectivity
-    - Look at browser console for errors
-  </Accordion>
-  <Accordion title="Preview not loading">
-    - Wait for the Vite server to start (may take 5-10 seconds)
-    - Check for build errors in the logs
-    - Ensure the sandbox hasn't timed out
-    - Try refreshing the preview iframe
-  </Accordion>
-  <Accordion title="Packages not installing">
-    - Verify the package name is correct
-    - Check for network issues in the sandbox
-    - Use `pnpm` instead of `npm` (Modal)
-    - Restart Vite after installation
-  </Accordion>
-  <Accordion title="AI not connecting">
-    - Ensure you're using Modal provider
-    - Wait for full sandbox initialization
-    - Check Seemodo AI URL is available
-    - Look for connection errors in the panel
-  </Accordion>
-</AccordionGroup>
+- Compilation errors
+- HMR (Hot Module Replacement) updates
+- Warnings and debug info
 
-## Environment Variables
+## Sandbox status indicators
 
-Sandboxes support environment variables for:
+| Indicator | Meaning |
+|-----------|---------|
+| Green dot | Sandbox is running and synced |
+| Spinner | Sandbox is starting |
+| Terminal icon (active) | Sandbox Panel is open |
+| Terminal icon (disabled) | No sandbox active yet |
 
-- API keys (for external services)
-- Configuration flags
-- Feature toggles
+## Seemodo Cloud button
 
-Create a `.env` file in the sandbox or ask the AI to set up environment variables.
+The **cloud icon** next to the terminal button opens Seemodo Cloud — for connecting a database, storage, and authentication to your sandbox app. See [Seemodo Cloud](/seemodo/cloud).
 
-<Warning>
-  Never commit real API keys to generated code. Use environment variables and `.env` files.
-</Warning>
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Seemodo Cloud" icon="cloud" href="/seemodo/cloud">
+    Add a database to your sandbox app
+  </Card>
+  <Card title="GitHub" icon="code-branch" href="/seemodo/github">
+    Connect your sandbox to GitHub
+  </Card>
+</CardGroup>

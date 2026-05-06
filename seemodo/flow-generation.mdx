@@ -1,0 +1,98 @@
+---
+title: "Flow Generation"
+description: "Generate complete multi-screen applications in one go using Autoflow. AI breaks your idea into screens and generates them all simultaneously."
+icon: "diagram-project"
+---
+
+# Flow Generation
+
+Flow Generation creates entire multi-screen applications from a single description. Instead of building one screen at a time, describe your complete app and Seemodo generates all pages at once.
+
+## Single Screen vs. Create Flow
+
+In the Visual Designer's left sidebar, toggle between:
+
+| Mode | Description |
+|------|-------------|
+| **Single Screen** | Generate one screen per prompt |
+| **Create Flow** | Generate multiple connected screens from one app description |
+
+## How to generate a flow
+
+<Steps>
+  <Step title="Switch to Create Flow">
+    Click the **Create Flow** tab in the Prompt section.
+  </Step>
+  <Step title="Describe your app">
+    Write a high-level description of the entire application:
+    
+    "A food delivery app with splash screen, restaurant listing with filters, restaurant detail with menu, cart with item quantities, checkout with address and payment, order confirmation, and order tracking with map."
+  </Step>
+  <Step title="Click Autoflow">
+    The AI analyzes your description and generates a list of screens, each with its own name and detailed prompt.
+  </Step>
+  <Step title="Review and customize">
+    Edit individual screen names and prompts. Reorder by dragging. Remove screens you don't need.
+  </Step>
+  <Step title="Click Generate Flow">
+    All screens generate in parallel and appear on the canvas side by side.
+  </Step>
+</Steps>
+
+## Autoflow
+
+Autoflow is the AI that splits your app description into logical screens.
+
+### Controlling the number of screens
+
+Enter a number in the **#** field next to the Autoflow button to set how many screens you want. Leave empty and the AI decides the optimal count.
+
+### What Autoflow produces
+
+For each screen, Autoflow creates:
+- A descriptive **name** (e.g., "Onboarding", "Dashboard", "Settings")
+- A detailed **prompt** describing that specific screen's content and layout
+- Proper **ordering** representing the user journey
+
+## Customizing screens
+
+After Autoflow generates the list:
+
+| Action | How |
+|--------|-----|
+| **Reorder** | Drag the grip handle on the left of each card |
+| **Rename** | Click the screen name and type a new one |
+| **Edit prompt** | Modify the detailed description for any screen |
+| **Remove** | Click the minus (−) button |
+| **Clear all** | Click "Clear" to start over |
+
+## Shared settings
+
+All screens in a flow share the same:
+- Design mode (Wireframe / HiFi)
+- Page type (Normal / Landing Page / Funnel)
+- Screen size (Desktop / Tablet / Mobile)
+- Deep Design and Max Mode toggles
+- Reference images
+
+## Tips for great flows
+
+- **Describe the user journey** — Think about what happens first, second, third
+- **Mention style once** — Include "dark theme, blue accents, rounded corners" in the main description and it applies to all screens
+- **Be specific about content** — "Restaurant listing with name, rating, delivery time, cuisine type" produces better results than "a list page"
+- **Upload reference images** — Style references apply to all generated screens
+
+<Note>
+Flow Generation on the Free plan is limited to 3 screens per flow. Standard allows 5 screens. Pro and Teams plans have unlimited screens per flow.
+</Note>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Visual Designer" icon="paintbrush" href="/seemodo/visual-designer">
+    Learn about single screen generation
+  </Card>
+  <Card title="Deployment" icon="globe" href="/seemodo/deployment">
+    Publish your generated flow as a live app
+  </Card>
+</CardGroup>
