@@ -1,71 +1,254 @@
 ---
-title: "API Overview"
-description: "Overview of the Seemodo API endpoints available for generation, editing, sandbox management, and cloud services."
+title: "API Reference"
+description: "Complete reference for the Seemodo backend API and frontend API routes. Covers projects, chat, deployments, GitHub, billing, and more."
 icon: "code"
 ---
 
-# API Overview
+# API Reference
 
-Seemodo exposes API endpoints that power the platform's core features. These endpoints handle screen generation, editing, flow creation, sandbox management, and cloud services.
+Seemodo exposes two API layers: a **Backend API** (Go server) for project management, chat, billing, and integrations, and **Frontend API routes** (Next.js) for AI generation, sandbox operations, and utilities.
 
-## Base URL
+## Backend API
 
-All API requests are made to:
+### Base URL
 
 ```
 https://api.seemodo.app
 ```
 
-## Authentication
+### Authentication
 
-Requests require a valid authentication token passed as a Bearer token in the Authorization header:
+All backend requests require a Bearer token in the Authorization header:
 
 ```bash
 Authorization: Bearer <your-token>
 ```
 
-## Available endpoints
+Tokens are obtained via authentication (login flow). In development mode, mock auth is used.
+
+---
+
+## User & Preferences
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/user` | GET | Get current user profile |
+| `/user` | PATCH | Update user (display_name, etc.) |
+| `/user/workspaces` | GET | List user's workspaces |
+| `/user/rewards` | GET | Get user rewards/referrals |
+| `/user/preferences/llm` | GET | Get LLM model preferences |
+| `/user/preferences/llm` | PATCH | Set LLM mode (router/fixed), provider, model |
+| `/user/preferences/llm/options` | GET | Get available LLM providers and models |
+| `/user/preferences/tool-preferences` | GET | Get tool approval preferences |
+| `/user/preferences/tool-preferences/{integration}/{tool}` | POST | Set tool preference (ask/never_ask) |
+
+## Workspaces
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/workspaces/{id}` | GET | Get workspace details |
+| `/workspaces/{id}` | PATCH | Update workspace |
+| `/workspaces/{id}/members` | GET | List workspace members |
+| `/workspaces/{id}/members/invite` | POST | Invite member (email, role) |
+| `/workspaces/{id}/members/{memberId}` | DELETE | Remove member |
+| `/workspaces/{id}/invitations` | GET | List pending invitations |
+| `/workspaces/{id}/invitations/{invitationId}` | DELETE | Revoke invitation |
+| `/invitations/{id}/accept` | POST | Accept an invitation |
+| `/workspaces/{id}/projects` | GET | List projects (optional: client_id, folder_id) |
+| `/workspaces/{id}/projects` | POST | Create new project |
+| `/workspaces/{id}/folders` | GET | List folders |
+| `/workspaces/{id}/balance` | GET | Get credit balance (daily, monthly, rollover, topup) |
+| `/workspaces/{id}/analytics` | GET | Get workspace analytics summary |
+
+## Projects
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/projects/{id}` | GET | Get project details |
+| `/projects/{id}` | PATCH | Update project (name, description, etc.) |
+| `/projects/{id}` | DELETE | Delete project |
+| `/projects/{id}/source-code` | GET | Get project source code |
+| `/projects/{id}/trajectory` | GET | Get chat history (events, count) |
+| `/projects/{id}/memory` | GET | Get project memory/context |
+| `/projects/{id}/commits` | GET | Get commit history |
+| `/projects/{id}/revert/{commitSHA}` | POST | Revert to a specific commit |
+| `/projects/{id}/commits/{sha}/bookmark` | POST | Toggle commit bookmark |
+| `/projects/{id}/auth-token` | GET | Get project auth token |
+| `/projects/{id}/thumbnail` | POST | Set project thumbnail URL |
+| `/projects/{id}/thumbnail/invalidate` | POST | Invalidate thumbnail cache |
+| `/projects/{id}/transfer` | POST | Transfer project to another workspace |
+| `/projects/{id}/integrations` | GET | Get project integrations (Supabase, GitHub, connectors) |
+| `/projects/{id}/collaborators` | GET | List project collaborators |
+| `/projects/{id}/collaborators` | POST | Add collaborator (email, access_level) |
+| `/projects/{id}/collaborators/{collabId}` | DELETE | Remove collaborator |
+
+## Chat (AI Coder)
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/projects/{id}/chat` | POST | Send message to AI (supports chat_only, agent_mode_enabled) |
+| `/projects/{id}/chat/stream` | GET | SSE stream for real-time AI responses |
+| `/projects/{id}/chat/approve-tool` | POST | Approve or deny a tool use request |
+| `/projects/{id}/chat/answer-question` | POST | Answer an AI question (e.g., Supabase connect prompt) |
+| `/projects/{id}/chat/queue` | GET | Get message queue (items + state) |
+| `/projects/{id}/chat/queue/add` | POST | Add message to queue |
+| `/projects/{id}/chat/queue/{itemId}` | DELETE | Remove item from queue |
+| `/projects/{id}/chat/queue/reorder` | POST | Reorder queue items |
+| `/projects/{id}/chat/queue/pause` | POST | Pause/resume queue processing |
+
+## Sandbox
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/projects/{id}/sandbox/start` | POST | Start sandbox for a project |
+| `/projects/{id}/sandbox/url` | GET | Get sandbox URL |
+
+## Deployments
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/projects/{id}/deployments` | GET | List all deployments |
+| `/projects/{id}/deployments` | POST | Create deployment (custom_subdomain, site metadata) |
+| `/projects/{id}/deployments/{deployId}` | GET | Get deployment details |
+| `/projects/{id}/deployments/{deployId}` | DELETE | Delete a deployment |
+
+## GitHub Integration
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/auth/github/url` | GET | Get GitHub OAuth URL (with optional state param) |
+| `/auth/callback/github` | POST | Exchange OAuth code for connection |
+| `/users/github/status` | GET | Check GitHub account connection status |
+| `/users/github/disconnect` | POST | Disconnect GitHub account |
+| `/users/github/organizations` | GET | List accessible GitHub organizations |
+| `/projects/{id}/github/connect` | POST | Connect project to GitHub (owner, is_org, private) |
+| `/projects/{id}/github/disconnect` | POST | Disconnect project from GitHub |
+| `/projects/{id}/github/status` | GET | Get project GitHub connection details |
+| `/projects/{id}/github/push` | POST | Push code to GitHub |
+| `/projects/{id}/github/pull` | POST | Pull code from GitHub |
+| `/projects/{id}/github/diff` | GET | Get diff between local and remote |
+
+## Billing
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/billing/plans` | GET | Get available billing plans with tiers |
+| `/workspaces/{id}/billing/checkout` | POST | Create Stripe checkout session |
+| `/workspaces/{id}/billing/portal` | POST | Create Stripe billing portal session |
+| `/workspaces/{id}/balance` | GET | Get credit balance |
+| `/workspaces/{id}/balance/auto-topup` | GET | Get auto-topup settings |
+| `/workspaces/{id}/balance/auto-topup` | PUT | Update auto-topup (enabled, threshold, amount) |
+| `/workspaces/{id}/user-monthly-usage` | GET | Get monthly usage stats |
+| `/workspaces/{id}/credits/pricing` | GET | Get per-credit pricing |
+
+## Connectors & Integrations
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/connectors/standard` | GET | List standard connectors |
+| `/connectors/mcp` | GET | List MCP connectors |
+| `/connections/standard` | GET | List active connections |
+| `/projects/{id}/integrations/supabase/connect` | POST | Connect Supabase (external or Seemodo Cloud) |
+| `/projects/{id}/integrations/supabase` | DELETE | Disconnect Supabase |
+| `/projects/{id}/workspace/supabase-organizations` | GET | List Supabase organizations |
+| `/projects/{id}/workspace/supabase-organizations/{slug}/projects` | GET | List org's Supabase projects |
+
+## AI Asset Generation
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/projects/{id}/generate/description` | POST | AI-generate a site description |
+| `/projects/{id}/generate/favicon` | POST | AI-generate a favicon SVG |
+| `/projects/{id}/generate/og-image` | POST | AI-generate an OG image SVG |
+
+## Permissions
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/permissions` | GET | Get user permissions (optional: projectId, workspaceId) |
+
+---
+
+## Frontend API Routes
+
+These Next.js API routes handle AI generation, sandbox management, and utilities. They run at `/api/...` on the frontend server.
 
 ### Generation
 
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/api/generate-screen` | POST | Generate a single screen from a prompt |
-| `/api/generate-wireframe` | POST | Generate a wireframe layout |
-| `/api/generate-flow` | POST | Generate screen breakdown for multi-screen flows |
-| `/api/edit-screen` | POST | Edit an existing screen with AI |
-| `/api/enhance-prompt` | POST | Improve a prompt with AI |
+| Route | Description |
+|-------|-------------|
+| `/api/generate-screen` | Generate a single HiFi screen from prompt |
+| `/api/generate-wireframe` | Generate a wireframe layout |
+| `/api/generate-flow` | Generate multi-screen flow breakdown (Autoflow) |
+| `/api/edit-screen` | Edit an existing screen with AI |
+| `/api/enhance-prompt` | Improve/expand a user prompt with AI |
+| `/api/generate-ai-code-stream` | Stream AI code generation for projects |
+| `/api/apply-ai-code` | Apply AI-generated code changes |
+| `/api/apply-ai-code-stream` | Stream apply of AI code changes |
+| `/api/analyze-edit-intent` | Analyze user edit intent for routing |
+| `/api/tldraw-agent` | AI agent for the canvas (tldraw) |
 
-### Sandbox
+### Sandbox Management
 
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/api/create-ai-sandbox` | POST | Create a new sandbox environment |
-| `/api/sandbox-status` | GET | Check sandbox status and URL |
-| `/api/sandbox-logs` | GET | Retrieve sandbox build logs |
-| `/api/run-command` | POST | Execute a command in the sandbox terminal |
-| `/api/install-packages` | POST | Install npm packages in the sandbox |
-| `/api/kill-sandbox` | POST | Terminate a sandbox |
+| Route | Description |
+|-------|-------------|
+| `/api/create-ai-sandbox` | Create a new sandbox environment |
+| `/api/create-ai-sandbox-v2` | Create sandbox (v2 with enhanced features) |
+| `/api/sandbox-status` | Check sandbox status and URL |
+| `/api/sandbox-logs` | Get sandbox build logs |
+| `/api/sandbox-logs-stream` | Stream sandbox logs in real-time |
+| `/api/sandbox-routes` | Get available routes in sandbox app |
+| `/api/run-command` | Execute a terminal command in sandbox |
+| `/api/run-command-v2` | Execute command (v2) |
+| `/api/install-packages` | Install npm packages |
+| `/api/install-packages-v2` | Install packages (v2) |
+| `/api/detect-and-install-packages` | Auto-detect and install missing packages |
+| `/api/kill-sandbox` | Terminate a sandbox |
+| `/api/get-sandbox-files` | Get file tree from sandbox |
+| `/api/add-sandbox-page` | Add a new page/route to sandbox app |
+| `/api/sandbox-git` | Git operations within sandbox |
+| `/api/check-sandbox-imports` | Verify sandbox module imports |
+| `/api/run-tests` | Run tests in sandbox |
+| `/api/restart-vite` | Restart the Vite dev server |
 
-### Cloud
+### Monitoring & Diagnostics
 
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/api/seemodo-cloud` | POST | Activate or manage Seemodo Cloud |
-| `/api/supabase-proxy` | ALL | Proxy requests to the cloud database |
+| Route | Description |
+|-------|-------------|
+| `/api/check-vite-errors` | Check for Vite build errors |
+| `/api/clear-vite-errors-cache` | Clear Vite error cache |
+| `/api/report-vite-error` | Report a Vite error for AI analysis |
+| `/api/monitor-vite-logs` | Monitor Vite log output |
+| `/api/console-logs` | Get browser console logs from sandbox |
+| `/api/conversation-state` | Get/manage conversation state |
+
+### Cloud & Database
+
+| Route | Description |
+|-------|-------------|
+| `/api/seemodo-cloud` | Activate/manage Seemodo Cloud |
+| `/api/supabase-proxy/[...path]` | Proxy all requests to Supabase |
 
 ### Utilities
 
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/api/scrape-website` | POST | Scrape a website URL for content |
-| `/api/scrape-screenshot` | POST | Capture a screenshot of a URL |
-| `/api/extract-brand-styles` | POST | Extract brand colors and styles from a URL |
-| `/api/proxy-image` | GET | Proxy an image URL to avoid CORS |
+| Route | Description |
+|-------|-------------|
+| `/api/scrape-website` | Scrape a URL for text content |
+| `/api/scrape-url-enhanced` | Enhanced URL scraping with more data |
+| `/api/scrape-screenshot` | Capture a screenshot of a URL |
+| `/api/extract-brand-styles` | Extract brand colors/fonts from a URL |
+| `/api/proxy-image` | Proxy image to avoid CORS |
+| `/api/create-zip` | Create ZIP download of project code |
+| `/api/search` | Search across project files |
 
-## Rate limits
+### Brainstorm (Chat Mode)
 
-API requests are rate-limited based on your plan. Exceeding limits returns a `429 Too Many Requests` response.
+| Route | Description |
+|-------|-------------|
+| `/api/brainstorm/bootstrap` | Initialize brainstorm session |
+| `/api/brainstorm/probe` | Ask probing questions in brainstorm mode |
+
+---
 
 ## Error handling
 
@@ -74,6 +257,8 @@ All endpoints return standard HTTP status codes:
 | Code | Meaning |
 |------|---------|
 | 200 | Success |
+| 202 | Accepted (async processing) |
+| 204 | No content (success, no body) |
 | 400 | Bad request (invalid parameters) |
 | 401 | Unauthorized (invalid or missing token) |
 | 403 | Forbidden (insufficient permissions) |
@@ -87,3 +272,7 @@ Error responses include a JSON body:
   "error": "Description of what went wrong"
 }
 ```
+
+## Rate limits
+
+API requests are rate-limited based on your plan. Exceeding limits returns `429 Too Many Requests`. The response includes `Retry-After` headers.
